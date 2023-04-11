@@ -10,8 +10,6 @@ export function NavbarLink(props: Props): React.ReactElement {
   const { label, href } = props;
   const router = useRouter();
 
-  console.log({ router });
-
   const isActive = router.asPath === href;
 
   return (
