@@ -8,4 +8,14 @@ module.exports = {
       },
     },
   },
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          primary: "#F191A8",
+        },
+      },
+    ],
+  },
+  plugins: [require("daisyui")],
 };

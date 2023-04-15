@@ -21,8 +21,8 @@ export function NavbarUser(): React.ReactElement {
   }
 
   return (
-    <p className="text-center text-xl text-black">
+    <button className="btn btn-primary text-white">
       <Link href="/sign-in">Sign In</Link>
-    </p>
+    </button>
   );
 }

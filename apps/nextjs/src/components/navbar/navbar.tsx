@@ -13,12 +13,12 @@ const navbarLinks: NavbarLink[] = [
     href: "/",
   },
   {
-    label: "About",
-    href: "/#about",
+    label: "Features",
+    href: "/#app",
   },
   {
-    label: "App",
-    href: "/#app",
+    label: "About",
+    href: "/#about",
   },
 ];
 
