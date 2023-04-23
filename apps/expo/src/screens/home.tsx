@@ -7,7 +7,7 @@ export function HomeScreen() {
   return (
     <Layout>
       <View className="h-full w-full items-center justify-center">
-        <Text className="text-lg italic text-white">
+        <Text className="text-lg italic text-black">
           Nothing to see here yet...
         </Text>
       </View>
