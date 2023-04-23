@@ -13,7 +13,7 @@ export function StyledButton(props: Props): React.ReactElement {
       className="my-2 flex w-full items-center justify-center rounded-lg bg-white py-2"
       onPress={onPress}
     >
-      <Text className="text-lg text-black ">{text}</Text>
+      <Text className="text-lg capitalize text-black">{text}</Text>
     </TouchableOpacity>
   );
 }
