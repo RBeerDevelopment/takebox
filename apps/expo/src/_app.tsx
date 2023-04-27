@@ -8,8 +8,10 @@ import { SignInSignUpScreen } from "./screens/signin";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
 import { tokenCache } from "./utils/cache";
 import Constants from "expo-constants";
+import { useRequestLocation } from "./hooks/use-request-location";
 
 export const App = () => {
+  useRequestLocation();
   return (
     <ClerkProvider
       publishableKey={Constants.expoConfig?.extra?.CLERK_PUBLISHABLE_KEY}

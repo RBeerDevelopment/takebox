@@ -4,12 +4,13 @@ const CLERK_PUBLISHABLE_KEY =
   "pk_test_c3VidGxlLWZseS05OC5jbGVyay5hY2NvdW50cy5kZXYk";
 
 const defineConfig = (_ctx: ConfigContext): ExpoConfig => ({
-  name: "expo",
-  slug: "expo",
+  name: "TakeBox",
+  slug: "TakeBox",
   version: "1.0.0",
+  scheme: "beer.robin.takebox",
   orientation: "portrait",
   icon: "./assets/icon.png",
-  userInterfaceStyle: "light",
+  userInterfaceStyle: "automatic",
   splash: {
     image: "./assets/icon.png",
     resizeMode: "contain",
@@ -20,7 +21,7 @@ const defineConfig = (_ctx: ConfigContext): ExpoConfig => ({
   },
   assetBundlePatterns: ["**/*"],
   ios: {
-    supportsTablet: true,
+    supportsTablet: false,
     bundleIdentifier: "your.bundle.identifier",
   },
   android: {
@@ -35,7 +36,15 @@ const defineConfig = (_ctx: ConfigContext): ExpoConfig => ({
     },
     CLERK_PUBLISHABLE_KEY,
   },
-  plugins: ["./expo-plugins/with-modify-gradle.js"],
+  plugins: [
+    "./expo-plugins/with-modify-gradle.js",
+    [
+      "expo-location",
+      {
+        locationAlwaysAndWhenInUsePermission: `Allow TakeBox to use your location, to show you restaurants near you.`,
+      },
+    ],
+  ],
 });
 
 export default defineConfig;

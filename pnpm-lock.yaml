@@ -66,6 +66,9 @@ importers:
       expo-auth-session:
         specifier: ^4.0.3
         version: 4.0.3(expo@48.0.10)
+      expo-location:
+        specifier: ~15.1.1
+        version: 15.1.1(expo@48.0.10)
       expo-random:
         specifier: ^13.0.0
         version: 13.0.0(expo@48.0.10)
@@ -96,6 +99,9 @@ importers:
       react-native-web:
         specifier: ~0.18.10
         version: 0.18.10(react-dom@18.2.0)(react@18.2.0)
+      zustand:
+        specifier: ^4.3.7
+        version: 4.3.7(react@18.2.0)
     devDependencies:
       '@babel/core':
         specifier: ^7.19.3
@@ -5298,6 +5304,14 @@ packages:
       - supports-color
     dev: false
 
+  /expo-location@15.1.1(expo@48.0.10):
+    resolution: {integrity: sha512-hoKRlmi6Ya+NeZ72Zt385SDcSsIDpJI60TCBVO+Hc9xfKA9Hyminyyo5WiwI8J03igmPTCl8Y37MxBNKY9AWkg==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 48.0.10(@babel/core@7.20.5)
+    dev: false
+
   /expo-modules-autolinking@1.1.2:
     resolution: {integrity: sha512-oOlkAccVnHwwR5ccvF/F/x4Omj9HWzSimMUlIVz0SVGdNBEqTPyn0L/d4uIufhyQbEWvrarqL8o5Yz11wEI0SQ==}
     hasBin: true
@@ -10218,4 +10232,20 @@ packages:
 
   /zod@3.20.0:
     resolution: {integrity: sha512-ZWxs7oM5ixoo1BMoxTNeDMYSih/F/FUnExsnRtHT04rG6q0Bd74TKS45RGXw07TOalOZyyzdKaYH38k8yTEv9A==}
+    dev: false
+
+  /zustand@4.3.7(react@18.2.0):
+    resolution: {integrity: sha512-dY8ERwB9Nd21ellgkBZFhudER8KVlelZm8388B5nDAXhO/+FZDhYMuRnqDgu5SYyRgz/iaf8RKnbUs/cHfOGlQ==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
