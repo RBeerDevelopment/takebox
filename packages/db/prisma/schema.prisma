@@ -17,7 +17,7 @@ model Restaurant {
   id        String              @id @default(cuid())
   createdAt DateTime            @default(now())
   updatedAt DateTime            @updatedAt
-  googleId  String
+  googleId  String              @unique
   name      String
   address   String
   lat       Float
