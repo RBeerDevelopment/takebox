@@ -16,13 +16,13 @@ export async function fetchNearbyRestaurants(
 ): Promise<GoogleRestaurant[]> {
   const url = buildTextSearchUrl(query, lat, lng);
 
-  if (!url) {
-    return [];
-  }
+  if (!url) return [];
 
-  const result = await request<RestaurantResponseWrapper>(url.toString());
+  const resp = await request<RestaurantResponseWrapper>(url.toString());
 
-  const restaurants = result.results.map(responseToRestaurant);
+  const restaurants = resp.results
+    .filter((r) => r.business_status === "OPERATIONAL")
+    .map(responseToRestaurant);
 
   return restaurants;
 }
