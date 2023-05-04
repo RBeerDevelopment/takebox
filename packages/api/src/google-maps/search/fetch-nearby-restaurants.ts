@@ -1,6 +1,6 @@
 import { Restaurant } from "@acme/db";
 import { buildTextSearchUrl } from "./build-text-search-url";
-import { request } from "../helper/request";
+import { request } from "../../helper/request";
 import { RestaurantResponseWrapper } from "./google-restaurant-response";
 import { responseToRestaurant } from "./response-to-restaurant";
 
