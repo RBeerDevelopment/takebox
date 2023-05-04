@@ -7,29 +7,17 @@ import { trpc } from "../../../utils/trpc";
 import { LoadingIndicator } from "../../../components/loading-indicator";
 import { ErrorMessage } from "../../../components/error-message";
 import { FlashList } from "@shopify/flash-list";
+import { useSearch } from "../../../hooks/use-search";
 
 export default function HomeScreen() {
   const location = useGeneralStore((state) => state.location);
 
   const { query } = useSearchParams();
 
-  const {
-    data: restaurants,
-    isFetching,
-    isError,
-  } = trpc.restaurant.nearbyRestaurantsByQuery.useQuery(
-    {
-      query: query as string,
-      lat: 52.51247375561962,
-      lng: 13.471466397574297,
-    },
-    {
-      enabled:
-        Boolean(query) &&
-        query !== "" &&
-        !!location?.coords?.latitude &&
-        !!location?.coords?.longitude,
-    },
+  const { restaurants, isFetching, isError } = useSearch(
+    query as string | undefined,
+    location?.coords.latitude,
+    location?.coords.longitude,
   );
 
   if (isFetching) {
@@ -41,7 +29,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <View className="h-full w-full bg-gray-50">
+    <View className="h-full w-full">
       <Stack.Screen options={{ title: "Search" }} />
       <FlashList
         data={restaurants}
