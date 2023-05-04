@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
+  previewFeatures = ["jsonProtocol", "fullTextIndex", "fullTextSearch"]
 
 }
 
@@ -17,7 +17,7 @@ model Restaurant {
   id        String              @id @default(cuid())
   createdAt DateTime            @default(now())
   updatedAt DateTime            @updatedAt
-  googleId  String
+  googleId  String              @unique
   name      String
   address   String
   lat       Float
@@ -25,6 +25,10 @@ model Restaurant {
   cusines   Restaurant_Cusine[]
   users     User[]
   reviews   Review[]
+
+   @@fulltext([name])
+   @@fulltext([address])
+   @@fulltext([address, name])
 }
 
 model Restaurant_Cusine {

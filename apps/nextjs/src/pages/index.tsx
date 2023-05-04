@@ -11,7 +11,7 @@ const Home: NextPage = () => {
       <h1 className="ml-32 mt-12 text-5xl font-bold text-black">Take|Box</h1>
       <Navbar />
       <section className="flex w-screen flex-row gap-32">
-        <Image src={Pizza} alt="Pizza on a plate" className="w-1/3" />
+        <Image src={Pizza} alt="Pizza on a plate" className="w-1/3" priority />
         <div className="my-20 flex flex-col">
           <h2 className="text-4xl font-bold capitalize text-black">
             Can&apos;t recall if you enjoyed a restaurant?
