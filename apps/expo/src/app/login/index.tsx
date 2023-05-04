@@ -1,9 +1,11 @@
-import { useOAuth } from "@clerk/clerk-expo";
+import { useAuth, useOAuth } from "@clerk/clerk-expo";
 import React from "react";
-import { View, Text } from "react-native";
-import { useWarmUpBrowser } from "../hooks/useWarmUpBrowser";
-import { StyledButton } from "./button";
-import { appName } from "../constants";
+import { Text } from "react-native";
+import { useWarmUpBrowser } from "../../hooks/useWarmUpBrowser";
+import { StyledButton } from "../../components/button";
+import { appName } from "../../constants";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Redirect } from "expo-router";
 
 const SignInWithOAuth = () => {
   useWarmUpBrowser();
@@ -11,6 +13,8 @@ const SignInWithOAuth = () => {
   const discordSignIn = useOAuth({ strategy: "oauth_discord" });
   const appleSignIn = useOAuth({ strategy: "oauth_apple" });
   const googleSignIn = useOAuth({ strategy: "oauth_google" });
+
+  const { isSignedIn } = useAuth();
 
   const handleSignInWithGoogle = React.useCallback(async () => {
     try {
@@ -63,8 +67,12 @@ const SignInWithOAuth = () => {
     }
   }, []);
 
+  if (isSignedIn) {
+    return <Redirect href="/signedin/home" />;
+  }
+
   return (
-    <View className="flex flex-col">
+    <SafeAreaView className="flex h-full flex-col bg-primary px-4">
       <Text className="w-full pt-8 text-center text-3xl capitalize text-white">{`Sign in to use ${appName}`}</Text>
       <Text className="w-full py-8 px-6 text-center text-lg text-gray-200">
         After this you can start exploring the culinary delights around you.
@@ -78,7 +86,7 @@ const SignInWithOAuth = () => {
         text="Sign in with Google"
         onPress={handleSignInWithGoogle}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

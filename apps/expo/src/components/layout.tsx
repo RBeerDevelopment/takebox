@@ -2,12 +2,15 @@ import React from "react";
 import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
 import { appName } from "../constants";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useAuth } from "@clerk/clerk-expo";
 
 interface Props {
   children: React.ReactNode;
 }
 export function Layout(props: Props): React.ReactElement {
   const { children } = props;
+
+  const auth = useAuth();
 
   return (
     <SafeAreaView className="bg-[#2e026d] bg-gradient-to-b from-[#2e026d] to-[#15162c]">
