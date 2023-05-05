@@ -29,13 +29,9 @@ type PlaceDetailResponse = z.infer<typeof placeDetailResponse>;
 
 export async function fetchRestaurantDetails(placeId: string) {
   const url = buildDetailUrl(placeId);
-
-  console.log({ url });
   if (!url) return;
 
   const resp = await request<PlaceDetailResponse>(url.toString());
 
-  console.log({ resp });
-  const result = placeDetailResponse.parse(resp).result;
-  return result;
+  return placeDetailResponse.parse(resp).result;
 }
