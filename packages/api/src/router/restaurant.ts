@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
-import { fetchNearbyRestaurants } from "../google-maps";
+import { fetchNearbyRestaurants } from "../google-maps/search";
 import { buildRestaurantSearchQuery } from "../helper/build-restaurant-search-query";
+import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 
 export const restaurantRouter = router({
   nearbyRestaurantsByQuery: protectedProcedure
@@ -29,5 +30,17 @@ export const restaurantRouter = router({
       });
 
       return restaurantsFromGoogle;
+    }),
+  getRestaurantDetails: protectedProcedure
+    .input(
+      z.object({
+        placeId: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const { placeId } = input;
+
+      const restaurantDetails = await fetchRestaurantDetails(placeId);
+      return restaurantDetails;
     }),
 });
