@@ -20,8 +20,10 @@ export default function SearchScreen() {
     location?.coords.longitude,
   );
 
-  return new Array(10).fill("").map((i) => <SearchResultsSkeleton key={i} />);
   if (isFetching) {
+    return new Array(10)
+      .fill("")
+      .map((i, idx) => <SearchResultsSkeleton key={idx} />);
   }
 
   if (isError) {
