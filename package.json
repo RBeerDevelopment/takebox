@@ -23,10 +23,5 @@
     "prettier-plugin-tailwindcss": "^0.2.8",
     "turbo": "^1.9.3",
     "typescript": "^5.0.4"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "react-native@0.70.5": "patches/react-native@0.70.5.patch"
-    }
   }
 }
