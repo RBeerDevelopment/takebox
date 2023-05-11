@@ -20,8 +20,8 @@ export default function SearchScreen() {
     location?.coords.longitude,
   );
 
+  return new Array(10).fill("").map((i) => <SearchResultsSkeleton key={i} />);
   if (isFetching) {
-    return new Array(10).fill("").map(i => <SearchResultsSkeleton key={i} />)
   }
 
   if (isError) {
@@ -34,7 +34,7 @@ export default function SearchScreen() {
       <FlashList
         data={restaurants}
         renderItem={({ item }) => (
-          <Link href={`/signedin/details/${item.googleId}`}>
+          <Link href={`/signedin/details/${item.googleId}`} key={item.googleId}>
             <View className="w-full flex-col p-4">
               <Text className="text-lg font-bold">{item.name}</Text>
               <Text className="text-md">{item.address}</Text>
