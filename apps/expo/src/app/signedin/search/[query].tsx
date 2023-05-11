@@ -7,6 +7,7 @@ import { LoadingIndicator } from "../../../components/loading-indicator";
 import { ErrorMessage } from "../../../components/error-message";
 import { FlashList } from "@shopify/flash-list";
 import { useSearch } from "../../../hooks/use-search";
+import { SearchResultsSkeleton } from "../../../components/skeleton";
 
 export default function SearchScreen() {
   const location = useGeneralStore((state) => state.location);
@@ -20,7 +21,7 @@ export default function SearchScreen() {
   );
 
   if (isFetching) {
-    return <LoadingIndicator />;
+    return new Array(10).fill("").map(i => <SearchResultsSkeleton key={i} />)
   }
 
   if (isError) {

@@ -10,7 +10,7 @@ export default function HomeScreen() {
   const router = useRouter();
 
   return (
-    <View className="h-full w-full items-center bg-gray-50">
+    <View className="h-full w-full items-center bg-white">
       <SearchInput
         placeholder="Search..."
         value={searchQuery}
