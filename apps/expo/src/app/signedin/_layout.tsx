@@ -1,7 +1,6 @@
 import React from "react";
 import { TRPCProvider } from "../../utils/trpc";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Layout } from "../../components/layout";
 import { StatusBar, TouchableOpacity } from "react-native";
 import { Stack, Redirect } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
