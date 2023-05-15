@@ -7,6 +7,7 @@ const fields = [
   "website",
   "price_level",
   "url",
+  "photo",
 ];
 
 export function buildDetailUrl(placeId: string) {

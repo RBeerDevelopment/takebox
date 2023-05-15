@@ -3,6 +3,7 @@ import { protectedProcedure, router } from "../trpc";
 import { fetchNearbyRestaurants } from "../google-maps/search";
 import { buildRestaurantSearchQuery } from "../helper/build-restaurant-search-query";
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
+import { fetchPhoto } from "../google-maps/photos/fetch-photo";
 
 export const restaurantRouter = router({
   nearbyRestaurantsByQuery: protectedProcedure
@@ -24,6 +25,10 @@ export const restaurantRouter = router({
         fetchNearbyRestaurants(query, lat, lng),
       ]);
 
+      const photo = restaurantsFromGoogle[0]?.googlePhotoReference
+        ? fetchPhoto(restaurantsFromGoogle[0]?.googlePhotoReference)
+        : undefined;
+
       await ctx.prisma.restaurant.createMany({
         skipDuplicates: true,
         data: [...restaurantsFromGoogle],
@@ -41,6 +46,7 @@ export const restaurantRouter = router({
       const { placeId } = input;
 
       const restaurantDetails = await fetchRestaurantDetails(placeId);
+
       return restaurantDetails;
     }),
 });
