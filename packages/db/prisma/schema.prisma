@@ -53,7 +53,7 @@ model Review {
   id           String     @id @default(cuid())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  rating       Rating
+  rating       Int
   foodName     String
   content      String
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
@@ -63,19 +63,6 @@ model Review {
 
   @@index([restaurantId])
   @@index([userId])
-}
-
-enum Rating {
-  ONE
-  TWO
-  THREE
-  FOUR
-  FIVE
-  SIX
-  SEVEN
-  EIGHT
-  NINE
-  TEN
 }
 
 enum Cusine {

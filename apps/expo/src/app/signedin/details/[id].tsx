@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { useSearchParams, Stack } from "expo-router";
 import { LoadingIndicator } from "../../../components/loading-indicator";
@@ -9,8 +9,8 @@ import { trpc } from "../../../utils/trpc";
 import { DetailRow } from "../../../components/detail-row";
 import { OpenClosedRow } from "../../../components/open-closed-row";
 
-import * as WebBrowser from "expo-web-browser";
 import { useWarmUpBrowser } from "../../../hooks/useWarmUpBrowser";
+import { DetailSection } from "../../../components/detail-section";
 
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
@@ -20,30 +20,33 @@ export default function DetailScreen() {
 
   useWarmUpBrowser();
 
-  const {
-    data: restaurant,
-    isFetching,
-    isError,
-  } = trpc.restaurant.getRestaurantDetails.useQuery(
-    { placeId: id as string },
-    { enabled: Boolean(id), staleTime: 60 * 1000 },
-  );
+  const [restaurantResult, imageResult, reviewResult] = trpc.useQueries((t) => [
+    t.restaurant.getRestaurantDetails(
+      { placeId: id as string },
+      { enabled: Boolean(id), staleTime: 60 * 1000 },
+    ),
+    t.restaurant.getImageUrl(
+      { placeId: id as string },
+      { enabled: Boolean(id), staleTime: Infinity },
+    ),
+    t.review.reviewSummary(
+      {
+        placeId: id as string,
+      },
+      { enabled: Boolean(id), staleTime: Infinity },
+    ),
+  ]);
 
-  const { data: imageUrl } = trpc.restaurant.getImageUrl.useQuery(
-    { placeId: id as string },
-    { enabled: Boolean(id), staleTime: Infinity },
-  );
-
-  if (isFetching) {
+  if (restaurantResult.isLoading) {
     return <LoadingIndicator />;
   }
 
-  if (isError) {
+  if (restaurantResult.isError) {
     return <ErrorMessage text="Error while loading, try again." />;
   }
 
-  console.log(restaurant?.website);
-  console.log(restaurant?.url);
+  const restaurant = restaurantResult.data;
+
   return (
     <ScrollView className="flex h-full w-full flex-col">
       <Stack.Screen options={{ title: restaurant?.name }} />
@@ -51,37 +54,15 @@ export default function DetailScreen() {
       <View className="my-4 flex h-44 w-full items-center rounded-xl">
         <Image
           className="h-full w-11/12 rounded-xl"
-          source={imageUrl}
+          source={imageResult.data}
           placeholder={blurhash}
           contentFit="cover"
         />
       </View>
-      <View className="mx-6 flex flex-col">
-        <DetailRow
-          iconName="map"
-          text={restaurant?.formatted_address}
-          allowCopy
-        />
-        <OpenClosedRow
-          isOpen={Boolean(restaurant?.current_opening_hours?.open_now)}
-        />
-        {restaurant?.url && (
-          <DetailRow
-            iconName="google-maps"
-            text="Google Maps"
-            onPress={() => WebBrowser.openBrowserAsync(restaurant?.url || "")}
-          />
-        )}
+      <DetailSection restaurant={restaurant} />
 
-        {restaurant?.website && (
-          <DetailRow
-            iconName="web"
-            text="Website"
-            onPress={() =>
-              WebBrowser.openBrowserAsync(restaurant?.website || "")
-            }
-          />
-        )}
+      <View className="mx-6 flex flex-col">
+        <Text className="mb-4 text-lg font-bold">Reviews</Text>
       </View>
     </ScrollView>
   );
