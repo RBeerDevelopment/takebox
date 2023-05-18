@@ -1,11 +1,11 @@
 import { useAuth, useOAuth } from "@clerk/clerk-expo";
 import React from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { useWarmUpBrowser } from "../../hooks/useWarmUpBrowser";
-import { StyledButton } from "../../components/button";
 import { appName } from "../../constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Redirect } from "expo-router";
+import { IconButton } from "../../components/icon-button";
 
 const SignInWithOAuth = () => {
   useWarmUpBrowser();
@@ -77,15 +77,23 @@ const SignInWithOAuth = () => {
       <Text className="w-full px-6 py-8 text-center text-lg text-gray-200">
         After this you can start exploring the culinary delights around you.
       </Text>
-      <StyledButton
-        text="Sign in with Discord"
-        onPress={handleSignInWithDiscordPress}
-      />
-      <StyledButton text="Sign in with Apple" onPress={handleSignInWithApple} />
-      <StyledButton
-        text="Sign in with Google"
-        onPress={handleSignInWithGoogle}
-      />
+      <View>
+        <IconButton
+          text="Sign in with Apple"
+          onPress={handleSignInWithApple}
+          iconName="apple"
+        />
+        <IconButton
+          text="Sign in with Discord"
+          onPress={handleSignInWithDiscordPress}
+          iconName="discord"
+        />
+        <IconButton
+          text="Sign in with Google"
+          onPress={handleSignInWithGoogle}
+          iconName="google"
+        />
+      </View>
     </SafeAreaView>
   );
 };
