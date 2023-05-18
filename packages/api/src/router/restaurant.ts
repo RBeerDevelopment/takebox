@@ -3,6 +3,8 @@ import { protectedProcedure, router } from "../trpc";
 import { fetchNearbyRestaurants } from "../google-maps/search";
 import { buildRestaurantSearchQuery } from "../helper/build-restaurant-search-query";
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
+import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
+import { uploadImageBlob } from "../s3/upload-image-blob";
 
 export const restaurantRouter = router({
   nearbyRestaurantsByQuery: protectedProcedure
@@ -41,6 +43,40 @@ export const restaurantRouter = router({
       const { placeId } = input;
 
       const restaurantDetails = await fetchRestaurantDetails(placeId);
+
       return restaurantDetails;
+    }),
+
+  getImageUrl: protectedProcedure
+    .input(
+      z.object({
+        placeId: z.string(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const { placeId } = input;
+
+      const restaurantInDb = await ctx.prisma.restaurant.findUnique({
+        where: { googleId: placeId },
+      });
+
+      let imageUrl = restaurantInDb?.imageUrl;
+
+      if (imageUrl) return imageUrl;
+
+      if (restaurantInDb?.googlePhotoReference) {
+        const image = await fetchGooglePhotoBlob(
+          restaurantInDb.googlePhotoReference,
+        );
+
+        imageUrl = await uploadImageBlob(image, restaurantInDb.googleId);
+
+        ctx.prisma.restaurant.update({
+          where: { googleId: restaurantInDb.googleId },
+          data: { imageUrl: imageUrl },
+        });
+      }
+
+      return imageUrl;
     }),
 });

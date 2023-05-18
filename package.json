@@ -8,7 +8,7 @@
     "clean:workspaces": "turbo clean",
     "db-generate": "turbo db-generate",
     "db-push": "turbo db-push",
-    "dev": "turbo dev --parallel",
+    "dev": "turbo db-generate && turbo dev --parallel",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo lint",
     "FIXME:lint": "turbo lint && manypkg check",

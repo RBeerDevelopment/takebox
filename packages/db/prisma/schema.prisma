@@ -19,6 +19,7 @@ model Restaurant {
   updatedAt DateTime            @updatedAt
   googleId  String              @unique
   imageUrl  String?
+  googlePhotoReference String?
   name      String
   address   String
   lat       Float

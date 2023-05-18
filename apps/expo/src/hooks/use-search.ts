@@ -5,18 +5,24 @@ export function useSearch(query?: string, lat?: number, lng?: number) {
   const roundedLat = smoothCoordinatePart(lat);
   const roundedLng = smoothCoordinatePart(lng);
 
+  const cleanedQuery = query?.trim().toLowerCase() || "";
+
   const {
     data: restaurants,
     isFetching,
     isError,
   } = trpc.restaurant.nearbyRestaurantsByQuery.useQuery(
     {
-      query: query as string,
+      query: cleanedQuery as string,
       lat: roundedLat,
       lng: roundedLng,
     },
     {
-      enabled: Boolean(query) && query !== "" && Boolean(lat) && Boolean(lng),
+      enabled:
+        Boolean(cleanedQuery) &&
+        cleanedQuery !== "" &&
+        Boolean(lat) &&
+        Boolean(lng),
       staleTime: Infinity,
     },
   );

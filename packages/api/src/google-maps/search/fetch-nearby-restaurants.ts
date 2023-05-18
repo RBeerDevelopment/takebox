@@ -1,24 +1,21 @@
-import { Restaurant } from "@acme/db";
+import { Restaurant as DbRestaurant } from "@acme/db";
 import { buildTextSearchUrl } from "./build-text-search-url";
 import { request } from "../../helper/request";
-import { RestaurantResponseWrapper } from "./google-restaurant-response";
 import { responseToRestaurant } from "./response-to-restaurant";
+import { NearbyResponse } from "./nearby-response";
 
-export type GoogleRestaurant = Omit<
-  Restaurant,
-  "id" | "createdAt" | "updatedAt"
->;
+export type Restaurant = Omit<DbRestaurant, "id" | "createdAt" | "updatedAt">;
 
 export async function fetchNearbyRestaurants(
   query: string,
   lat: number,
   lng: number,
-): Promise<GoogleRestaurant[]> {
+): Promise<Restaurant[]> {
   const url = buildTextSearchUrl(query, lat, lng);
 
   if (!url) return [];
 
-  const resp = await request<RestaurantResponseWrapper>(url.toString());
+  const resp = await request<NearbyResponse>(url.toString());
 
   const restaurants = resp.results
     .filter((r) => r.business_status === "OPERATIONAL")

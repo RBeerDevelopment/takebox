@@ -20,7 +20,7 @@ const SignInWithOAuth = () => {
     try {
       const { createdSessionId, setActive } =
         await googleSignIn.startOAuthFlow();
-      if (createdSessionId) {
+      if (createdSessionId && setActive) {
         setActive({ session: createdSessionId });
       } else {
         throw new Error(
@@ -37,7 +37,7 @@ const SignInWithOAuth = () => {
     try {
       const { createdSessionId, setActive } =
         await discordSignIn.startOAuthFlow();
-      if (createdSessionId) {
+      if (createdSessionId && setActive) {
         setActive({ session: createdSessionId });
       } else {
         throw new Error(
@@ -54,7 +54,7 @@ const SignInWithOAuth = () => {
     try {
       const { createdSessionId, setActive } =
         await appleSignIn.startOAuthFlow();
-      if (createdSessionId) {
+      if (createdSessionId && setActive) {
         setActive({ session: createdSessionId });
       } else {
         throw new Error(
@@ -74,7 +74,7 @@ const SignInWithOAuth = () => {
   return (
     <SafeAreaView className="flex h-full flex-col bg-primary px-4">
       <Text className="w-full pt-8 text-center text-3xl capitalize text-white">{`Sign in to use ${appName}`}</Text>
-      <Text className="w-full py-8 px-6 text-center text-lg text-gray-200">
+      <Text className="w-full px-6 py-8 text-center text-lg text-gray-200">
         After this you can start exploring the culinary delights around you.
       </Text>
       <StyledButton
