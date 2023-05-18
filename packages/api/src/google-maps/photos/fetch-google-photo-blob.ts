@@ -1,6 +1,6 @@
 import { buildPhotoUrl } from "./build-photo-url";
 
-export async function fetchPhoto(
+export async function fetchGooglePhotoBlob(
   reference: string,
   maxWidth = 400,
 ): Promise<Blob> {

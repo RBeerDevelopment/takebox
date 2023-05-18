@@ -3,7 +3,8 @@ import { protectedProcedure, router } from "../trpc";
 import { fetchNearbyRestaurants } from "../google-maps/search";
 import { buildRestaurantSearchQuery } from "../helper/build-restaurant-search-query";
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
-import { fetchPhoto } from "../google-maps/photos/fetch-photo";
+import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
+import { uploadImageBlob } from "../s3/upload-image-blob";
 
 export const restaurantRouter = router({
   nearbyRestaurantsByQuery: protectedProcedure
@@ -25,10 +26,6 @@ export const restaurantRouter = router({
         fetchNearbyRestaurants(query, lat, lng),
       ]);
 
-      const photo = restaurantsFromGoogle[0]?.googlePhotoReference
-        ? fetchPhoto(restaurantsFromGoogle[0]?.googlePhotoReference)
-        : undefined;
-
       await ctx.prisma.restaurant.createMany({
         skipDuplicates: true,
         data: [...restaurantsFromGoogle],
@@ -42,11 +39,29 @@ export const restaurantRouter = router({
         placeId: z.string(),
       }),
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const { placeId } = input;
 
-      const restaurantDetails = await fetchRestaurantDetails(placeId);
+      const [restaurantInDb, restaurantDetails] = await Promise.all([
+        ctx.prisma.restaurant.findUnique({
+          where: { googleId: placeId },
+        }),
+        fetchRestaurantDetails(placeId),
+      ]);
 
-      return restaurantDetails;
+      let imageUrl = restaurantInDb?.imageUrl;
+      if (restaurantInDb && !imageUrl && restaurantInDb.googlePhotoReference) {
+        const image = await fetchGooglePhotoBlob(
+          restaurantInDb.googlePhotoReference,
+        );
+        imageUrl = await uploadImageBlob(image, restaurantInDb.googleId);
+
+        ctx.prisma.restaurant.update({
+          where: { id: restaurantInDb.id },
+          data: { imageUrl },
+        });
+      }
+
+      return { restaurantDetails, imageUrl };
     }),
 });
