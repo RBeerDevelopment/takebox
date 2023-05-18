@@ -9,6 +9,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default function SignedinLayout(): React.ReactElement {
   const { isSignedIn } = useAuth();
 
+  const auth = useAuth();
   if (!isSignedIn) {
     return <Redirect href={"login"} />;
   }
@@ -19,16 +20,16 @@ export default function SignedinLayout(): React.ReactElement {
         <Stack
           screenOptions={{
             title: "TakeBox",
-            headerStyle: {
-              backgroundColor: "#2e026d",
-            },
-            headerTintColor: "#fff",
+            headerTintColor: "#000",
             headerTitleStyle: {
               fontWeight: "bold",
             },
             headerRight: () => (
-              <TouchableOpacity className="rounded-full bg-white p-1">
-                <MaterialIcons name="person" size={16} color="black" />
+              <TouchableOpacity
+                className="rounded-full bg-white p-1"
+                onPress={() => auth.signOut()}
+              >
+                <MaterialIcons name="person" size={24} color="black" />
               </TouchableOpacity>
             ),
           }}
