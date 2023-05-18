@@ -13,10 +13,13 @@ export async function uploadImageBlob(blob: Blob, key: string) {
       "Bucket name not found, please set AWS_BUCKET environment variable to your bucket",
     );
 
+  const arrayBuffer = await blob.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
   const command = new PutObjectCommand({
     Bucket: bucketName,
     Key: fullKey,
-    Body: blob,
+    Body: buffer,
     ACL: "public-read",
   });
 

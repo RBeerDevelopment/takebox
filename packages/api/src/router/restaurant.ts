@@ -39,29 +39,44 @@ export const restaurantRouter = router({
         placeId: z.string(),
       }),
     )
+    .query(async ({ input }) => {
+      const { placeId } = input;
+
+      const restaurantDetails = await fetchRestaurantDetails(placeId);
+
+      return restaurantDetails;
+    }),
+
+  getImageUrl: protectedProcedure
+    .input(
+      z.object({
+        placeId: z.string(),
+      }),
+    )
     .query(async ({ input, ctx }) => {
       const { placeId } = input;
 
-      const [restaurantInDb, restaurantDetails] = await Promise.all([
-        ctx.prisma.restaurant.findUnique({
-          where: { googleId: placeId },
-        }),
-        fetchRestaurantDetails(placeId),
-      ]);
+      const restaurantInDb = await ctx.prisma.restaurant.findUnique({
+        where: { googleId: placeId },
+      });
 
       let imageUrl = restaurantInDb?.imageUrl;
-      if (restaurantInDb && !imageUrl && restaurantInDb.googlePhotoReference) {
+
+      if (imageUrl) return imageUrl;
+
+      if (restaurantInDb?.googlePhotoReference) {
         const image = await fetchGooglePhotoBlob(
           restaurantInDb.googlePhotoReference,
         );
+
         imageUrl = await uploadImageBlob(image, restaurantInDb.googleId);
 
         ctx.prisma.restaurant.update({
-          where: { id: restaurantInDb.id },
-          data: { imageUrl },
+          where: { googleId: restaurantInDb.googleId },
+          data: { imageUrl: imageUrl },
         });
       }
 
-      return { restaurantDetails, imageUrl };
+      return imageUrl;
     }),
 });

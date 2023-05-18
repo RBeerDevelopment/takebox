@@ -9,7 +9,6 @@ export function buildRestaurantSearchQuery(
 ): Prisma.RestaurantFindManyArgs {
   const boundingBox = generateBoundingBoxAsCoordinates({ lat, lng }, radius);
 
-  console.log({ boundingBox });
   const searchQuery: Prisma.RestaurantFindManyArgs = {
     where: {
       name: {

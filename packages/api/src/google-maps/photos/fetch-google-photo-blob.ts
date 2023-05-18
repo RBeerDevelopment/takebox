@@ -7,10 +7,6 @@ export async function fetchGooglePhotoBlob(
   const url = buildPhotoUrl(reference, maxWidth);
   const resp = await fetch(url);
   const image = await resp.blob();
-  console.log(image.length, image.type, image.size);
-
-  const buffer = Buffer.from(await image.text());
-  console.log("data:" + image.type + ";base64," + buffer.toString("base64"));
-
+  console.log(image.type);
   return image;
 }
