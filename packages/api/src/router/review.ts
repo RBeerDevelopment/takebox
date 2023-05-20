@@ -26,4 +26,15 @@ export const reviewRouter = router({
 
       return result;
     }),
+
+  postReview: protectedProcedure
+    .input(
+      z.object({
+        placeId: z.string(),
+        rating: z.number().min(0.5).max(5).step(0.5),
+        content: z.string().min(5),
+        foods: z.array(z.string()),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {}),
 });
