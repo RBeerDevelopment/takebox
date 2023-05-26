@@ -10,7 +10,7 @@ export const restaurantRouter = router({
   nearbyRestaurantsByQuery: protectedProcedure
     .input(
       z.object({
-        query: z.string().min(5),
+        query: z.string().min(3),
         lat: z.number().min(-90).max(90),
         lng: z.number().min(-180).max(180),
         radius: z.number().min(100).max(5000).default(1000),
