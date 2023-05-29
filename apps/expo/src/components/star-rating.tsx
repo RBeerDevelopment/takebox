@@ -8,7 +8,7 @@ const starRatingOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 type StarIconType = "star" | "star-outline" | "star-half-full";
 
 interface Props {
-  onChangeRating: (rating: number) => void;
+  onChangeRating?: (rating: number) => void;
 }
 
 export function StarRating(props: Props): React.ReactElement {
@@ -35,6 +35,7 @@ export function StarRating(props: Props): React.ReactElement {
 
         return (
           <Pressable
+            key={option}
             onPress={() => {
               let newRating = option + 2;
 
@@ -42,6 +43,9 @@ export function StarRating(props: Props): React.ReactElement {
                 newRating = option + 1;
               }
               setRating(newRating);
+
+              if (!onChangeRating) return;
+
               onChangeRating(newRating);
             }}
             className="mx-1"

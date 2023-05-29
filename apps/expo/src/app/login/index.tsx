@@ -68,7 +68,7 @@ const SignInWithOAuth = () => {
   }, []);
 
   if (isSignedIn) {
-    return <Redirect href="/signedin/home" />;
+    return <Redirect href="/home" />;
   }
 
   return (

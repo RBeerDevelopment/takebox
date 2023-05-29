@@ -1,8 +1,8 @@
 import React from "react";
 import { TRPCProvider } from "../../utils/trpc";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { StatusBar, TouchableOpacity } from "react-native";
-import { Stack, Redirect } from "expo-router";
+import { Button, StatusBar, TouchableOpacity } from "react-native";
+import { Stack, Redirect, usePathname, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -13,6 +13,8 @@ export default function SignedinLayout(): React.ReactElement {
   if (!isSignedIn) {
     return <Redirect href={"login"} />;
   }
+
+  const router = useRouter();
 
   return (
     <TRPCProvider>
@@ -33,7 +35,18 @@ export default function SignedinLayout(): React.ReactElement {
               </TouchableOpacity>
             ),
           }}
-        />
+        >
+          <Stack.Screen
+            name="review/new"
+            options={{
+              presentation: "modal",
+              headerLeft: () => (
+                <Button title="Close" onPress={() => router.back()} />
+              ),
+              headerRight: undefined,
+            }}
+          />
+        </Stack>
         <StatusBar />
       </SafeAreaProvider>
     </TRPCProvider>

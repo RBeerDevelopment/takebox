@@ -21,17 +21,18 @@ export const restaurantRouter = router({
 
       const dbQuery = buildRestaurantSearchQuery(query, lat, lng);
 
-      const [restaurantsInDb, restaurantsFromGoogle] = await Promise.all([
-        ctx.prisma.restaurant.findMany(dbQuery),
-        fetchNearbyRestaurants(query, lat, lng),
-      ]);
+      return await ctx.prisma.restaurant.findMany(dbQuery);
+      // const [restaurantsInDb, restaurantsFromGoogle] = await Promise.all([
+      //   ctx.prisma.restaurant.findMany(dbQuery),
+      //   fetchNearbyRestaurants(query, lat, lng),
+      // ]);
 
-      await ctx.prisma.restaurant.createMany({
-        skipDuplicates: true,
-        data: [...restaurantsFromGoogle],
-      });
+      // await ctx.prisma.restaurant.createMany({
+      //   skipDuplicates: true,
+      //   data: [...restaurantsFromGoogle],
+      // });
 
-      return restaurantsFromGoogle;
+      // return restaurantsFromGoogle;
     }),
   getRestaurantDetails: protectedProcedure
     .input(
@@ -77,6 +78,7 @@ export const restaurantRouter = router({
         });
       }
 
+      if (!imageUrl) throw new Error("could not retrieve image url");
       return imageUrl;
     }),
 });
