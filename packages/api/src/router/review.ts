@@ -33,8 +33,40 @@ export const reviewRouter = router({
         placeId: z.string(),
         rating: z.number().min(0.5).max(5).step(0.5),
         content: z.string().min(5),
-        foods: z.array(z.string()),
+        foods: z.array(z.string()).optional(),
+        isPrivate: z.boolean(),
       }),
     )
-    .mutation(async ({ input, ctx }) => {}),
+    .mutation(async ({ input, ctx }) => {
+      const { userId } = ctx.auth;
+
+      const { placeId, rating, content, foods, isPrivate } = input;
+
+      const foodNames = foods || [];
+
+      await ctx.prisma.review.create({
+        data: {
+          rating,
+          content,
+          isPrivate,
+          foodName: {
+            create: [
+              ...foodNames.map((f) => ({
+                name: f,
+              })),
+            ],
+          },
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+          restaurant: {
+            connect: {
+              googleId: placeId,
+            },
+          },
+        },
+      });
+    }),
 });

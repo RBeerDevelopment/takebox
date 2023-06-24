@@ -40,6 +40,7 @@ export default function SignedinLayout(): React.ReactElement {
             name="review/new"
             options={{
               presentation: "modal",
+              title: "Review",
               headerLeft: () => (
                 <Button title="Close" onPress={() => router.back()} />
               ),
