@@ -3,7 +3,6 @@ import React from "react";
 import { Text, View } from "react-native";
 import { useSearchParams, Stack, Link } from "expo-router";
 import { useGeneralStore } from "../../../state";
-import { LoadingIndicator } from "../../../components/loading-indicator";
 import { ErrorMessage } from "../../../components/error-message";
 import { FlashList } from "@shopify/flash-list";
 import { useSearch } from "../../../hooks/use-search";
@@ -36,7 +35,7 @@ export default function SearchScreen() {
       <FlashList
         data={restaurants}
         renderItem={({ item }) => (
-          <Link href={`/signedin/details/${item.googleId}`} key={item.googleId}>
+          <Link href={`/details/${item.googleId}`} key={item.googleId}>
             <View className="w-full flex-col p-4">
               <Text className="text-lg font-bold">{item.name}</Text>
               <Text className="text-md">{item.address}</Text>

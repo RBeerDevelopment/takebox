@@ -10,7 +10,7 @@ export const restaurantRouter = router({
   nearbyRestaurantsByQuery: protectedProcedure
     .input(
       z.object({
-        query: z.string().min(5),
+        query: z.string().min(3),
         lat: z.number().min(-90).max(90),
         lng: z.number().min(-180).max(180),
         radius: z.number().min(100).max(5000).default(1000),
@@ -21,17 +21,18 @@ export const restaurantRouter = router({
 
       const dbQuery = buildRestaurantSearchQuery(query, lat, lng);
 
-      const [restaurantsInDb, restaurantsFromGoogle] = await Promise.all([
-        ctx.prisma.restaurant.findMany(dbQuery),
-        fetchNearbyRestaurants(query, lat, lng),
-      ]);
+      return await ctx.prisma.restaurant.findMany(dbQuery);
+      // const [restaurantsInDb, restaurantsFromGoogle] = await Promise.all([
+      //   ctx.prisma.restaurant.findMany(dbQuery),
+      //   fetchNearbyRestaurants(query, lat, lng),
+      // ]);
 
-      await ctx.prisma.restaurant.createMany({
-        skipDuplicates: true,
-        data: [...restaurantsFromGoogle],
-      });
+      // await ctx.prisma.restaurant.createMany({
+      //   skipDuplicates: true,
+      //   data: [...restaurantsFromGoogle],
+      // });
 
-      return restaurantsFromGoogle;
+      // return restaurantsFromGoogle;
     }),
   getRestaurantDetails: protectedProcedure
     .input(
@@ -77,6 +78,7 @@ export const restaurantRouter = router({
         });
       }
 
+      if (!imageUrl) throw new Error("could not retrieve image url");
       return imageUrl;
     }),
 });

@@ -2,9 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["jsonProtocol", "fullTextIndex", "fullTextSearch"]
-
 }
 
 datasource db {
@@ -14,22 +13,24 @@ datasource db {
 }
 
 model Restaurant {
-  id        String              @id @default(cuid())
-  createdAt DateTime            @default(now())
-  updatedAt DateTime            @updatedAt
-  googleId  String              @unique
-  imageUrl  String?
+  id                   String              @id @default(cuid())
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  googleId             String              @unique
+  imageUrl             String?
   googlePhotoReference String?
-  name      String
-  address   String
-  lat       Float
-  lng       Float
-  cusines   Restaurant_Cusine[]
-  reviews   Review[]
+  name                 String
+  address              String
+  websiteUrl           String?
+  googleUrl            String?
+  lat                  Float
+  lng                  Float
+  cusines              Restaurant_Cusine[]
+  reviews              Review[]
 
-   @@fulltext([name])
-   @@fulltext([address])
-   @@fulltext([address, name])
+  @@fulltext([name])
+  @@fulltext([address])
+  @@fulltext([address, name])
 }
 
 model Restaurant_Cusine {
@@ -42,19 +43,20 @@ model Restaurant_Cusine {
 }
 
 model User {
-  id                 String       @id
-  reviews            Review[]
-  followedBy         User[]       @relation("UserFollows")
-  following          User[]       @relation("UserFollows")
+  id         String   @id
+  reviews    Review[]
+  followedBy User[]   @relation("UserFollows")
+  following  User[]   @relation("UserFollows")
 }
 
 model Review {
   id           String     @id @default(cuid())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  rating       Rating
-  foodName     String
+  rating       Int
+  foodName     FoodName[]
   content      String
+  isPrivate    Boolean    @default(false)
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
   user         User       @relation(fields: [userId], references: [id])
@@ -62,19 +64,6 @@ model Review {
 
   @@index([restaurantId])
   @@index([userId])
-}
-
-enum Rating {
-  ONE
-  TWO
-  THREE
-  FOUR
-  FIVE
-  SIX
-  SEVEN
-  EIGHT
-  NINE
-  TEN
 }
 
 enum Cusine {
@@ -108,4 +97,13 @@ enum Cusine {
   THAI
   VIETNAMESE
   OTHER
+}
+
+model FoodName {
+  id       String @id @default(cuid())
+  name     String
+  review   Review @relation(fields: [reviewId], references: [id])
+  reviewId String
+
+  @@index([reviewId])
 }

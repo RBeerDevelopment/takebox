@@ -37,6 +37,7 @@ export const TRPCProvider: React.FC<{
 }> = ({ children }) => {
   const { getToken } = useAuth();
   const [queryClient] = React.useState(() => new QueryClient());
+
   const [trpcClient] = React.useState(() =>
     trpc.createClient({
       transformer,
