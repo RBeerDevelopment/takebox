@@ -4,16 +4,25 @@ import { Text, TouchableOpacity } from "react-native";
 interface Props {
   text: string;
   onPress: () => void;
+  colorful?: boolean;
 }
 
 export function StyledButton(props: Props): React.ReactElement {
-  const { text, onPress } = props;
+  const { text, onPress, colorful = false } = props;
   return (
     <TouchableOpacity
-      className="my-2 flex w-full items-center justify-center rounded-lg bg-white py-2"
+      className={`my-2 flex w-full items-center justify-center rounded-lg ${
+        colorful ? "bg-primary" : "bg-white "
+      } py-2`}
       onPress={onPress}
     >
-      <Text className="text-lg capitalize text-black">{text}</Text>
+      <Text
+        className={`text-lg capitalize ${
+          colorful ? "text-white" : "text-black"
+        }`}
+      >
+        {text}
+      </Text>
     </TouchableOpacity>
   );
 }

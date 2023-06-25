@@ -46,11 +46,10 @@ export default function DetailScreen() {
   const restaurant = restaurantResult.data;
 
   const reviews = reviewResult.data;
-  console.log(reviews?._avg, reviews?._count);
 
   return (
     <ScrollView className="flex h-full w-full flex-col">
-      <Stack.Screen options={{ title: restaurant?.name + "!!" }} />
+      <Stack.Screen options={{ title: restaurant?.name }} />
 
       <View className="my-4 flex h-44 w-full items-center rounded-xl">
         <Image
@@ -61,7 +60,11 @@ export default function DetailScreen() {
         />
       </View>
       <DetailSection restaurant={restaurant} />
-      <DetailReviewSection />
+      <DetailReviewSection
+        restaurantId={Array.isArray(id) ? id[0] : id}
+        avgRating={reviews?._avg.rating}
+        ratingCount={reviews?._count.rating}
+      />
     </ScrollView>
   );
 }

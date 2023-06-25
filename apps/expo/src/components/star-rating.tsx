@@ -9,15 +9,16 @@ type StarIconType = "star" | "star-outline" | "star-half-full";
 
 interface Props {
   onChangeRating?: (rating: number) => void;
+  isEditable?: boolean;
 }
 
 export function StarRating(props: Props): React.ReactElement {
-  const { onChangeRating } = props;
+  const { onChangeRating, isEditable = true } = props;
 
   const [rating, setRating] = useState<number>(3);
 
   return (
-    <View className="h-30 flex w-full flex-row justify-center">
+    <View className="h-30 flex w-full flex-row justify-center ">
       {starRatingOptions.map((option) => {
         if (option % 2 !== 0 || option === 10) {
           return;
@@ -38,15 +39,17 @@ export function StarRating(props: Props): React.ReactElement {
             key={option}
             onPress={() => {
               let newRating = option + 2;
-
               if (option === rating - 2) {
                 newRating = option + 1;
               }
+
+              if (onChangeRating) {
+                onChangeRating(newRating);
+              }
+
+              if (!isEditable) return;
+
               setRating(newRating);
-
-              if (!onChangeRating) return;
-
-              onChangeRating(newRating);
             }}
             className="mx-1"
           >

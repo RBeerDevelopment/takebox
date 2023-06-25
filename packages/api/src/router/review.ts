@@ -31,7 +31,7 @@ export const reviewRouter = router({
     .input(
       z.object({
         placeId: z.string(),
-        rating: z.number().min(0.5).max(5).step(0.5),
+        rating: z.number().min(1).max(10).step(1),
         content: z.string().min(5),
         foods: z.array(z.string()).optional(),
         isPrivate: z.boolean(),
@@ -57,8 +57,13 @@ export const reviewRouter = router({
             ],
           },
           user: {
-            connect: {
-              id: userId,
+            connectOrCreate: {
+              where: {
+                id: userId,
+              },
+              create: {
+                id: userId,
+              },
             },
           },
           restaurant: {

@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text } from "react-native";
 import { StarRating } from "./star-rating";
-import { Link, useNavigation, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 interface Props {
-  avgRating: number;
-  ratingCount: number;
+  avgRating?: number | null;
+  ratingCount?: number | null;
+  restaurantId?: string;
 }
 
 export function DetailReviewSection(props: Props): React.ReactElement {
-  const { avgRating, ratingCount } = props;
+  const { restaurantId, avgRating, ratingCount } = props;
 
   const router = useRouter();
 
@@ -22,9 +23,15 @@ export function DetailReviewSection(props: Props): React.ReactElement {
           <Text>({ratingCount} reviews)</Text>
         </View>
       )}
-      <Link href="/review/new">
-        <StarRating onChangeRating={() => router.push("/review/new")} />
-      </Link>
+      <StarRating
+        onChangeRating={() =>
+          router.push({
+            pathname: "/review/new",
+            params: { id: restaurantId },
+          })
+        }
+        isEditable={false}
+      />
     </View>
   );
 }
