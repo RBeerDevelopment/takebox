@@ -1,11 +1,11 @@
-import { ExpoConfig, ConfigContext } from "@expo/config";
+import { ExpoConfig } from "@expo/config";
 
 const CLERK_PUBLISHABLE_KEY =
   "pk_test_c3VidGxlLWZseS05OC5jbGVyay5hY2NvdW50cy5kZXYk";
 
 process.env.EXPO_ROUTER_APP_ROOT = __dirname + "/src/app";
 
-const defineConfig = (_ctx: ConfigContext): ExpoConfig => ({
+const defineConfig = (): ExpoConfig => ({
   name: "TakeBox",
   slug: "TakeBox",
   version: "1.0.0",
@@ -24,7 +24,7 @@ const defineConfig = (_ctx: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: false,
-    bundleIdentifier: "your.bundle.identifier",
+    bundleIdentifier: "beer.robin.takebox",
   },
   android: {
     adaptiveIcon: {
