@@ -17,6 +17,7 @@ export function IconButton(props: Props): React.ReactElement {
         backgroundColor="white"
         color="black"
         className="flex h-10 w-full justify-center"
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
         name={iconName as any}
       >
         {text}

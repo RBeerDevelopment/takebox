@@ -12,6 +12,7 @@ import { type AppRouter } from "@acme/api";
  * A set of typesafe hooks for consuming your API.
  */
 export const api = createTRPCReact<AppRouter>();
+
 export { type RouterInputs, type RouterOutputs } from "@acme/api";
 
 /**
@@ -40,10 +41,6 @@ const getBaseUrl = () => {
   return `http://${localhost}:3000`;
 };
 
-/**
- * A wrapper for your app that provides the TRPC context.
- * Use only in _app.tsx
- */
 export const TRPCProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {

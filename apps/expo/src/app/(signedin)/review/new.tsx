@@ -4,8 +4,9 @@ import { StarRating } from "../../../components/star-rating";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { StyledTextInput } from "../../../components/inputs/styled-text-input";
 import { StyledButton } from "../../../components/button";
-import { trpc } from "../../../utils/trpc";
-import { useLocalSearchParams } from "expo-router";
+import { api } from "../../../utils/api";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import { LoadingIndicator } from "~/components/loading-indicator";
 
 interface ReviewInput {
   rating: number;
@@ -15,9 +16,11 @@ interface ReviewInput {
 
 export default function ReviewScreen(): React.ReactElement {
   const params = useLocalSearchParams();
+  const { goBack } = useNavigation();
+
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  const postReview = trpc.review.postReview.useMutation();
+  const postReview = api.review.postReview.useMutation();
 
   const [reviewInput, dispatchReviewInput] = useReducer(
     (prevState: ReviewInput, newState: Partial<ReviewInput>) => {
@@ -35,7 +38,16 @@ export default function ReviewScreen(): React.ReactElement {
 
   function saveReview() {
     if (!id) return;
-    postReview.mutateAsync({ placeId: id, ...reviewInput });
+    postReview.mutate({ placeId: id, ...reviewInput }, {
+      onSuccess: () => {
+        console.log("Test")
+        goBack();
+      }
+    })
+  }
+
+  if(postReview.isLoading) {
+    return <LoadingIndicator />
   }
 
   return (

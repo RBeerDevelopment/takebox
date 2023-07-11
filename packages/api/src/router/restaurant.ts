@@ -1,12 +1,11 @@
 import { z } from "zod";
-import { protectedProcedure, router } from "../trpc";
-import { fetchNearbyRestaurants } from "../google-maps/search";
+import { protectedProcedure, createTRPCRouter } from "../trpc";
 import { buildRestaurantSearchQuery } from "../helper/build-restaurant-search-query";
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
 import { uploadImageBlob } from "../s3/upload-image-blob";
 
-export const restaurantRouter = router({
+export const restaurantRouter = createTRPCRouter({
   nearbyRestaurantsByQuery: protectedProcedure
     .input(
       z.object({
@@ -72,7 +71,7 @@ export const restaurantRouter = router({
 
         imageUrl = await uploadImageBlob(image, restaurantInDb.googleId);
 
-        ctx.prisma.restaurant.update({
+        void ctx.prisma.restaurant.update({
           where: { googleId: restaurantInDb.googleId },
           data: { imageUrl: imageUrl },
         });

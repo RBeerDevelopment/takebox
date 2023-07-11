@@ -19,13 +19,22 @@ export function DetailRow(props: Props): React.ReactElement {
       onLongPress={() => {
         if (!allowCopy) return;
 
-        Clipboard.setStringAsync(text || "");
-        Toast.show({
-          type: "success",
-          text1: "Copied to clipboard!",
-          position: "bottom",
-          visibilityTime: 1000,
-        });
+        Clipboard.setStringAsync(text || "").then(() => {
+          Toast.show({
+            type: "success",
+            text1: "Copied to clipboard!",
+            position: "bottom",
+            visibilityTime: 1000,
+          });
+        }).catch(() => {
+          Toast.show({
+            type: "error",
+            text1: "Error copying to clipboard",
+            position: "bottom",
+            visibilityTime: 1000,
+          });
+        })
+        
       }}
       onPress={() => {
         if (!onPress) return;
@@ -34,6 +43,7 @@ export function DetailRow(props: Props): React.ReactElement {
     >
       <View className="my-4 flex w-11/12 flex-row items-center gap-2">
         <MaterialCommunityIcons
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
           name={iconName as any}
           size={28}
           color="black"

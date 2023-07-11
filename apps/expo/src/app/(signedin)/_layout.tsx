@@ -1,20 +1,20 @@
 import React from "react";
-import { TRPCProvider } from "../../utils/trpc";
+import { TRPCProvider } from "../../utils/api";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Button, StatusBar, TouchableOpacity } from "react-native";
-import { Stack, Redirect, usePathname, useRouter } from "expo-router";
+import { Stack, Redirect, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function SignedinLayout(): React.ReactElement {
-  const { isSignedIn } = useAuth();
+  const router = useRouter();
 
   const auth = useAuth();
-  if (!isSignedIn) {
+  if (!auth.isSignedIn) {
     return <Redirect href={"login"} />;
   }
 
-  const router = useRouter();
+  
 
   return (
     <TRPCProvider>
@@ -29,7 +29,7 @@ export default function SignedinLayout(): React.ReactElement {
             headerRight: () => (
               <TouchableOpacity
                 className="rounded-full bg-white p-1"
-                onPress={() => auth.signOut()}
+                onPress={() => void auth.signOut()}
               >
                 <MaterialIcons name="person" size={24} color="black" />
               </TouchableOpacity>

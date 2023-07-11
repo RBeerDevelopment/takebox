@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { protectedProcedure, router } from "../trpc";
+import { protectedProcedure, createTRPCRouter } from "../trpc";
 
-export const reviewRouter = router({
+export const reviewRouter = createTRPCRouter({
   reviewSummary: protectedProcedure
     .input(z.object({ placeId: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -37,6 +37,7 @@ export const reviewRouter = router({
         isPrivate: z.boolean(),
       }),
     )
+    .output(z.boolean())
     .mutation(async ({ input, ctx }) => {
       const { userId } = ctx.auth;
 
@@ -44,7 +45,7 @@ export const reviewRouter = router({
 
       const foodNames = foods || [];
 
-      await ctx.prisma.review.create({
+      const review = await ctx.prisma.review.create({
         data: {
           rating,
           content,
@@ -73,5 +74,8 @@ export const reviewRouter = router({
           },
         },
       });
+
+      return Boolean(review);
+
     }),
 });

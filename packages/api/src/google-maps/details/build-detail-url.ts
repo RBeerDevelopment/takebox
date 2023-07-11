@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 const fields = [
   "name",
   "current_opening_hours",
