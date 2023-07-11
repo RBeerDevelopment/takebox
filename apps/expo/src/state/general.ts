@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { LocationObject } from "expo-location";
+import { type LocationObject } from "expo-location";
 
 interface GeneralState {
   location?: LocationObject;

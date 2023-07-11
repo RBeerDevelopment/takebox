@@ -5,7 +5,7 @@ import { Image } from "expo-image";
 import { useSearchParams, Stack } from "expo-router";
 import { LoadingIndicator } from "../../../components/loading-indicator";
 import { ErrorMessage } from "../../../components/error-message";
-import { trpc } from "../../../utils/trpc";
+import { api } from "../../../utils/api";
 import { useWarmUpBrowser } from "../../../hooks/useWarmUpBrowser";
 import { DetailSection } from "../../../components/detail-section";
 import { DetailReviewSection } from "../../../components/detail-review-section";
@@ -18,7 +18,7 @@ export default function DetailScreen() {
 
   useWarmUpBrowser();
 
-  const [restaurantResult, imageResult, reviewResult] = trpc.useQueries((t) => [
+  const [restaurantResult, imageResult, reviewResult] = api.useQueries((t) => [
     t.restaurant.getRestaurantDetails(
       { placeId: id as string },
       { enabled: Boolean(id), staleTime: 60 * 1000 },
@@ -53,6 +53,7 @@ export default function DetailScreen() {
 
       <View className="my-4 flex h-44 w-full items-center rounded-xl">
         <Image
+          alt="Restaurant Image"
           className="h-full w-11/12 rounded-xl"
           source={imageResult.data}
           placeholder={blurhash}

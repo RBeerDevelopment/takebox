@@ -1,5 +1,5 @@
-import { Restaurant } from "./fetch-nearby-restaurants";
-import { NearbyResponse } from "./nearby-response";
+import { type Restaurant } from "./fetch-nearby-restaurants";
+import { type NearbyResponse } from "./nearby-response";
 
 export function responseToRestaurant(
   r: NearbyResponse["results"][0],
@@ -12,5 +12,7 @@ export function responseToRestaurant(
     lng: r.geometry.location.lng,
     googlePhotoReference: r.photos[0]?.photo_reference || null,
     imageUrl: null,
+    websiteUrl: null,
+    googleUrl: null
   };
 }

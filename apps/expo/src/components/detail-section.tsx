@@ -35,7 +35,7 @@ export function DetailSection(props: Props): React.ReactElement {
         <DetailRow
           iconName="google-maps"
           text="Google Maps"
-          onPress={() => WebBrowser.openBrowserAsync(restaurant?.url || "")}
+          onPress={() => void WebBrowser.openBrowserAsync(restaurant?.url || "")}
         />
       )}
 
@@ -43,7 +43,7 @@ export function DetailSection(props: Props): React.ReactElement {
         <DetailRow
           iconName="web"
           text="Website"
-          onPress={() => WebBrowser.openBrowserAsync(restaurant?.website || "")}
+          onPress={() => void WebBrowser.openBrowserAsync(restaurant?.website || "")}
         />
       )}
     </View>

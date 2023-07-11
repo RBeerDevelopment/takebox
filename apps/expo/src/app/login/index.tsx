@@ -21,7 +21,7 @@ const SignInWithOAuth = () => {
       const { createdSessionId, setActive } =
         await googleSignIn.startOAuthFlow();
       if (createdSessionId && setActive) {
-        setActive({ session: createdSessionId });
+        void setActive({ session: createdSessionId });
       } else {
         throw new Error(
           "There are unmet requirements, modifiy this else to handle them",
@@ -31,14 +31,14 @@ const SignInWithOAuth = () => {
       console.log(JSON.stringify(err, null, 2));
       console.log("error signing in", err);
     }
-  }, []);
+  }, [googleSignIn]);
 
   const handleSignInWithDiscordPress = React.useCallback(async () => {
     try {
       const { createdSessionId, setActive } =
         await discordSignIn.startOAuthFlow();
       if (createdSessionId && setActive) {
-        setActive({ session: createdSessionId });
+        void setActive({ session: createdSessionId });
       } else {
         throw new Error(
           "There are unmet requirements, modifiy this else to handle them",
@@ -48,14 +48,14 @@ const SignInWithOAuth = () => {
       console.log(JSON.stringify(err, null, 2));
       console.log("error signing in", err);
     }
-  }, []);
+  }, [discordSignIn]);
 
   const handleSignInWithApple = React.useCallback(async () => {
     try {
       const { createdSessionId, setActive } =
         await appleSignIn.startOAuthFlow();
       if (createdSessionId && setActive) {
-        setActive({ session: createdSessionId });
+        void setActive({ session: createdSessionId });
       } else {
         throw new Error(
           "There are unmet requirements, modifiy this else to handle them",
@@ -65,7 +65,7 @@ const SignInWithOAuth = () => {
       console.log(JSON.stringify(err, null, 2));
       console.log("error signing in", err);
     }
-  }, []);
+  }, [appleSignIn]);
 
   if (isSignedIn) {
     return <Redirect href="/home" />;
@@ -80,17 +80,17 @@ const SignInWithOAuth = () => {
       <View>
         <IconButton
           text="Sign in with Apple"
-          onPress={handleSignInWithApple}
+          onPress={() => void handleSignInWithApple()}
           iconName="apple"
         />
         <IconButton
           text="Sign in with Discord"
-          onPress={handleSignInWithDiscordPress}
+          onPress={() => void handleSignInWithDiscordPress()}
           iconName="discord"
         />
         <IconButton
           text="Sign in with Google"
-          onPress={handleSignInWithGoogle}
+          onPress={() => void handleSignInWithGoogle()}
           iconName="google"
         />
       </View>

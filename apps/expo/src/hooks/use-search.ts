@@ -1,5 +1,5 @@
 import { smoothCoordinatePart } from "../utils/smooth-coordinate-part";
-import { trpc } from "../utils/trpc";
+import { api } from "../utils/api";
 
 export function useSearch(query?: string, lat?: number, lng?: number) {
   const roundedLat = smoothCoordinatePart(lat);
@@ -11,9 +11,9 @@ export function useSearch(query?: string, lat?: number, lng?: number) {
     data: restaurants,
     isFetching,
     isError,
-  } = trpc.restaurant.nearbyRestaurantsByQuery.useQuery(
+  } = api.restaurant.nearbyRestaurantsByQuery.useQuery(
     {
-      query: cleanedQuery as string,
+      query: cleanedQuery ,
       lat: roundedLat,
       lng: roundedLng,
     },
