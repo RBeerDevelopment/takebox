@@ -34,7 +34,7 @@ const getBaseUrl = () => {
     Constants.manifest2?.extra?.expoGo?.debuggerHost;
   const localhost = debuggerHost?.split(":")[0];
   if (!localhost) {
-    return "https://takebox.vercel.app/";
+    return "https://takebox.vercel.app";
   }
   return `http://${localhost}:3000`;
 };
