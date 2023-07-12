@@ -1,25 +1,26 @@
 import React from "react";
-
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useRouter } from "expo-router";
+
+import { PreviousReviewSection } from "~/components/previous-review/previous-review-section";
 import { SearchInput } from "../../components/search-input";
 
 export default function HomeScreen() {
-  const [searchQuery, setSearch] = React.useState("");
+    const [searchQuery, setSearch] = React.useState("");
 
-  const router = useRouter();
+    const router = useRouter();
 
-  return (
-    <View className="h-full w-full items-center bg-white">
-      <SearchInput
-        placeholder="Search..."
-        value={searchQuery}
-        handleOnChange={setSearch}
-        handleOnSubmit={() => {
-          router.push(`/search/${searchQuery}`);
-        }}
-      />
-      <Text>Something else will be here in the future</Text>
-    </View>
-  );
+    return (
+        <View className="flex h-full w-full flex-col items-center bg-white">
+            <SearchInput
+                placeholder="Search..."
+                value={searchQuery}
+                handleOnChange={setSearch}
+                handleOnSubmit={() => {
+                    router.push(`/search/${searchQuery}`);
+                }}
+            />
+            <PreviousReviewSection />
+        </View>
+    );
 }
