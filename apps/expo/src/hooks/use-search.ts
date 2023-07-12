@@ -1,5 +1,5 @@
-import { smoothCoordinatePart } from "../utils/smooth-coordinate-part";
 import { api } from "../utils/api";
+import { smoothCoordinatePart } from "../utils/smooth-coordinate-part";
 
 export function useSearch(query?: string, lat?: number, lng?: number) {
   const roundedLat = smoothCoordinatePart(lat);
@@ -13,7 +13,7 @@ export function useSearch(query?: string, lat?: number, lng?: number) {
     isError,
   } = api.restaurant.nearbyRestaurantsByQuery.useQuery(
     {
-      query: cleanedQuery ,
+      query: cleanedQuery,
       lat: roundedLat,
       lng: roundedLng,
     },
