@@ -1,9 +1,10 @@
 import { z } from "zod";
-import { protectedProcedure, createTRPCRouter } from "../trpc";
-import { buildRestaurantSearchQuery } from "../helper/build-restaurant-search-query";
+
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
+import { buildRestaurantSearchQuery } from "../helper/build-restaurant-search-query";
 import { uploadImageBlob } from "../s3/upload-image-blob";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const restaurantRouter = createTRPCRouter({
   nearbyRestaurantsByQuery: protectedProcedure
@@ -12,7 +13,7 @@ export const restaurantRouter = createTRPCRouter({
         query: z.string().min(3),
         lat: z.number().min(-90).max(90),
         lng: z.number().min(-180).max(180),
-        radius: z.number().min(100).max(5000).default(1000),
+        radius: z.number().min(100).max(5000).default(3000),
       }),
     )
     .query(async ({ input, ctx }) => {
