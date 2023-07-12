@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { protectedProcedure, createTRPCRouter } from "../trpc";
+
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const reviewRouter = createTRPCRouter({
   reviewSummary: protectedProcedure
@@ -76,6 +77,32 @@ export const reviewRouter = createTRPCRouter({
       });
 
       return Boolean(review);
-
     }),
+
+  usersOwnReviews: protectedProcedure.query(async ({ ctx }) => {
+    const {
+      prisma,
+      auth: { userId },
+    } = ctx;
+
+    const reviews = await prisma.review.findMany({
+      select: {
+        rating: true,
+        updatedAt: true,
+        restaurant: {
+          select: {
+            name: true,
+          },
+        },
+        content: true,
+      },
+      where: { userId: userId },
+      take: 10,
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+
+    return reviews;
+  }),
 });

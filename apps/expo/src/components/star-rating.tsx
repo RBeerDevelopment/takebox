@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Pressable, View } from "react-native";
-
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const starRatingOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
@@ -8,55 +7,62 @@ const starRatingOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 type StarIconType = "star" | "star-outline" | "star-half-full";
 
 interface Props {
-  onChangeRating?: (rating: number) => void;
-  isEditable?: boolean;
+    presetRating?: number;
+    isSmall?: boolean;
+    onChangeRating?: (rating: number) => void;
+    isEditable?: boolean;
 }
 
 export function StarRating(props: Props): React.ReactElement {
-  const { onChangeRating, isEditable = true } = props;
+    const { onChangeRating, isEditable = true, presetRating, isSmall } = props;
 
-  const [rating, setRating] = useState<number>(3);
+    const [rating, setRating] = useState<number>(presetRating || 3);
 
-  return (
-    <View className="h-30 flex w-full flex-row justify-center ">
-      {starRatingOptions.map((option) => {
-        if (option % 2 !== 0 || option === 10) {
-          return;
-        }
+    const heightStyle = isSmall ? "justify-start" : "h-30 justify-center";
+    return (
+        <View className={`${heightStyle} flex flex-row`}>
+            {starRatingOptions.map((option) => {
+                if (option % 2 !== 0 || option === 10) {
+                    return;
+                }
 
-        let iconName: StarIconType = "star-outline";
+                let iconName: StarIconType = "star-outline";
 
-        if (option < rating) {
-          iconName = "star";
-        }
+                if (option < rating) {
+                    iconName = "star";
+                }
 
-        if (option === rating - 1) {
-          iconName = "star-half-full";
-        }
+                if (option === rating - 1) {
+                    iconName = "star-half-full";
+                }
 
-        return (
-          <Pressable
-            key={option}
-            onPress={() => {
-              let newRating = option + 2;
-              if (option === rating - 2) {
-                newRating = option + 1;
-              }
+                return (
+                    <Pressable
+                        key={option}
+                        onPress={() => {
+                            let newRating = option + 2;
+                            if (option === rating - 2) {
+                                newRating = option + 1;
+                            }
 
-              if (onChangeRating) {
-                onChangeRating(newRating);
-              }
+                            if (onChangeRating) {
+                                onChangeRating(newRating);
+                            }
 
-              if (!isEditable) return;
+                            if (!isEditable) return;
 
-              setRating(newRating);
-            }}
-            className="mx-1"
-          >
-            <MaterialCommunityIcons name={iconName} size={40} color="#F191A8" />
-          </Pressable>
-        );
-      })}
-    </View>
-  );
+                            setRating(newRating);
+                        }}
+                        className="mx-1"
+                    >
+                        <MaterialCommunityIcons
+                            name={iconName}
+                            size={isSmall ? 24 : 40}
+                            color="#F191A8"
+                        />
+                    </Pressable>
+                );
+            })}
+        </View>
+    );
 }
