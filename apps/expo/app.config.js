@@ -1,11 +1,9 @@
-import { type ExpoConfig } from "@expo/config";
-
 const CLERK_PUBLISHABLE_KEY =
   "pk_test_c3VidGxlLWZseS05OC5jbGVyay5hY2NvdW50cy5kZXYk";
 
 process.env.EXPO_ROUTER_APP_ROOT = __dirname + "/src/app";
 
-const defineConfig = (): ExpoConfig => ({
+const defineConfig = () => ({
   name: "TakeBox",
   slug: "TakeBox",
   version: "1.0.0",
@@ -34,7 +32,7 @@ const defineConfig = (): ExpoConfig => ({
   },
   extra: {
     eas: {
-      // projectId: "your-project-id",
+      projectId: "50e70c62-232a-40f3-8d5f-9c92eae92580",
     },
     CLERK_PUBLISHABLE_KEY,
   },
