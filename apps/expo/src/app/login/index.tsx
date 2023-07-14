@@ -1,54 +1,38 @@
-import { useAuth, useOAuth } from "@clerk/clerk-expo";
 import React from "react";
 import { Text, View } from "react-native";
-import { useWarmUpBrowser } from "../../hooks/useWarmUpBrowser";
-import { appName } from "../../constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Redirect } from "expo-router";
+import { useAuth, useOAuth } from "@clerk/clerk-expo";
+
+import EmailSignUp from "~/components/email-signup/email-signup";
 import { IconButton } from "../../components/icon-button";
+import { appName } from "../../constants";
+import { useWarmUpBrowser } from "../../hooks/useWarmUpBrowser";
 
 const SignInWithOAuth = () => {
   useWarmUpBrowser();
 
-  const discordSignIn = useOAuth({ strategy: "oauth_discord" });
   const appleSignIn = useOAuth({ strategy: "oauth_apple" });
-  const googleSignIn = useOAuth({ strategy: "oauth_google" });
+  // const googleSignIn = useOAuth({ strategy: "oauth_google" });
 
   const { isSignedIn } = useAuth();
 
-  const handleSignInWithGoogle = React.useCallback(async () => {
-    try {
-      const { createdSessionId, setActive } =
-        await googleSignIn.startOAuthFlow();
-      if (createdSessionId && setActive) {
-        void setActive({ session: createdSessionId });
-      } else {
-        throw new Error(
-          "There are unmet requirements, modifiy this else to handle them",
-        );
-      }
-    } catch (err) {
-      console.log(JSON.stringify(err, null, 2));
-      console.log("error signing in", err);
-    }
-  }, [googleSignIn]);
-
-  const handleSignInWithDiscordPress = React.useCallback(async () => {
-    try {
-      const { createdSessionId, setActive } =
-        await discordSignIn.startOAuthFlow();
-      if (createdSessionId && setActive) {
-        void setActive({ session: createdSessionId });
-      } else {
-        throw new Error(
-          "There are unmet requirements, modifiy this else to handle them",
-        );
-      }
-    } catch (err) {
-      console.log(JSON.stringify(err, null, 2));
-      console.log("error signing in", err);
-    }
-  }, [discordSignIn]);
+  // const handleSignInWithGoogle = React.useCallback(async () => {
+  //   try {
+  //     const { createdSessionId, setActive } =
+  //       await googleSignIn.startOAuthFlow();
+  //     if (createdSessionId && setActive) {
+  //       void setActive({ session: createdSessionId });
+  //     } else {
+  //       throw new Error(
+  //         "There are unmet requirements, modifiy this else to handle them",
+  //       );
+  //     }
+  //   } catch (err) {
+  //     console.log(JSON.stringify(err, null, 2));
+  //     console.log("error signing in", err);
+  //   }
+  // }, [googleSignIn]);
 
   const handleSignInWithApple = React.useCallback(async () => {
     try {
@@ -77,22 +61,19 @@ const SignInWithOAuth = () => {
       <Text className="w-full px-6 py-8 text-center text-lg text-gray-200">
         After this you can start exploring the culinary delights around you.
       </Text>
+
+      <EmailSignUp />
       <View>
         <IconButton
           text="Sign in with Apple"
           onPress={() => void handleSignInWithApple()}
           iconName="apple"
         />
-        <IconButton
-          text="Sign in with Discord"
-          onPress={() => void handleSignInWithDiscordPress()}
-          iconName="discord"
-        />
-        <IconButton
+        {/* <IconButton
           text="Sign in with Google"
           onPress={() => void handleSignInWithGoogle()}
           iconName="google"
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );
