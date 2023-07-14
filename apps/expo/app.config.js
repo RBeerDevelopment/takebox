@@ -1,4 +1,6 @@
-const CLERK_PUBLISHABLE_KEY = process.env.CLERK_PUBLISHABLE_KEY;
+const CLERK_PUBLISHABLE_KEY =
+  process.env.CLERK_PUBLISHABLE_KEY ||
+  "pk_test_c3VidGxlLWZseS05OC5jbGVyay5hY2NvdW50cy5kZXYk";
 
 process.env.EXPO_ROUTER_APP_ROOT = __dirname + "/src/app";
 
