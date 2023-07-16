@@ -1,17 +1,15 @@
 import React from "react";
-
 import { ScrollView, View } from "react-native";
 import { Image } from "expo-image";
-import { useSearchParams, Stack } from "expo-router";
-import { LoadingIndicator } from "../../../components/loading-indicator";
-import { ErrorMessage } from "../../../components/error-message";
-import { api } from "../../../utils/api";
-import { useWarmUpBrowser } from "../../../hooks/useWarmUpBrowser";
-import { DetailSection } from "../../../components/detail-section";
-import { DetailReviewSection } from "../../../components/detail-review-section";
+import { Stack, useSearchParams } from "expo-router";
 
-const blurhash =
-  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
+import { api } from "~/utils/api";
+import { blurhash } from "~/utils/blur-hash";
+import { DetailReviewSection } from "~/components/detail-review-section";
+import { DetailSection } from "~/components/detail-section";
+import { ErrorMessage } from "~/components/error-message";
+import { LoadingIndicator } from "~/components/loading-indicator";
+import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
 
 export default function DetailScreen() {
   const { id } = useSearchParams();

@@ -1,18 +1,22 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import FontAwesome from "@expo/vector-icons/Fontisto";
+import Fontisto from "@expo/vector-icons/Fontisto";
+import Material from "@expo/vector-icons/MaterialIcons";
 
 interface Props {
   text: string;
-  iconName: string;
+  iconFont?: "Fontisto" | "Material";
   onPress: () => void;
+  iconName?: string;
 }
 
 export function IconButton(props: Props): React.ReactElement {
-  const { text, iconName, onPress } = props;
+  const { text, iconName, onPress, iconFont = "fontisto" } = props;
+
+  const IconComponent = iconFont === "fontisto" ? Fontisto : Material;
   return (
     <TouchableOpacity className="my-2 flex w-full" onPress={onPress}>
-      <FontAwesome.Button
+      <IconComponent.Button
         onPress={onPress}
         backgroundColor="white"
         color="black"
@@ -21,7 +25,7 @@ export function IconButton(props: Props): React.ReactElement {
         name={iconName as any}
       >
         {text}
-      </FontAwesome.Button>
+      </IconComponent.Button>
     </TouchableOpacity>
   );
 }

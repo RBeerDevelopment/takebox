@@ -5,7 +5,7 @@ import { Redirect } from "expo-router";
 import { useAuth, useOAuth } from "@clerk/clerk-expo";
 
 import EmailSignUp from "~/components/email-signup/email-signup";
-import { IconButton } from "../../components/icon-button";
+import { IconButton } from "../../components/icon-button/icon-button";
 import { appName } from "../../constants";
 import { useWarmUpBrowser } from "../../hooks/useWarmUpBrowser";
 
@@ -61,7 +61,6 @@ const SignInWithOAuth = () => {
       <Text className="w-full px-6 py-8 text-center text-lg text-gray-200">
         After this you can start exploring the culinary delights around you.
       </Text>
-
       <EmailSignUp />
       <View>
         <IconButton

@@ -6,8 +6,8 @@ process.env.EXPO_ROUTER_APP_ROOT = __dirname + "/src/app";
 
 const defineConfig = () => ({
   name: "Flavoury",
-  slug: "Flavoury",
-  version: "1.0.0",
+  slug: "TakeBox",
+  version: "1.0.1",
   scheme: "beer.robin.takebox",
   orientation: "portrait",
   icon: "./assets/icon.png",
@@ -24,7 +24,7 @@ const defineConfig = () => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: "beer.robin.takebox",
-    buildNumber: "3",
+    buildNumber: "5",
   },
   android: {
     adaptiveIcon: {
@@ -44,6 +44,13 @@ const defineConfig = () => ({
       "expo-location",
       {
         locationAlwaysAndWhenInUsePermission: `Allow TakeBox to use your location, to show you restaurants near you.`,
+      },
+    ],
+    [
+      "expo-image-picker",
+      {
+        photosPermission:
+          "Pick a image from your camera roll as your profile picture.",
       },
     ],
   ],

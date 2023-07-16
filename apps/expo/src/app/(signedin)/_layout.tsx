@@ -1,10 +1,11 @@
 import React from "react";
-import { TRPCProvider } from "../../utils/api";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Button, StatusBar, TouchableOpacity } from "react-native";
-import { Stack, Redirect, useRouter } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Redirect, Stack, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import { MaterialIcons } from "@expo/vector-icons";
+
+import { TRPCProvider } from "../../utils/api";
 
 export default function SignedinLayout(): React.ReactElement {
   const router = useRouter();
@@ -13,8 +14,6 @@ export default function SignedinLayout(): React.ReactElement {
   if (!auth.isSignedIn) {
     return <Redirect href={"login"} />;
   }
-
-  
 
   return (
     <TRPCProvider>
@@ -29,7 +28,7 @@ export default function SignedinLayout(): React.ReactElement {
             headerRight: () => (
               <TouchableOpacity
                 className="rounded-full bg-white p-1"
-                onPress={() => void auth.signOut()}
+                onPress={() => void router.push("/profile/modal")}
               >
                 <MaterialIcons name="person" size={24} color="black" />
               </TouchableOpacity>
@@ -41,6 +40,17 @@ export default function SignedinLayout(): React.ReactElement {
             options={{
               presentation: "modal",
               title: "Review",
+              headerLeft: () => (
+                <Button title="Close" onPress={() => router.back()} />
+              ),
+              headerRight: undefined,
+            }}
+          />
+          <Stack.Screen
+            name="profile/modal"
+            options={{
+              presentation: "modal",
+              title: "Profile",
               headerLeft: () => (
                 <Button title="Close" onPress={() => router.back()} />
               ),

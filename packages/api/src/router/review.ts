@@ -105,4 +105,30 @@ export const reviewRouter = createTRPCRouter({
 
     return reviews;
   }),
+
+  latestReviews: protectedProcedure
+    .input(z.object({ take: z.number().min(1).max(50).default(12) }))
+    .query(async ({ ctx, input }) => {
+      const { prisma } = ctx;
+
+      const reviews = await prisma.review.findMany({
+        select: {
+          rating: true,
+          updatedAt: true,
+          restaurant: {
+            select: {
+              name: true,
+              googleId: true,
+            },
+          },
+          content: true,
+        },
+        take: input.take,
+        orderBy: {
+          updatedAt: "desc",
+        },
+      });
+
+      return reviews;
+    }),
 });
