@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
+import { Link } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
 import { api } from "~/utils/api";
@@ -11,7 +12,7 @@ export function LatestReviewSection(): React.ReactElement {
     data: reviews,
     isLoading,
     isError,
-  } = api.review.latestReviews.useQuery({ take: 10 });
+  } = api.review.latestReviews.useQuery({ take: 10 }, { refetchOnMount: true });
 
   if (isLoading) return <Skeleton />;
 
@@ -21,7 +22,11 @@ export function LatestReviewSection(): React.ReactElement {
       <Text className="pb-2 font-bold">Latest Reviews</Text>
       <FlashList
         data={reviews}
-        renderItem={({ item }) => <LatestReviewSummary review={item} />}
+        renderItem={({ item }) => (
+          <Link href={`/details/${item.restaurant.googleId}`}>
+            <LatestReviewSummary review={item} />
+          </Link>
+        )}
         estimatedItemSize={280}
       />
     </View>

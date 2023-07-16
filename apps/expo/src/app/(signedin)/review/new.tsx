@@ -12,7 +12,7 @@ import { api } from "../../../utils/api";
 interface ReviewInput {
   rating: number;
   content: string;
-  isPrivate: boolean;
+  isTakeout: boolean;
 }
 
 export default function ReviewScreen(): React.ReactElement {
@@ -25,15 +25,15 @@ export default function ReviewScreen(): React.ReactElement {
 
   const [reviewInput, dispatchReviewInput] = useReducer(
     (prevState: ReviewInput, newState: Partial<ReviewInput>) => {
-      if (newState.isPrivate !== undefined) {
-        return { ...prevState, isPrivate: !prevState.isPrivate };
+      if (newState.isTakeout !== undefined) {
+        return { ...prevState, isTakeout: !prevState.isTakeout };
       }
       return { ...prevState, ...newState };
     },
     {
       rating: 3,
       content: "",
-      isPrivate: false,
+      isTakeout: false,
     },
   );
 
@@ -63,10 +63,10 @@ export default function ReviewScreen(): React.ReactElement {
       />
       <View className="flex flex-row items-center">
         <BouncyCheckbox
-          onPress={(isPrivate) => dispatchReviewInput({ isPrivate })}
+          onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
           fillColor="#F191A8"
         />
-        <Text className="text-lg">Make review private?</Text>
+        <Text className="text-lg">Takeout</Text>
       </View>
 
       <StyledButton colorful text="Save" onPress={saveReview} />

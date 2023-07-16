@@ -24,16 +24,12 @@ export function LatestReviewSummary(props: Props): React.ReactElement {
   return (
     <View>
       <View className="flex flex-col justify-start p-2">
-        <Text className="text-lg">{review.restaurant.name}</Text>
-        <Text className="text-xs">
-          {formatDateToReadable(review.updatedAt)}
+        <Text className="-ml-1 text-lg font-semibold">
+          {review.restaurant.name}
         </Text>
+        <Text>{formatDateToReadable(review.updatedAt)}</Text>
         <View className="py-2">
-          <StarRating
-            presetRating={review.rating}
-            isEditable={false}
-            isSmall={true}
-          />
+          <StarRating presetRating={review.rating} isEditable={false} isSmall />
         </View>
 
         <Text>{review.content}</Text>
