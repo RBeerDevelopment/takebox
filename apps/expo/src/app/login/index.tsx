@@ -5,7 +5,7 @@ import { Redirect } from "expo-router";
 import { useAuth, useOAuth } from "@clerk/clerk-expo";
 
 import EmailSignUp from "~/components/email-signup/email-signup";
-import { IconButton } from "../../components/icon-button";
+import { IconButton } from "../../components/icon-button/icon-button";
 import { appName } from "../../constants";
 import { useWarmUpBrowser } from "../../hooks/useWarmUpBrowser";
 
