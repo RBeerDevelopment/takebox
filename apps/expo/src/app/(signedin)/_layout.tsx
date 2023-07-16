@@ -5,10 +5,13 @@ import { Redirect, Stack, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { useDarkMode } from "~/hooks/use-dark-mode";
 import { TRPCProvider } from "../../utils/api";
 
 export default function SignedinLayout(): React.ReactElement {
   const router = useRouter();
+
+  const isDarkMode = useDarkMode();
 
   const auth = useAuth();
   if (!auth.isSignedIn) {
@@ -17,20 +20,27 @@ export default function SignedinLayout(): React.ReactElement {
 
   return (
     <TRPCProvider>
-      <SafeAreaProvider>
+      <SafeAreaProvider className="">
         <Stack
           screenOptions={{
             title: "Flavoury",
-            headerTintColor: "#000",
+            headerTintColor: isDarkMode ? "#fff" : "#000",
             headerTitleStyle: {
               fontWeight: "bold",
             },
+            headerStyle: {
+              backgroundColor: isDarkMode ? "#020617" : "#fff",
+            },
             headerRight: () => (
               <TouchableOpacity
-                className="rounded-full bg-white p-1"
+                className="rounded-full bg-white p-1 dark:bg-slate-950"
                 onPress={() => void router.push("/profile/modal")}
               >
-                <MaterialIcons name="person" size={24} color="black" />
+                <MaterialIcons
+                  name="person"
+                  size={24}
+                  color={isDarkMode ? "white" : "black"}
+                />
               </TouchableOpacity>
             ),
           }}
@@ -41,7 +51,11 @@ export default function SignedinLayout(): React.ReactElement {
               presentation: "modal",
               title: "Review",
               headerLeft: () => (
-                <Button title="Close" onPress={() => router.back()} />
+                <Button
+                  color={isDarkMode ? "#FF4FC4" : "#F191A8"}
+                  onPress={router.back}
+                  title="Close"
+                />
               ),
               headerRight: undefined,
             }}
@@ -52,7 +66,11 @@ export default function SignedinLayout(): React.ReactElement {
               presentation: "modal",
               title: "Profile",
               headerLeft: () => (
-                <Button title="Close" onPress={() => router.back()} />
+                <Button
+                  color={isDarkMode ? "#FF4FC4" : "#F191A8"}
+                  onPress={router.back}
+                  title="Close"
+                />
               ),
               headerRight: undefined,
             }}

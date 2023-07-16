@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import * as WebBrowser from "expo-web-browser";
+
 import { DetailRow } from "./detail-row";
 import { OpenClosedRow } from "./open-closed-row";
-
-import * as WebBrowser from "expo-web-browser";
+import { ThemeableText } from "./themeable/themable-text";
 
 interface Props {
   restaurant?: {
@@ -22,7 +23,7 @@ export function DetailSection(props: Props): React.ReactElement {
   if (!restaurant) return <></>;
   return (
     <View className="mx-6 my-4 flex flex-col">
-      <Text className="mb-4 text-lg font-bold">Details</Text>
+      <ThemeableText className="mb-4 text-lg font-bold ">Details</ThemeableText>
       <DetailRow
         iconName="map"
         text={restaurant?.formatted_address}
@@ -35,7 +36,9 @@ export function DetailSection(props: Props): React.ReactElement {
         <DetailRow
           iconName="google-maps"
           text="Google Maps"
-          onPress={() => void WebBrowser.openBrowserAsync(restaurant?.url || "")}
+          onPress={() =>
+            void WebBrowser.openBrowserAsync(restaurant?.url || "")
+          }
         />
       )}
 
@@ -43,7 +46,9 @@ export function DetailSection(props: Props): React.ReactElement {
         <DetailRow
           iconName="web"
           text="Website"
-          onPress={() => void WebBrowser.openBrowserAsync(restaurant?.website || "")}
+          onPress={() =>
+            void WebBrowser.openBrowserAsync(restaurant?.website || "")
+          }
         />
       )}
     </View>

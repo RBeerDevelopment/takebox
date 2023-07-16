@@ -1,9 +1,11 @@
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator } from "react-native";
+
+import { ThemeableView } from "./themeable/themable-view";
 
 export function LoadingIndicator() {
   return (
-    <View className="h-3/4 w-full items-center justify-center">
+    <ThemeableView className="mb-20 h-full w-full items-center justify-center">
       <ActivityIndicator />
-    </View>
+    </ThemeableView>
   );
 }

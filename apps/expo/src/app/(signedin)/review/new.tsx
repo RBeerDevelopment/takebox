@@ -1,9 +1,12 @@
 import React, { useReducer } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
 import { LoadingIndicator } from "~/components/loading-indicator";
+import { ThemeableText } from "~/components/themeable/themable-text";
+import { ThemeableView } from "~/components/themeable/themable-view";
+import { useDarkMode } from "~/hooks/use-dark-mode";
 import { StyledButton } from "../../../components/button";
 import { StyledTextInput } from "../../../components/inputs/styled-text-input";
 import { StarRating } from "../../../components/star-rating";
@@ -18,6 +21,8 @@ interface ReviewInput {
 export default function ReviewScreen(): React.ReactElement {
   const params = useLocalSearchParams();
   const { goBack } = useNavigation();
+
+  const isDarkMode = useDarkMode();
 
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
@@ -52,7 +57,7 @@ export default function ReviewScreen(): React.ReactElement {
   }
 
   return (
-    <View className="flex h-full w-full flex-col p-6">
+    <ThemeableView className="flex h-full w-full flex-col p-6">
       <StarRating
         onChangeRating={(rating) => dispatchReviewInput({ rating })}
       />
@@ -63,12 +68,12 @@ export default function ReviewScreen(): React.ReactElement {
       <View className="mb-4 flex flex-row items-center">
         <BouncyCheckbox
           onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
-          fillColor="#F191A8"
+          fillColor={isDarkMode ? "#FF4FC4" : "#F191A8"}
         />
-        <Text className="-ml-2 text-lg">Takeout</Text>
+        <ThemeableText className="-ml-2 text-lg">Takeout</ThemeableText>
       </View>
 
       <StyledButton colorful text="Save" onPress={saveReview} />
-    </View>
+    </ThemeableView>
   );
 }

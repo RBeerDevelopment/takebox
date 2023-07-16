@@ -1,10 +1,10 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Redirect } from "expo-router";
 import { useAuth, useOAuth } from "@clerk/clerk-expo";
 
-import EmailSignUp from "~/components/email-signup/email-signup";
+import { ThemeableText } from "~/components/themeable/themable-text";
 import { IconButton } from "../../components/icon-button/icon-button";
 import { appName } from "../../constants";
 import { useWarmUpBrowser } from "../../hooks/useWarmUpBrowser";
@@ -57,10 +57,10 @@ const SignInWithOAuth = () => {
 
   return (
     <SafeAreaView className="flex h-full flex-col bg-primary px-4">
-      <Text className="w-full pt-8 text-center text-3xl capitalize text-white">{`Sign in to use ${appName}`}</Text>
-      <Text className="w-full px-6 py-8 text-center text-lg text-gray-200">
+      <ThemeableText className="w-full pt-8 text-center text-3xl capitalize">{`Sign in to use ${appName}`}</ThemeableText>
+      <ThemeableText className="w-full px-6 py-8 text-center text-lg text-gray-200">
         After this you can start exploring the culinary delights around you.
-      </Text>
+      </ThemeableText>
       {/* Disable email sign up for now */}
       {/* <EmailSignUp /> */}
       <View>

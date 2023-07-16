@@ -1,12 +1,14 @@
 import React from "react";
-
-import { Text, View } from "react-native";
-import { useSearchParams, Stack, Link } from "expo-router";
-import { useGeneralStore } from "../../../state";
-import { ErrorMessage } from "../../../components/error-message";
+import { View } from "react-native";
+import { Link, Stack, useSearchParams } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
-import { useSearch } from "../../../hooks/use-search";
+
+import { ThemeableText } from "~/components/themeable/themable-text";
+import { ThemeableView } from "~/components/themeable/themable-view";
+import { ErrorMessage } from "../../../components/error-message";
 import { SearchResultsSkeleton } from "../../../components/skeleton";
+import { useSearch } from "../../../hooks/use-search";
+import { useGeneralStore } from "../../../state";
 
 export default function SearchScreen() {
   const location = useGeneralStore((state) => state.location);
@@ -30,20 +32,24 @@ export default function SearchScreen() {
   }
 
   return (
-    <View className="h-full w-full">
+    <ThemeableView className="h-full w-full">
       <Stack.Screen options={{ title: "Search" }} />
       <FlashList
         data={restaurants}
         renderItem={({ item }) => (
           <Link href={`/details/${item.googleId}`} key={item.googleId}>
             <View className="w-full flex-col p-4">
-              <Text className="text-lg font-bold">{item.name}</Text>
-              <Text className="text-md">{item.address}</Text>
+              <ThemeableText className="text-lg font-bold dark:text-white">
+                {item.name}
+              </ThemeableText>
+              <ThemeableText className="text-md dark:text-white">
+                {item.address}
+              </ThemeableText>
             </View>
           </Link>
         )}
         estimatedItemSize={280}
       />
-    </View>
+    </ThemeableView>
   );
 }

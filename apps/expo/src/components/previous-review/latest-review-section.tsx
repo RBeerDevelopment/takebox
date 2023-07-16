@@ -1,10 +1,11 @@
 import React from "react";
-import { Text, View } from "react-native";
 import { Link } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
 import { api } from "~/utils/api";
 import { Skeleton } from "../skeleton/skeleton";
+import { ThemeableText } from "../themeable/themable-text";
+import { ThemeableView } from "../themeable/themable-view";
 import { LatestReviewSummary } from "./latest-review-summary";
 
 export function LatestReviewSection(): React.ReactElement {
@@ -18,17 +19,22 @@ export function LatestReviewSection(): React.ReactElement {
 
   if (isError || reviews.length === 0) return <></>;
   return (
-    <View className="flex h-[78vh] w-full flex-col p-4">
-      <Text className="pb-2 font-bold">Latest Reviews</Text>
+    <ThemeableView className="flex h-[78vh] w-full flex-col p-4">
+      <ThemeableText className="pb-2 font-bold dark:text-white">
+        Latest Reviews
+      </ThemeableText>
       <FlashList
         data={reviews}
         renderItem={({ item }) => (
-          <Link href={`/details/${item.restaurant.googleId}`}>
+          <Link
+            className="w-full"
+            href={`/details/${item.restaurant.googleId}`}
+          >
             <LatestReviewSummary review={item} />
           </Link>
         )}
         estimatedItemSize={280}
       />
-    </View>
+    </ThemeableView>
   );
 }
