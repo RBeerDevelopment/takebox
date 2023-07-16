@@ -20,7 +20,7 @@ export default function SignedinLayout(): React.ReactElement {
       <SafeAreaProvider>
         <Stack
           screenOptions={{
-            title: "TakeBox",
+            title: "Flavoury",
             headerTintColor: "#000",
             headerTitleStyle: {
               fontWeight: "bold",

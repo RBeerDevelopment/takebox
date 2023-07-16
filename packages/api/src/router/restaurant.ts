@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
+import { fetchNearbyRestaurants } from "../google-maps/search";
 import { buildRestaurantSearchQuery } from "../helper/build-restaurant-search-query";
 import { uploadImageBlob } from "../s3/upload-image-blob";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -20,19 +21,16 @@ export const restaurantRouter = createTRPCRouter({
       const { query, lat, lng } = input;
 
       const dbQuery = buildRestaurantSearchQuery(query, lat, lng);
+      const [restaurantsFromGoogle] = await Promise.all([
+        fetchNearbyRestaurants(query, lat, lng),
+      ]);
 
-      return await ctx.prisma.restaurant.findMany(dbQuery);
-      // const [restaurantsInDb, restaurantsFromGoogle] = await Promise.all([
-      //   ctx.prisma.restaurant.findMany(dbQuery),
-      //   fetchNearbyRestaurants(query, lat, lng),
-      // ]);
+      await ctx.prisma.restaurant.createMany({
+        skipDuplicates: true,
+        data: [...restaurantsFromGoogle],
+      });
 
-      // await ctx.prisma.restaurant.createMany({
-      //   skipDuplicates: true,
-      //   data: [...restaurantsFromGoogle],
-      // });
-
-      // return restaurantsFromGoogle;
+      return restaurantsFromGoogle;
     }),
   getRestaurantDetails: protectedProcedure
     .input(

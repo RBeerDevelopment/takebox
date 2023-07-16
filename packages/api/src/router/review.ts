@@ -25,7 +25,12 @@ export const reviewRouter = createTRPCRouter({
         },
       });
 
-      return result;
+      const response = {
+        averageRating: result?._avg?.rating ? result._avg.rating / 2 : null,
+        reviewCount: result?._count?.rating || null,
+      };
+
+      return response;
     }),
 
   postReview: protectedProcedure
@@ -35,14 +40,14 @@ export const reviewRouter = createTRPCRouter({
         rating: z.number().min(1).max(10).step(1),
         content: z.string().min(5),
         foods: z.array(z.string()).optional(),
-        isPrivate: z.boolean(),
+        isTakeout: z.boolean(),
       }),
     )
     .output(z.boolean())
     .mutation(async ({ input, ctx }) => {
       const { userId } = ctx.auth;
 
-      const { placeId, rating, content, foods, isPrivate } = input;
+      const { placeId, rating, content, foods, isTakeout } = input;
 
       const foodNames = foods || [];
 
@@ -50,7 +55,7 @@ export const reviewRouter = createTRPCRouter({
         data: {
           rating,
           content,
-          isPrivate,
+          isTakeout,
           foodName: {
             create: [
               ...foodNames.map((f) => ({

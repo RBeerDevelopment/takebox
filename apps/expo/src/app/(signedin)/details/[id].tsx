@@ -16,20 +16,14 @@ export default function DetailScreen() {
 
   useWarmUpBrowser();
 
-  const [restaurantResult, imageResult, reviewResult] = api.useQueries((t) => [
+  const [restaurantResult, imageResult] = api.useQueries((t) => [
     t.restaurant.getRestaurantDetails(
       { placeId: id as string },
-      { enabled: Boolean(id), staleTime: 60 * 1000 },
+      { enabled: Boolean(id), staleTime: 60 * 1000, refetchOnMount: false },
     ),
     t.restaurant.getImageUrl(
       { placeId: id as string },
-      { enabled: Boolean(id), staleTime: Infinity },
-    ),
-    t.review.reviewSummary(
-      {
-        placeId: id as string,
-      },
-      { enabled: Boolean(id), staleTime: Infinity },
+      { enabled: Boolean(id), staleTime: Infinity, refetchOnMount: false },
     ),
   ]);
 
@@ -42,8 +36,6 @@ export default function DetailScreen() {
   }
 
   const restaurant = restaurantResult.data;
-
-  const reviews = reviewResult.data;
 
   return (
     <ScrollView className="flex h-full w-full flex-col">
@@ -59,11 +51,7 @@ export default function DetailScreen() {
         />
       </View>
       <DetailSection restaurant={restaurant} />
-      <DetailReviewSection
-        restaurantId={Array.isArray(id) ? id[0] : id}
-        avgRating={reviews?._avg.rating}
-        ratingCount={reviews?._count.rating}
-      />
+      <DetailReviewSection restaurantId={Array.isArray(id) ? id[0] : id} />
     </ScrollView>
   );
 }

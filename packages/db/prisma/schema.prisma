@@ -3,7 +3,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol", "fullTextIndex", "fullTextSearch"]
+  previewFeatures = ["fullTextIndex", "fullTextSearch"]
 }
 
 datasource db {
@@ -56,7 +56,7 @@ model Review {
   rating       Int
   foodName     FoodName[]
   content      String
-  isPrivate    Boolean    @default(false)
+  isTakeout    Boolean    @default(false)
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
   user         User       @relation(fields: [userId], references: [id])
