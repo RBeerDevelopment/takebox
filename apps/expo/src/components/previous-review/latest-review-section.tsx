@@ -18,7 +18,7 @@ export function LatestReviewSection(): React.ReactElement {
 
   if (isError || reviews.length === 0) return <></>;
   return (
-    <View className="flex h-5/6 w-full flex-col p-4">
+    <View className="flex h-[78vh] w-full flex-col p-4">
       <Text className="pb-2 font-bold">Latest Reviews</Text>
       <FlashList
         data={reviews}

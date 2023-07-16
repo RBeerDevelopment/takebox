@@ -61,7 +61,8 @@ const SignInWithOAuth = () => {
       <Text className="w-full px-6 py-8 text-center text-lg text-gray-200">
         After this you can start exploring the culinary delights around you.
       </Text>
-      <EmailSignUp />
+      {/* Disable email sign up for now */}
+      {/* <EmailSignUp /> */}
       <View>
         <IconButton
           text="Sign in with Apple"

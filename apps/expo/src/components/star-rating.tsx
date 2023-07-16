@@ -16,7 +16,9 @@ interface Props {
 export function StarRating(props: Props): React.ReactElement {
   const { onChangeRating, isEditable = true, presetRating, isSmall } = props;
 
-  const [rating, setRating] = useState<number>(presetRating || 3);
+  const [rating, setRating] = useState<number>(
+    presetRating !== null && presetRating !== undefined ? presetRating : 3,
+  );
 
   const heightStyle = isSmall ? "justify-start" : "h-30 justify-center";
   return (

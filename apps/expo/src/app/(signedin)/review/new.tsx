@@ -57,16 +57,15 @@ export default function ReviewScreen(): React.ReactElement {
         onChangeRating={(rating) => dispatchReviewInput({ rating })}
       />
       <StyledTextInput
-        label="Review content"
         value={reviewInput.content}
         onChangeText={(content) => dispatchReviewInput({ content })}
       />
-      <View className="flex flex-row items-center">
+      <View className="mb-4 flex flex-row items-center">
         <BouncyCheckbox
           onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
           fillColor="#F191A8"
         />
-        <Text className="text-lg">Takeout</Text>
+        <Text className="-ml-2 text-lg">Takeout</Text>
       </View>
 
       <StyledButton colorful text="Save" onPress={saveReview} />

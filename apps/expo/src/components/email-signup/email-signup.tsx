@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useSignUp } from "@clerk/clerk-expo";
+import { useSignUp, useUser } from "@clerk/clerk-expo";
 
 export default function EmailSignUp() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -9,6 +9,10 @@ export default function EmailSignUp() {
   const [password, setPassword] = useState("");
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
+
+  const user = useUser();
+
+  console.log({ usersignedin: user.isSignedIn, user: user.user });
 
   // start the sign up process.
   const onSignUpPress = async () => {
@@ -92,7 +96,7 @@ export default function EmailSignUp() {
           </View>
           <TouchableOpacity
             className="mx-auto w-40 items-center justify-center rounded-md bg-white p-4"
-            onPress={void onPressVerify}
+            onPress={() => void onPressVerify()}
           >
             <Text>Verify Email</Text>
           </TouchableOpacity>

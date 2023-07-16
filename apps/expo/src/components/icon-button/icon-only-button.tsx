@@ -4,9 +4,9 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import Material from "@expo/vector-icons/MaterialIcons";
 
 interface Props {
-  iconFont: "fontisto" | "material";
+  iconFont?: "fontisto" | "material";
   onPress: () => void;
-  iconName?: string;
+  iconName: string;
   className?: string;
 }
 
