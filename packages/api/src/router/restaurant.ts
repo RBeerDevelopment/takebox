@@ -20,7 +20,7 @@ export const restaurantRouter = createTRPCRouter({
     .query(async ({ input, ctx }) => {
       const { query, lat, lng } = input;
 
-      const dbQuery = buildRestaurantSearchQuery(query, lat, lng);
+      const _dbQuery = buildRestaurantSearchQuery(query, lat, lng);
       const [restaurantsFromGoogle] = await Promise.all([
         fetchNearbyRestaurants(query, lat, lng),
       ]);

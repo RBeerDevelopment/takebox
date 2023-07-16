@@ -46,13 +46,6 @@ const defineConfig = () => ({
         locationAlwaysAndWhenInUsePermission: `Allow TakeBox to use your location, to show you restaurants near you.`,
       },
     ],
-    [
-      "expo-image-picker",
-      {
-        photosPermission:
-          "Pick a image from your camera roll as your profile picture.",
-      },
-    ],
   ],
 });
 
