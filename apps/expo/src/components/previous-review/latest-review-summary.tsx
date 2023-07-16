@@ -1,8 +1,10 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import { formatDateToReadable } from "~/utils/date-format";
 import { StarRating } from "../star-rating";
+import { ThemeableText } from "../themeable/themable-text";
+import { ThemeableView } from "../themeable/themable-view";
 
 interface ReviewSummary {
   content: string;
@@ -22,19 +24,23 @@ export function LatestReviewSummary(props: Props): React.ReactElement {
   const { review } = props;
 
   return (
-    <View>
-      <View className="flex flex-col justify-start p-2">
-        <Text className="-ml-1 text-lg font-semibold">
+    <View className="w-screen">
+      <ThemeableView className="flex flex-col justify-start p-2 dark:bg-slate-950">
+        <ThemeableText className="-ml-1 text-lg font-semibold dark:text-white">
           {review.restaurant.name}
-        </Text>
-        <Text>{formatDateToReadable(review.updatedAt)}</Text>
+        </ThemeableText>
+        <ThemeableText className="dark:text-white">
+          {formatDateToReadable(review.updatedAt)}
+        </ThemeableText>
         <View className="py-2">
           <StarRating presetRating={review.rating} isEditable={false} isSmall />
         </View>
 
-        <Text>{review.content}</Text>
-      </View>
-      <View className="mt-1 h-px w-full bg-gray-100" />
+        <ThemeableText className="dark:text-white">
+          {review.content}
+        </ThemeableText>
+      </ThemeableView>
+      <View className="mr-8 mt-1 h-px bg-gray-100 dark:bg-gray-700" />
     </View>
   );
 }

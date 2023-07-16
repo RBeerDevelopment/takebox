@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 
+import { useDarkMode } from "~/hooks/use-dark-mode";
 import { cn } from "~/utils";
 
 interface Props {
@@ -20,11 +21,17 @@ export function StyledButton(props: Props): React.ReactElement {
     colorful = false,
   } = props;
 
+  const isDarkMode = useDarkMode();
+
   return (
     <TouchableOpacity
       className={cn(
         `my-2 flex w-full items-center justify-center rounded-lg ${
-          colorful ? "bg-primary" : "bg-white"
+          colorful
+            ? isDarkMode
+              ? "bg-primary-dark"
+              : "bg-primary"
+            : "bg-transparent"
         } py-2`,
         buttonStyle,
       )}
@@ -32,7 +39,9 @@ export function StyledButton(props: Props): React.ReactElement {
     >
       <Text
         className={cn(
-          `text-lg capitalize ${colorful ? "text-white" : "text-black"}`,
+          `text-lg capitalize ${
+            colorful ? "text-white" : isDarkMode ? "text-white" : "text-black"
+          }`,
           textStyle,
         )}
       >

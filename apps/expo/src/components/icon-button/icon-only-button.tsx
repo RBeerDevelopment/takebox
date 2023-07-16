@@ -3,6 +3,8 @@ import { TouchableOpacity } from "react-native";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import Material from "@expo/vector-icons/MaterialIcons";
 
+import { useDarkMode } from "~/hooks/use-dark-mode";
+
 interface Props {
   iconFont?: "fontisto" | "material";
   onPress: () => void;
@@ -15,12 +17,14 @@ export function IconOnlyButton(props: Props): React.ReactElement {
 
   const IconComponent = iconFont === "fontisto" ? Fontisto : Material;
 
+  const isDarkMode = useDarkMode();
+
   return (
     <TouchableOpacity onPress={onPress}>
       <IconComponent
         className={className}
         onPress={onPress}
-        color="black"
+        color={isDarkMode ? "white" : "black"}
         size={24}
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
         name={iconName as any}

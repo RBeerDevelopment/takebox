@@ -1,8 +1,8 @@
 import React from "react";
-import { View } from "react-native";
 import { useRouter } from "expo-router";
 
 import { LatestReviewSection } from "~/components/previous-review/latest-review-section";
+import { ThemeableView } from "~/components/themeable/themable-view";
 import { SearchInput } from "../../components/search-input";
 
 export default function HomeScreen() {
@@ -11,7 +11,7 @@ export default function HomeScreen() {
   const router = useRouter();
 
   return (
-    <View className="flex h-full w-full flex-col items-center bg-white">
+    <ThemeableView className="flex h-full w-full flex-col items-center">
       <SearchInput
         placeholder="Search..."
         value={searchQuery}
@@ -21,6 +21,6 @@ export default function HomeScreen() {
         }}
       />
       <LatestReviewSection />
-    </View>
+    </ThemeableView>
   );
 }

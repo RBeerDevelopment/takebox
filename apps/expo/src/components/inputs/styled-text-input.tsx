@@ -1,5 +1,7 @@
 import React from "react";
-import { Text, TextInput } from "react-native";
+import { TextInput } from "react-native";
+
+import { ThemeableText } from "../themeable/themable-text";
 
 interface Props {
   value: string;
@@ -13,11 +15,13 @@ export function StyledTextInput(props: Props): React.ReactElement {
 
   return (
     <>
-      {label && <Text className="-mb-4 mt-4 text-lg">{label}</Text>}
+      {label && (
+        <ThemeableText className="-mb-4 mt-4 text-lg">{label}</ThemeableText>
+      )}
       <TextInput
         placeholder={placeholder}
         multiline={true}
-        className="border-1 my-4  h-16 w-full rounded-lg border border-gray-300 bg-white px-4"
+        className="border-1 px- my-4 h-16 w-full rounded-lg border border-gray-300 bg-white dark:border-gray-900 dark:bg-gray-900 dark:text-white"
         value={value}
         onChangeText={onChangeText}
       />

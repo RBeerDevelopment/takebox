@@ -1,8 +1,9 @@
 import React from "react";
-import { Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import { useUser } from "@clerk/clerk-expo";
 
 import { IconOnlyButton } from "../icon-button";
+import { ThemeableText } from "../themeable/themable-text";
 
 export function UsernameEdit(): React.ReactElement {
   const { user } = useUser();
@@ -29,9 +30,13 @@ export function UsernameEdit(): React.ReactElement {
   let content = (
     <>
       {user?.username ? (
-        <Text className="px-2 py-4 text-xl font-bold">{user?.username}</Text>
+        <ThemeableText className="px-2 py-4 text-xl font-bold">
+          {user?.username}
+        </ThemeableText>
       ) : (
-        <Text className="px-2 py-4 text-xl italic text-gray-600">username</Text>
+        <ThemeableText className="px-2 py-4 text-xl italic text-gray-600">
+          username
+        </ThemeableText>
       )}
       <IconOnlyButton
         iconFont="material"
@@ -75,7 +80,9 @@ export function UsernameEdit(): React.ReactElement {
         {content}
       </View>
       {error ? (
-        <Text className="pb-4 text-sm italic text-red-800">{error}</Text>
+        <ThemeableText className="pb-4 text-sm italic text-red-800">
+          {error}
+        </ThemeableText>
       ) : null}
     </>
   );

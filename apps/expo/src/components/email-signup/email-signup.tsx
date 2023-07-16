@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { TextInput, TouchableOpacity, View } from "react-native";
 import { useSignUp, useUser } from "@clerk/clerk-expo";
+
+import { ThemeableText } from "../themeable/themable-text";
 
 export default function EmailSignUp() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -81,7 +83,7 @@ export default function EmailSignUp() {
             onPress={() => void onSignUpPress()}
             className="mx-auto w-40 items-center justify-center rounded-md bg-white p-4"
           >
-            <Text>Sign up</Text>
+            <ThemeableText>Sign up</ThemeableText>
           </TouchableOpacity>
         </View>
       )}
@@ -98,7 +100,7 @@ export default function EmailSignUp() {
             className="mx-auto w-40 items-center justify-center rounded-md bg-white p-4"
             onPress={() => void onPressVerify()}
           >
-            <Text>Verify Email</Text>
+            <ThemeableText>Verify Email</ThemeableText>
           </TouchableOpacity>
         </View>
       )}

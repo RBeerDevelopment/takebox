@@ -1,11 +1,12 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useRouter } from "expo-router";
 
 import { api } from "~/utils/api";
 import { StyledButton } from "./button";
 import { Skeleton } from "./skeleton/skeleton";
 import { StarRating } from "./star-rating";
+import { ThemeableText } from "./themeable/themable-text";
 
 interface Props {
   restaurantId?: string;
@@ -30,7 +31,9 @@ export function DetailReviewSection(props: Props): React.ReactElement {
   if (isLoading) {
     return (
       <View className="mx-6 flex flex-col">
-        <Text className="mb-1 text-lg font-bold">Reviews</Text>
+        <ThemeableText className="mb-1 text-lg font-bold">
+          Reviews
+        </ThemeableText>
         <Skeleton mods="h-6 my-2" />
         <Skeleton mods="h-6 my-2" />
         <Skeleton mods="h-6 my-2" />
@@ -41,10 +44,12 @@ export function DetailReviewSection(props: Props): React.ReactElement {
   if (isError || !reviews)
     return (
       <View className="mx-6 flex flex-col">
-        <Text className="mb-1 text-lg font-bold">Reviews</Text>
-        <Text className="mx-auto italic text-red-800">
+        <ThemeableText className="mb-1 text-lg font-bold">
+          Reviews
+        </ThemeableText>
+        <ThemeableText className="mx-auto italic text-red-800">
           Error loading reviews.
-        </Text>
+        </ThemeableText>
       </View>
     );
 
@@ -52,7 +57,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
 
   return (
     <View className="mx-6 flex flex-col">
-      <Text className="mb-1 text-lg font-bold">Reviews</Text>
+      <ThemeableText className="mb-1 text-lg font-bold">Reviews</ThemeableText>
       <StarRating
         onChangeRating={() =>
           router.push({
@@ -65,8 +70,11 @@ export function DetailReviewSection(props: Props): React.ReactElement {
       />
       {averageRating && reviewCount !== 0 && (
         <View className="flex flex-row justify-center py-2">
-          <Text className="font-bold">{averageRating}</Text>
-          <Text className="font-semibold"> ({reviewCount} reviews)</Text>
+          <ThemeableText className="font-bold">{averageRating}</ThemeableText>
+          <ThemeableText className="font-semibold">
+            {" "}
+            ({reviewCount} reviews)
+          </ThemeableText>
         </View>
       )}
 
@@ -79,7 +87,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
         }
         text="Add Review"
         buttonStyle="w-1/2 bg-transparent mx-auto"
-        textStyle="text-primary font-bold animate-ping"
+        textStyle="text-primary dark:text-primary-dark font-bold animate-ping"
       />
     </View>
   );

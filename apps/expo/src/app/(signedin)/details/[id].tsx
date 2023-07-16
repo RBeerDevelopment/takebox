@@ -9,6 +9,7 @@ import { DetailReviewSection } from "~/components/detail-review-section";
 import { DetailSection } from "~/components/detail-section";
 import { ErrorMessage } from "~/components/error-message";
 import { LoadingIndicator } from "~/components/loading-indicator";
+import { ThemeableView } from "~/components/themeable/themable-view";
 import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
 
 export default function DetailScreen() {
@@ -32,13 +33,17 @@ export default function DetailScreen() {
   }
 
   if (restaurantResult.isError) {
-    return <ErrorMessage text="Error while loading, try again." />;
+    return (
+      <ThemeableView>
+        <ErrorMessage text="Error while loading, try again." />
+      </ThemeableView>
+    );
   }
 
   const restaurant = restaurantResult.data;
 
   return (
-    <ScrollView className="flex h-full w-full flex-col">
+    <ScrollView className="flex h-full w-full flex-col dark:bg-slate-950">
       <Stack.Screen options={{ title: restaurant?.name }} />
 
       <View className="my-4 flex h-44 w-full items-center rounded-xl">
