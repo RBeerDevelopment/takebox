@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, StatusBar, TouchableOpacity } from "react-native";
+import { Button, StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Redirect, Stack, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";

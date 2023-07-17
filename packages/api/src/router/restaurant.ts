@@ -2,7 +2,6 @@ import { z } from "zod";
 
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
-import { fetchNearbyRestaurants } from "../google-maps/search";
 import { buildRestaurantSearchQuery } from "../helper/build-restaurant-search-query";
 import { uploadImageBlob } from "../s3/upload-image-blob";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
