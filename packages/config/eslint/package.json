@@ -1,5 +1,5 @@
 {
-  "name": "@acme/eslint-config",
+  "name": "@flavoury/eslint-config",
   "version": "0.1.0",
   "main": "index.js",
   "license": "MIT",
@@ -14,6 +14,6 @@
   },
   "devDependencies": {
     "eslint": "^8.42.0",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.6"
   }
 }

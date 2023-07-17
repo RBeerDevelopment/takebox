@@ -1,4 +1,5 @@
-import { type Prisma } from "@acme/db";
+import { type Prisma } from "@flavoury/db";
+
 import { generateBoundingBoxAsCoordinates } from "./generate-bounding-box-as-coordinates";
 
 export function buildRestaurantSearchQuery(

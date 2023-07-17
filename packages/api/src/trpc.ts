@@ -11,12 +11,11 @@ import type {
   SignedOutAuthObject,
 } from "@clerk/nextjs/api";
 import { getAuth } from "@clerk/nextjs/server";
+import { prisma } from "@flavoury/db";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
-
-import { prisma } from "@acme/db";
 
 /**
  * 1. CONTEXT
