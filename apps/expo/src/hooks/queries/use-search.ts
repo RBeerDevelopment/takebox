@@ -1,5 +1,5 @@
-import { api } from "../utils/api";
-import { smoothCoordinatePart } from "../utils/smooth-coordinate-part";
+import { api } from "../../utils/api";
+import { smoothCoordinatePart } from "../../utils/smooth-coordinate-part";
 
 export function useSearch(query?: string, lat?: number, lng?: number) {
   const roundedLat = smoothCoordinatePart(lat);

@@ -112,6 +112,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
           {ownReviews.map((review) => (
             <ReviewSummary
               review={review}
+              restaurantId={restaurantId || ""}
               key={review.updatedAt.toISOString()}
             />
           ))}

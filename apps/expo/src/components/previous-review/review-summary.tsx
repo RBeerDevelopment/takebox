@@ -1,14 +1,16 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 import { formatDateToReadable } from "~/utils/date-format";
+import { useDeleteReview } from "~/hooks/queries/use-delete-review";
 import { IconComponent } from "../icon-button/icon-component";
 import { StarRating } from "../star-rating";
 import { ThemeableText } from "../themeable/themable-text";
 import { ThemeableView } from "../themeable/themable-view";
 
 interface ReviewSummaryInput {
+  id: string;
   content: string;
   rating: number;
   restaurant: {
@@ -20,21 +22,27 @@ interface ReviewSummaryInput {
 
 interface Props {
   review: ReviewSummaryInput;
+  restaurantId?: string;
 }
 
 export function ReviewSummary(props: Props): React.ReactElement {
-  const { review } = props;
+  const { review, restaurantId } = props;
+
+  const deleteReview = useDeleteReview(restaurantId || "", review.id);
 
   function renderRightActions() {
     return (
-      <View className="flex h-full w-1/3 flex-col items-center justify-center bg-red-500 pr-4">
+      <TouchableOpacity
+        className="flex h-full w-1/3 flex-col items-center justify-center bg-red-500 pr-4"
+        onPress={deleteReview}
+      >
         <IconComponent
           iconName="delete"
           iconFont="material"
           iconColor="white"
         ></IconComponent>
         <Text className="pt-1 font-bold text-white">Delete</Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 

@@ -7,7 +7,7 @@ import { ThemeableText } from "~/components/themeable/themable-text";
 import { ThemeableView } from "~/components/themeable/themable-view";
 import { ErrorMessage } from "../../../components/error-message";
 import { SearchResultsSkeleton } from "../../../components/skeleton";
-import { useSearch } from "../../../hooks/use-search";
+import { useSearch } from "../../../hooks/queries/use-search";
 import { useGeneralStore } from "../../../state";
 
 export default function SearchScreen() {
