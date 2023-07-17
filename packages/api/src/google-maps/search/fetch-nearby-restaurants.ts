@@ -1,8 +1,9 @@
-import { type Restaurant as DbRestaurant } from "@acme/db";
-import { buildTextSearchUrl } from "./build-text-search-url";
+import { type Restaurant as DbRestaurant } from "@flavoury/db";
+
 import { request } from "../../helper/request";
-import { responseToRestaurant } from "./response-to-restaurant";
+import { buildTextSearchUrl } from "./build-text-search-url";
 import { type NearbyResponse } from "./nearby-response";
+import { responseToRestaurant } from "./response-to-restaurant";
 
 export type Restaurant = Omit<DbRestaurant, "id" | "createdAt" | "updatedAt">;
 

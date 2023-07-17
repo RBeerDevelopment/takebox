@@ -50,9 +50,9 @@
     "zustand": "^4.3.9"
   },
   "devDependencies": {
-    "@acme/api": "^0.1.0",
-    "@acme/eslint-config": "^0.1.0",
-    "@acme/tailwind-config": "^0.1.0",
+    "@flavoury/api": "^0.1.0",
+    "@flavoury/eslint-config": "^0.1.0",
+    "@flavoury/tailwind-config": "^0.1.0",
     "@babel/core": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
     "@babel/runtime": "^7.21.5",

@@ -8,7 +8,7 @@ importers:
 
   .:
     dependencies:
-      '@acme/eslint-config':
+      '@flavoury/eslint-config':
         specifier: ^0.1.0
         version: link:packages/config/eslint
       '@ianvs/prettier-plugin-sort-imports':
@@ -147,15 +147,6 @@ importers:
         specifier: ^4.3.9
         version: 4.3.9(react@18.2.0)
     devDependencies:
-      '@acme/api':
-        specifier: ^0.1.0
-        version: link:../../packages/api
-      '@acme/eslint-config':
-        specifier: ^0.1.0
-        version: link:../../packages/config/eslint
-      '@acme/tailwind-config':
-        specifier: ^0.1.0
-        version: link:../../packages/config/tailwind
       '@babel/core':
         specifier: ^7.21.8
         version: 7.21.8
@@ -168,6 +159,15 @@ importers:
       '@expo/config-plugins':
         specifier: ^6.0.2
         version: 6.0.2
+      '@flavoury/api':
+        specifier: ^0.1.0
+        version: link:../../packages/api
+      '@flavoury/eslint-config':
+        specifier: ^0.1.0
+        version: link:../../packages/config/eslint
+      '@flavoury/tailwind-config':
+        specifier: ^0.1.0
+        version: link:../../packages/config/tailwind
       '@types/babel__core':
         specifier: ^7.20.0
         version: 7.20.0
@@ -195,18 +195,18 @@ importers:
 
   apps/nextjs:
     dependencies:
-      '@acme/api':
-        specifier: ^0.1.0
-        version: link:../../packages/api
-      '@acme/db':
-        specifier: ^0.1.0
-        version: link:../../packages/db
-      '@acme/tailwind-config':
-        specifier: '*'
-        version: link:../../packages/config/tailwind
       '@clerk/nextjs':
         specifier: ^4.21.8
         version: 4.21.8(next@13.4.10)(react-dom@18.2.0)(react@18.2.0)
+      '@flavoury/api':
+        specifier: ^0.1.0
+        version: link:../../packages/api
+      '@flavoury/db':
+        specifier: ^0.1.0
+        version: link:../../packages/db
+      '@flavoury/tailwind-config':
+        specifier: '*'
+        version: link:../../packages/config/tailwind
       '@t3-oss/env-nextjs':
         specifier: ^0.4.1
         version: 0.4.1(typescript@5.1.6)(zod@3.21.4)
@@ -247,7 +247,7 @@ importers:
         specifier: ^3.21.4
         version: 3.21.4
     devDependencies:
-      '@acme/eslint-config':
+      '@flavoury/eslint-config':
         specifier: ^0.1.0
         version: link:../../packages/config/eslint
       '@types/node':
@@ -283,12 +283,12 @@ importers:
 
   packages/api:
     dependencies:
-      '@acme/db':
-        specifier: ^0.1.0
-        version: link:../db
       '@aws-sdk/client-s3':
         specifier: ^3.367.0
         version: 3.367.0
+      '@flavoury/db':
+        specifier: ^0.1.0
+        version: link:../db
       '@trpc/client':
         specifier: ^10.27.1
         version: 10.27.1(@trpc/server@10.27.1)
@@ -302,7 +302,7 @@ importers:
         specifier: ^3.21.4
         version: 3.21.4
     devDependencies:
-      '@acme/eslint-config':
+      '@flavoury/eslint-config':
         specifier: ^0.1.0
         version: link:../config/eslint
       eslint:
