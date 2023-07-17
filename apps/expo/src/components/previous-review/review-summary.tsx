@@ -68,7 +68,6 @@ export function ReviewSummary(props: Props): React.ReactElement {
             {review.content}
           </ThemeableText>
         </ThemeableView>
-        {/* <View className="mr-8 mt-1 h-px bg-gray-100 dark:bg-gray-700" /> */}
       </Swipeable>
     </View>
   );
