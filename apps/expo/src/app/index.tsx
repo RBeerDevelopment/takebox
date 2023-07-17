@@ -1,5 +1,7 @@
-import { SignedIn, SignedOut } from "@clerk/clerk-expo";
 import { Redirect } from "expo-router";
+import { SignedIn, SignedOut } from "@clerk/clerk-expo";
+
+import "react-native-gesture-handler";
 
 export default function InitialScreen() {
   return (
