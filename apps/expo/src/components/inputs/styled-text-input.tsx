@@ -21,7 +21,7 @@ export function StyledTextInput(props: Props): React.ReactElement {
       <TextInput
         placeholder={placeholder}
         multiline={true}
-        className="border-1 px- my-4 h-16 w-full rounded-lg border border-gray-300 bg-white dark:border-gray-900 dark:bg-gray-900 dark:text-white"
+        className="my-4 h-16 w-full rounded-lg bg-gray-200 p-2 dark:bg-gray-900 dark:text-white"
         value={value}
         onChangeText={onChangeText}
       />

@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 
 import { api } from "~/utils/api";
 import { StyledButton } from "./button";
+import { ReviewSummary } from "./previous-review/review-summary";
 import { Skeleton } from "./skeleton/skeleton";
 import { StarRating } from "./star-rating";
 import { ThemeableText } from "./themeable/themable-text";
@@ -17,16 +18,29 @@ export function DetailReviewSection(props: Props): React.ReactElement {
 
   const router = useRouter();
 
-  const {
-    data: reviews,
-    isLoading,
-    isError,
-  } = api.review.reviewSummary.useQuery(
-    {
-      placeId: restaurantId as string,
-    },
-    { enabled: Boolean(restaurantId), staleTime: Infinity },
-  );
+  const [reviewSummaryQuery, ownReviewsQuery] = api.useQueries((t) => [
+    t.review.reviewSummary(
+      {
+        placeId: restaurantId as string,
+      },
+      {
+        enabled: Boolean(restaurantId),
+        staleTime: Infinity,
+        refetchOnMount: false,
+      },
+    ),
+    t.review.ownReviewsForRestaurant(
+      { restaurantId: restaurantId || "" },
+      {
+        enabled: Boolean(restaurantId),
+        staleTime: Infinity,
+        refetchOnMount: false,
+      },
+    ),
+  ]);
+
+  const isLoading = reviewSummaryQuery.isLoading || ownReviewsQuery.isLoading;
+  const isError = reviewSummaryQuery.isError || ownReviewsQuery.isError;
 
   if (isLoading) {
     return (
@@ -41,7 +55,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
     );
   }
 
-  if (isError || !reviews)
+  if (isError || !reviewSummaryQuery.data || !ownReviewsQuery.data)
     return (
       <View className="mx-6 flex flex-col">
         <ThemeableText className="mb-1 text-lg font-bold">
@@ -53,10 +67,11 @@ export function DetailReviewSection(props: Props): React.ReactElement {
       </View>
     );
 
-  const { averageRating, reviewCount } = reviews;
+  const { averageRating, reviewCount } = reviewSummaryQuery.data;
+  const ownReviews = ownReviewsQuery.data;
 
   return (
-    <View className="mx-6 flex flex-col">
+    <View className="mx-6 mb-10 flex flex-col">
       <ThemeableText className="mb-1 text-lg font-bold">Reviews</ThemeableText>
       <StarRating
         onChangeRating={() =>
@@ -70,14 +85,15 @@ export function DetailReviewSection(props: Props): React.ReactElement {
       />
       {averageRating && reviewCount !== 0 && (
         <View className="flex flex-row justify-center py-2">
-          <ThemeableText className="font-bold">{averageRating}</ThemeableText>
-          <ThemeableText className="font-semibold">
+          <ThemeableText className="text-lg font-bold">
+            {averageRating}
+          </ThemeableText>
+          <ThemeableText className="text-lg font-semibold">
             {" "}
             ({reviewCount} reviews)
           </ThemeableText>
         </View>
       )}
-
       <StyledButton
         onPress={() =>
           router.push({
@@ -89,6 +105,18 @@ export function DetailReviewSection(props: Props): React.ReactElement {
         buttonStyle="w-1/2 bg-transparent mx-auto"
         textStyle="text-primary dark:text-primary-dark font-bold animate-ping"
       />
+
+      {ownReviews.length > 0 && (
+        <>
+          <ThemeableText className="mb-1 font-bold">My reviews</ThemeableText>
+          {ownReviews.map((review) => (
+            <ReviewSummary
+              review={review}
+              key={review.updatedAt.toISOString()}
+            />
+          ))}
+        </>
+      )}
     </View>
   );
 }

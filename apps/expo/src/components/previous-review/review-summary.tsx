@@ -6,7 +6,7 @@ import { StarRating } from "../star-rating";
 import { ThemeableText } from "../themeable/themable-text";
 import { ThemeableView } from "../themeable/themable-view";
 
-interface ReviewSummary {
+interface ReviewSummaryInput {
   content: string;
   rating: number;
   restaurant: {
@@ -17,10 +17,10 @@ interface ReviewSummary {
 }
 
 interface Props {
-  review: ReviewSummary;
+  review: ReviewSummaryInput;
 }
 
-export function LatestReviewSummary(props: Props): React.ReactElement {
+export function ReviewSummary(props: Props): React.ReactElement {
   const { review } = props;
 
   return (

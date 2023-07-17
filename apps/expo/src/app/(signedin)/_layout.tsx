@@ -3,15 +3,17 @@ import { Button, StatusBar, TouchableOpacity } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Redirect, Stack, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
-import { MaterialIcons } from "@expo/vector-icons";
 
+import { IconOnlyButton } from "~/components/icon-button";
 import { useDarkMode } from "~/hooks/use-dark-mode";
+import { usePrimaryColor } from "~/hooks/use-primary-color";
 import { TRPCProvider } from "../../utils/api";
 
 export default function SignedinLayout(): React.ReactElement {
   const router = useRouter();
 
   const isDarkMode = useDarkMode();
+  const primaryColor = usePrimaryColor();
 
   const auth = useAuth();
   if (!auth.isSignedIn) {
@@ -24,24 +26,21 @@ export default function SignedinLayout(): React.ReactElement {
         <Stack
           screenOptions={{
             title: "Flavoury",
-            headerTintColor: isDarkMode ? "#fff" : "#000",
+            headerTintColor: isDarkMode ? "white" : "black",
             headerTitleStyle: {
               fontWeight: "bold",
             },
             headerStyle: {
-              backgroundColor: isDarkMode ? "#020617" : "#fff",
+              backgroundColor: isDarkMode ? "black" : "white",
             },
             headerRight: () => (
-              <TouchableOpacity
-                className="rounded-full bg-white p-1 dark:bg-slate-950"
+              <IconOnlyButton
                 onPress={() => void router.push("/profile/modal")}
-              >
-                <MaterialIcons
-                  name="person"
-                  size={24}
-                  color={isDarkMode ? "white" : "black"}
-                />
-              </TouchableOpacity>
+                style="p-2"
+                iconName="person"
+                iconFont="material"
+                iconColor={isDarkMode ? "white" : "black"}
+              />
             ),
           }}
         >
@@ -52,7 +51,7 @@ export default function SignedinLayout(): React.ReactElement {
               title: "Review",
               headerLeft: () => (
                 <Button
-                  color={isDarkMode ? "#FF4FC4" : "#F191A8"}
+                  color={primaryColor}
                   onPress={router.back}
                   title="Close"
                 />
@@ -67,7 +66,7 @@ export default function SignedinLayout(): React.ReactElement {
               title: "Profile",
               headerLeft: () => (
                 <Button
-                  color={isDarkMode ? "#FF4FC4" : "#F191A8"}
+                  color={primaryColor}
                   onPress={router.back}
                   title="Close"
                 />
