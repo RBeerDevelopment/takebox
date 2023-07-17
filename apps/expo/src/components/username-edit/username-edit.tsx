@@ -61,13 +61,13 @@ export function UsernameEdit(): React.ReactElement {
         <IconOnlyButton
           iconFont="material"
           iconName="cancel"
-          className="pr-1"
+          style="pr-1"
           onPress={onCancel}
         />
         <IconOnlyButton
           iconFont="material"
           iconName="check"
-          className="px-2"
+          style="px-2"
           onPress={() => void onSaveUsername()}
         />
       </>

@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 import { Skeleton } from "../skeleton/skeleton";
 import { ThemeableText } from "../themeable/themable-text";
 import { ThemeableView } from "../themeable/themable-view";
-import { LatestReviewSummary } from "./latest-review-summary";
+import { ReviewSummary } from "./review-summary";
 
 export function LatestReviewSection(): React.ReactElement {
   const {
@@ -30,7 +30,7 @@ export function LatestReviewSection(): React.ReactElement {
             className="w-full"
             href={`/details/${item.restaurant.googleId}`}
           >
-            <LatestReviewSummary review={item} />
+            <ReviewSummary review={item} />
           </Link>
         )}
         estimatedItemSize={280}

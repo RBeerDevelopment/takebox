@@ -6,10 +6,13 @@ interface Props {
   mods?: string;
 }
 export function Skeleton(props: Props) {
-  const { mods } = props;
+  const { mods = "" } = props;
   return (
     <View
-      className={cn("w-full animate-pulse rounded-md bg-[#dadada]", mods || "")}
+      className={cn(
+        "w-full animate-pulse rounded-md bg-[#dadada] dark:bg-[#333]",
+        mods,
+      )}
     />
   );
 }

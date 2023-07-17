@@ -6,7 +6,7 @@ import { useLocalSearchParams, useNavigation } from "expo-router";
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { ThemeableText } from "~/components/themeable/themable-text";
 import { ThemeableView } from "~/components/themeable/themable-view";
-import { useDarkMode } from "~/hooks/use-dark-mode";
+import { usePrimaryColor } from "~/hooks/use-primary-color";
 import { StyledButton } from "../../../components/button";
 import { StyledTextInput } from "../../../components/inputs/styled-text-input";
 import { StarRating } from "../../../components/star-rating";
@@ -22,7 +22,7 @@ export default function ReviewScreen(): React.ReactElement {
   const params = useLocalSearchParams();
   const { goBack } = useNavigation();
 
-  const isDarkMode = useDarkMode();
+  const primaryColor = usePrimaryColor();
 
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
@@ -68,7 +68,7 @@ export default function ReviewScreen(): React.ReactElement {
       <View className="mb-4 flex flex-row items-center">
         <BouncyCheckbox
           onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
-          fillColor={isDarkMode ? "#FF4FC4" : "#F191A8"}
+          fillColor={primaryColor}
         />
         <ThemeableText className="-ml-2 text-lg">Takeout</ThemeableText>
       </View>
