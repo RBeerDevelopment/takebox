@@ -138,7 +138,6 @@ export const reviewRouter = createTRPCRouter({
 
       return reviews;
     }),
-
   ownReviewsForRestaurant: protectedProcedure
     .input(z.object({ restaurantId: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -172,5 +171,20 @@ export const reviewRouter = createTRPCRouter({
       });
 
       return reviews;
+    }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { prisma, auth } = ctx;
+      const { id } = input;
+
+      const review = await prisma.review.findUnique({ where: { id } });
+
+      if (!review) throw new Error("Review not found");
+      if (review.userId !== auth.userId) throw new Error("Unauthorized");
+
+      await prisma.review.delete({ where: { id } });
+
+      return;
     }),
 });
