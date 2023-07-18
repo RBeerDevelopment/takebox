@@ -2,8 +2,9 @@ import React from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Redirect } from "expo-router";
-import { useAuth, useOAuth } from "@clerk/clerk-expo";
+import { useAuth, useOAuth, useUser } from "@clerk/clerk-expo";
 
+import { api } from "~/utils/api";
 import { ThemeableText } from "~/components/themeable/themable-text";
 import { IconButton } from "../../components/icon-button/icon-button";
 import { appName } from "../../constants";
@@ -16,6 +17,16 @@ const SignInWithOAuth = () => {
   // const googleSignIn = useOAuth({ strategy: "oauth_google" });
 
   const { isSignedIn } = useAuth();
+  const { user } = useUser();
+
+  // const upsertUser = api.user.upsert.useMutation();
+
+  // React.useEffect(() => {
+  //   console.log("useEffect ran");
+  //   if (!user) return;
+
+  //   upsertUser.mutate({ username: user.username || undefined });
+  // }, [user, upsertUser]);
 
   // const handleSignInWithGoogle = React.useCallback(async () => {
   //   try {
