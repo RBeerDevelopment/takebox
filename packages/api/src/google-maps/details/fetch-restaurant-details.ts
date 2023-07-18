@@ -1,5 +1,7 @@
 import { z } from "zod";
+
 import { request } from "../../helper/request";
+import { GooglePlacesApi, trackGooglePlacesUsage } from "../../redis";
 import { buildDetailUrl } from "./build-detail-url";
 
 const placeDetailResponse = z.object({
@@ -17,9 +19,6 @@ const placeDetailResponse = z.object({
         ),
       })
       .optional(),
-    formatted_address: z.string(),
-    name: z.string(),
-    price_level: z.number().min(0).max(4).optional(),
     url: z.string().url(),
     website: z.string().url().optional(),
   }),
@@ -31,6 +30,7 @@ export async function fetchRestaurantDetails(placeId: string) {
   const url = buildDetailUrl(placeId);
   if (!url) return;
 
+  void trackGooglePlacesUsage(GooglePlacesApi.Detail);
   const resp = await request<PlaceDetailResponse>(url.toString());
 
   return placeDetailResponse.parse(resp).result;

@@ -11,6 +11,7 @@ import { ErrorMessage } from "~/components/error-message";
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { ThemeableView } from "~/components/themeable/themable-view";
 import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
+import { type Restaurant } from ".prisma/client";
 
 export default function DetailScreen() {
   const { id } = useSearchParams();

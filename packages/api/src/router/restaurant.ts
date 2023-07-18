@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { type Restaurant } from "@flavoury/db";
+
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
 import { fetchNearbyRestaurants } from "../google-maps/search";
@@ -38,10 +40,32 @@ export const restaurantRouter = createTRPCRouter({
         placeId: z.string(),
       }),
     )
-    .query(async ({ input }) => {
-      const { placeId } = input;
 
-      const restaurantDetails = await fetchRestaurantDetails(placeId);
+    .query(async ({ input, ctx }) => {
+      const { placeId } = input;
+      const { prisma } = ctx;
+
+      const restaurantInDb = await prisma.restaurant.findUnique({
+        where: { googleId: placeId },
+      });
+
+      console.log({ restaurantInDb });
+      if (
+        restaurantInDb &&
+        (restaurantInDb.websiteUrl || restaurantInDb.googleUrl)
+      )
+        return restaurantInDb;
+
+      const fetchedDetails = await fetchRestaurantDetails(placeId);
+      if (!fetchedDetails) return;
+
+      const restaurantDetails = await prisma.restaurant.update({
+        where: { googleId: placeId },
+        data: {
+          websiteUrl: fetchedDetails.website,
+          googleUrl: fetchedDetails.url,
+        },
+      });
 
       return restaurantDetails;
     }),
@@ -70,7 +94,7 @@ export const restaurantRouter = createTRPCRouter({
 
         imageUrl = await uploadImageBlob(image, restaurantInDb.googleId);
 
-        void ctx.prisma.restaurant.update({
+        await ctx.prisma.restaurant.update({
           where: { googleId: restaurantInDb.googleId },
           data: { imageUrl: imageUrl },
         });
