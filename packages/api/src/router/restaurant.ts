@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-import { type Restaurant } from "@flavoury/db";
-
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
 import { fetchNearbyRestaurants } from "../google-maps/search";
