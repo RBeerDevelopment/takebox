@@ -2,6 +2,8 @@ import React from "react";
 import { TextInput, View } from "react-native";
 import { useUser } from "@clerk/clerk-expo";
 
+import { api } from "~/utils/api";
+import { useDarkMode } from "~/hooks/use-dark-mode";
 import { IconOnlyButton } from "../icon-button";
 import { ThemeableText } from "../themeable/themable-text";
 
@@ -12,12 +14,17 @@ export function UsernameEdit(): React.ReactElement {
   const [username, setUsername] = React.useState(user?.username || "");
   const [error, setError] = React.useState<string>();
 
+  const { mutate: upsertUser } = api.user.upsert.useMutation();
+
+  const isDarkMode = useDarkMode();
+
   async function onSaveUsername() {
     try {
       await user?.update({ username });
       setUsernameEditMode(false);
+      upsertUser({ username });
     } catch (err: unknown) {
-      setError("Username already taken.");
+      setError((err as { message: string }).message);
     }
   }
 
@@ -41,6 +48,7 @@ export function UsernameEdit(): React.ReactElement {
       <IconOnlyButton
         iconFont="material"
         iconName="edit"
+        iconColor={isDarkMode ? "white" : "black"}
         onPress={() => setUsernameEditMode(true)}
       />
     </>
@@ -50,7 +58,7 @@ export function UsernameEdit(): React.ReactElement {
     content = (
       <>
         <TextInput
-          className="px-2 py-4 text-xl font-bold"
+          className="px-2 py-4 text-xl font-bold text-black dark:text-white"
           placeholder="username"
           value={username}
           onChangeText={setUsername}
@@ -62,12 +70,14 @@ export function UsernameEdit(): React.ReactElement {
           iconFont="material"
           iconName="cancel"
           style="pr-1"
+          iconColor={isDarkMode ? "white" : "black"}
           onPress={onCancel}
         />
         <IconOnlyButton
           iconFont="material"
           iconName="check"
           style="px-2"
+          iconColor={isDarkMode ? "white" : "black"}
           onPress={() => void onSaveUsername()}
         />
       </>

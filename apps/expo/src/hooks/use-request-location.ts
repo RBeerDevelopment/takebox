@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import {
-  requestForegroundPermissionsAsync,
   getCurrentPositionAsync,
+  requestForegroundPermissionsAsync,
 } from "expo-location";
-import { useGeneralStore } from "../state";
+
+import { useLocationStore } from "../state";
 
 export function useRequestLocation() {
-  const setLocation = useGeneralStore((state) => state.setLocation);
+  const setLocation = useLocationStore((state) => state.setLocation);
   useEffect(() => {
     void (async () => {
       try {

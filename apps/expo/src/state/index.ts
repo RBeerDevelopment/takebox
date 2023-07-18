@@ -1,1 +1,1 @@
-export { useGeneralStore } from "./general";
+export { useLocationStore } from "./location";

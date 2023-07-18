@@ -5,6 +5,7 @@ import { Redirect, Stack, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 
 import { IconOnlyButton } from "~/components/icon-button";
+import { UsernameHandler } from "~/components/username-handler";
 import { useDarkMode } from "~/hooks/use-dark-mode";
 import { usePrimaryColor } from "~/hooks/use-primary-color";
 import { TRPCProvider } from "../../utils/api";
@@ -76,6 +77,7 @@ export default function SignedinLayout(): React.ReactElement {
           />
         </Stack>
         <StatusBar />
+        <UsernameHandler />
       </SafeAreaProvider>
     </TRPCProvider>
   );

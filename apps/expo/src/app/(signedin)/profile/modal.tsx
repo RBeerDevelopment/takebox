@@ -24,7 +24,6 @@ export default function ProfileModal(): React.ReactElement {
         />
       ) : null}
       <UsernameEdit />
-
       <ThemeableText>{user?.primaryEmailAddress?.emailAddress}</ThemeableText>
       <StyledButton
         buttonStyle="w-1/2 absolute bottom-16"

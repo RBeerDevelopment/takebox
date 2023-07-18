@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 import { formatDateToReadable } from "~/utils/date-format";
@@ -30,11 +30,26 @@ export function ReviewSummary(props: Props): React.ReactElement {
 
   const deleteReview = useDeleteReview(restaurantId || "", review.id);
 
+  function handleOnDelete() {
+    Alert.alert(
+      "Delete Review",
+      "Do you really want to delete this review? This cannot be undone.",
+      [
+        { text: "Delete", onPress: deleteReview },
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+      ],
+      { cancelable: true },
+    );
+  }
+
   function renderRightActions() {
     return (
       <TouchableOpacity
         className="flex h-full w-1/3 flex-col items-center justify-center bg-red-500 pr-4"
-        onPress={deleteReview}
+        onPress={handleOnDelete}
       >
         <IconComponent
           iconName="delete"

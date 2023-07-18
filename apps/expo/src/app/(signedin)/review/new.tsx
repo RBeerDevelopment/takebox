@@ -6,11 +6,11 @@ import { useLocalSearchParams, useNavigation } from "expo-router";
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { ThemeableText } from "~/components/themeable/themable-text";
 import { ThemeableView } from "~/components/themeable/themable-view";
+import { useCreateReview } from "~/hooks/queries/use-create-review";
 import { usePrimaryColor } from "~/hooks/use-primary-color";
 import { StyledButton } from "../../../components/button";
 import { StyledTextInput } from "../../../components/inputs/styled-text-input";
 import { StarRating } from "../../../components/star-rating";
-import { api } from "../../../utils/api";
 
 interface ReviewInput {
   rating: number;
@@ -26,7 +26,7 @@ export default function ReviewScreen(): React.ReactElement {
 
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  const postReview = api.review.postReview.useMutation();
+  const createReview = useCreateReview(id);
 
   const [reviewInput, dispatchReviewInput] = useReducer(
     (prevState: ReviewInput, newState: Partial<ReviewInput>) => {
@@ -42,17 +42,12 @@ export default function ReviewScreen(): React.ReactElement {
     },
   );
 
-  function saveReview() {
+  function handleCreateReview() {
     if (!id) return;
-    postReview.mutate(
-      { placeId: id, ...reviewInput },
-      {
-        onSuccess: goBack,
-      },
-    );
+    createReview.mutate({ placeId: id, ...reviewInput }, { onSuccess: goBack });
   }
 
-  if (postReview.isLoading) {
+  if (createReview.isLoading) {
     return <LoadingIndicator />;
   }
 
@@ -73,7 +68,7 @@ export default function ReviewScreen(): React.ReactElement {
         <ThemeableText className="-ml-2 text-lg">Takeout</ThemeableText>
       </View>
 
-      <StyledButton colorful text="Save" onPress={saveReview} />
+      <StyledButton colorful text="Save" onPress={handleCreateReview} />
     </ThemeableView>
   );
 }

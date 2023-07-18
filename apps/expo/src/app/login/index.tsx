@@ -17,23 +17,6 @@ const SignInWithOAuth = () => {
 
   const { isSignedIn } = useAuth();
 
-  // const handleSignInWithGoogle = React.useCallback(async () => {
-  //   try {
-  //     const { createdSessionId, setActive } =
-  //       await googleSignIn.startOAuthFlow();
-  //     if (createdSessionId && setActive) {
-  //       void setActive({ session: createdSessionId });
-  //     } else {
-  //       throw new Error(
-  //         "There are unmet requirements, modifiy this else to handle them",
-  //       );
-  //     }
-  //   } catch (err) {
-  //     console.log(JSON.stringify(err, null, 2));
-  //     console.log("error signing in", err);
-  //   }
-  // }, [googleSignIn]);
-
   const handleSignInWithApple = React.useCallback(async () => {
     try {
       const { createdSessionId, setActive } =

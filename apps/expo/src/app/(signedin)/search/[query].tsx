@@ -8,10 +8,10 @@ import { ThemeableView } from "~/components/themeable/themable-view";
 import { ErrorMessage } from "../../../components/error-message";
 import { SearchResultsSkeleton } from "../../../components/skeleton";
 import { useSearch } from "../../../hooks/queries/use-search";
-import { useGeneralStore } from "../../../state";
+import { useLocationStore } from "../../../state";
 
 export default function SearchScreen() {
-  const location = useGeneralStore((state) => state.location);
+  const location = useLocationStore((state) => state.location);
 
   const { query } = useSearchParams();
 
