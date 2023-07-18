@@ -40,8 +40,8 @@ export const restaurantRouter = createTRPCRouter({
         placeId: z.string(),
       }),
     )
-
     .query(async ({ input, ctx }) => {
+      //TODO periodially update restaurant details
       const { placeId } = input;
       const { prisma } = ctx;
 
