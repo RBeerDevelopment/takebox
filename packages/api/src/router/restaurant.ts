@@ -49,7 +49,6 @@ export const restaurantRouter = createTRPCRouter({
         where: { googleId: placeId },
       });
 
-      console.log({ restaurantInDb });
       if (
         restaurantInDb &&
         (restaurantInDb.websiteUrl || restaurantInDb.googleUrl)

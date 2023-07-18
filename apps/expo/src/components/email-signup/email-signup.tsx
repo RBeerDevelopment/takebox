@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TextInput, TouchableOpacity, View } from "react-native";
-import { useSignUp, useUser } from "@clerk/clerk-expo";
+import { useSignUp } from "@clerk/clerk-expo";
 
 import { ThemeableText } from "../themeable/themable-text";
 
@@ -11,10 +11,6 @@ export default function EmailSignUp() {
   const [password, setPassword] = useState("");
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
-
-  const user = useUser();
-
-  console.log({ usersignedin: user.isSignedIn, user: user.user });
 
   // start the sign up process.
   const onSignUpPress = async () => {
@@ -39,7 +35,6 @@ export default function EmailSignUp() {
 
   // This verifies the user using email code that is delivered.
   const onPressVerify = async () => {
-    console.log("onPressVerify", isLoaded);
     if (!isLoaded) {
       return;
     }
@@ -48,8 +43,6 @@ export default function EmailSignUp() {
       const completeSignUp = await signUp.attemptEmailAddressVerification({
         code,
       });
-
-      console.log("completeSignUp", completeSignUp);
 
       await setActive({ session: completeSignUp.createdSessionId });
     } catch (err: unknown) {

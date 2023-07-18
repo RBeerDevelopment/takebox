@@ -30,7 +30,6 @@ const SignInWithOAuth = () => {
       }
     } catch (err) {
       console.log(JSON.stringify(err, null, 2));
-      console.log("error signing in", err);
     }
   }, [appleSignIn]);
 
