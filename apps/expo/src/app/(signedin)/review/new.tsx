@@ -11,7 +11,6 @@ import { usePrimaryColor } from "~/hooks/use-primary-color";
 import { StyledButton } from "../../../components/button";
 import { StyledTextInput } from "../../../components/inputs/styled-text-input";
 import { StarRating } from "../../../components/star-rating";
-import { api } from "../../../utils/api";
 
 interface ReviewInput {
   rating: number;
