@@ -13,21 +13,42 @@ export const reviewRouter = createTRPCRouter({
 
       if (!restaurant) throw new Error("Restaurant not found");
 
-      const result = await ctx.prisma.review.aggregate({
-        _avg: {
-          rating: true,
-        },
-        _count: {
-          rating: true,
-        },
-        where: {
-          restaurantId: restaurant.id,
-        },
+      // TODO check if it's just calculate the summary from the ratingCounts here
+      const [summary, ratingCounts] = await Promise.all([
+        ctx.prisma.review.aggregate({
+          _avg: {
+            rating: true,
+          },
+          _count: {
+            rating: true,
+          },
+          where: {
+            restaurantId: restaurant.id,
+          },
+        }),
+        ctx.prisma.review.groupBy({
+          by: ["rating"],
+          where: {
+            restaurantId: restaurant.id,
+          },
+          _count: {
+            rating: true,
+          },
+        }),
+      ]);
+
+      const ratingCountMap = new Map<number, number>();
+
+      [...Array(10).keys()].forEach((i) => ratingCountMap.set(i, 0));
+
+      ratingCounts.forEach((r) => {
+        ratingCountMap.set(r.rating, r._count.rating);
       });
 
       const response = {
-        averageRating: result?._avg?.rating ? result._avg.rating / 2 : null,
-        reviewCount: result?._count?.rating || null,
+        averageRating: summary?._avg?.rating ? summary._avg.rating / 2 : null,
+        reviewCount: summary?._count?.rating || null,
+        ratingCounts: ratingCountMap,
       };
 
       return response;
