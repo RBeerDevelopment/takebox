@@ -1,6 +1,12 @@
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import {
+  emptyRatingCountMap,
+  possibleRatings,
+  type PossibleRating,
+  type RatingCountMap,
+} from "../utils/rating-count-map";
 
 export const reviewRouter = createTRPCRouter({
   reviewSummary: protectedProcedure
@@ -37,12 +43,13 @@ export const reviewRouter = createTRPCRouter({
         }),
       ]);
 
-      const ratingCountMap = new Map<number, number>();
+      // empty rating count map
+      const ratingCountMap: RatingCountMap = { ...emptyRatingCountMap };
 
-      [...Array(10).keys()].forEach((i) => ratingCountMap.set(i, 0));
-
-      ratingCounts.forEach((r) => {
-        ratingCountMap.set(r.rating, r._count.rating);
+      ratingCounts.forEach((ratingCount) => {
+        if (possibleRatings.includes(ratingCount.rating as PossibleRating))
+          ratingCountMap[ratingCount.rating as PossibleRating] =
+            ratingCount._count.rating;
       });
 
       const response = {

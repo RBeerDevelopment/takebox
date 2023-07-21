@@ -5,8 +5,8 @@ import { useRouter } from "expo-router";
 import { api } from "~/utils/api";
 import { StyledButton } from "./button";
 import { ReviewSummary } from "./previous-review/review-summary";
+import { ReviewGraph } from "./review-graph";
 import { Skeleton } from "./skeleton/skeleton";
-import { StarRating } from "./star-rating";
 import { ThemeableText } from "./themeable/themable-text";
 
 interface Props {
@@ -67,26 +67,18 @@ export function DetailReviewSection(props: Props): React.ReactElement {
       </View>
     );
 
-  const { averageRating, reviewCount } = reviewSummaryQuery.data;
+  const { averageRating, reviewCount, ratingCounts } = reviewSummaryQuery.data;
   const ownReviews = ownReviewsQuery.data;
 
   return (
     <View className="mx-6 mb-10 flex flex-col">
       <ThemeableText className="mb-1 text-lg font-bold">Reviews</ThemeableText>
-      <StarRating
-        onChangeRating={() =>
-          router.push({
-            pathname: "/review/new",
-            params: { id: restaurantId },
-          })
-        }
-        presetRating={averageRating ? Math.round(averageRating * 2) : 0}
-        isEditable={false}
-      />
+
+      <ReviewGraph reviewCounts={ratingCounts} />
       {averageRating && reviewCount !== 0 && (
         <View className="flex flex-row justify-center py-2">
           <ThemeableText className="text-lg font-bold">
-            {averageRating}
+            {averageRating?.toFixed(2)}
           </ThemeableText>
           <ThemeableText className="text-lg font-semibold">
             {" "}
