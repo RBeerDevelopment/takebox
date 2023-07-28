@@ -6,7 +6,7 @@ import Material from "@expo/vector-icons/MaterialIcons";
 interface Props {
   text: string;
   iconFont?: "fontisto" | "material";
-  onPress: () => void;
+  onPress?: () => void;
   iconName?: string;
 }
 

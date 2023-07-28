@@ -1,11 +1,12 @@
 import React from "react";
-
-import { ClerkProvider } from "@clerk/clerk-expo";
-import { tokenCache } from "../utils/cache";
-import Constants from "expo-constants";
-import { Slot } from "expo-router";
-import { useRequestLocation } from "../hooks/use-request-location";
+import { SafeAreaView } from "react-native";
 import Toast from "react-native-toast-message";
+import Constants from "expo-constants";
+import { Slot, Stack } from "expo-router";
+import { ClerkProvider } from "@clerk/clerk-expo";
+
+import { useRequestLocation } from "../hooks/use-request-location";
+import { tokenCache } from "../utils/cache";
 
 export default function App() {
   useRequestLocation();
@@ -13,10 +14,12 @@ export default function App() {
   return (
     <>
       <ClerkProvider
-        publishableKey={Constants.expoConfig?.extra?.CLERK_PUBLISHABLE_KEY as string}
+        publishableKey={
+          Constants.expoConfig?.extra?.CLERK_PUBLISHABLE_KEY as string
+        }
         tokenCache={tokenCache}
       >
-        <Slot />
+        <Stack />
       </ClerkProvider>
       <Toast />
     </>
