@@ -3,6 +3,7 @@ import { SafeAreaView, Text, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
 
 import { StyledButton } from "~/components/button";
+import EmailSignIn from "~/components/email-login/email-signin";
 import EmailSignUp from "~/components/email-login/email-signup";
 
 enum LoginType {
@@ -21,32 +22,56 @@ export default function Email(): React.ReactElement {
   let content = null;
   if (loginType === LoginType.SignUp) {
     content = (
-      <SafeAreaView className="bg-primary">
-        <View className="flex h-full flex-col bg-primary px-4">
-          <Stack.Screen options={{ header: () => null }} />
-          <EmailSignUp
-            emailAddress={emailAddress}
-            setEmailAddress={setEmailAddress}
-            password={password}
-            setPassword={setPassword}
-            setError={setError}
-          />
-          {error.length > 0 ? (
-            <Text className="w-full text-center text-lg italic text-white">
-              {error}
-            </Text>
-          ) : null}
-          <StyledButton onPress={() => void router.back()} text="Back" />
-        </View>
-      </SafeAreaView>
+      <>
+        <EmailSignUp
+          emailAddress={emailAddress}
+          setEmailAddress={setEmailAddress}
+          password={password}
+          setPassword={setPassword}
+          setError={setError}
+        />
+        {error.length > 0 ? (
+          <Text className="w-full text-center text-lg italic text-white">
+            {error}
+          </Text>
+        ) : null}
+        <StyledButton
+          onPress={() => setLoginType(LoginType.SignIn)}
+          text="Sign In instead"
+        />
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <EmailSignIn
+          emailAddress={emailAddress}
+          setEmailAddress={setEmailAddress}
+          password={password}
+          setPassword={setPassword}
+          setError={setError}
+        />
+        {error.length > 0 ? (
+          <Text className="w-full text-center text-lg italic text-white">
+            {error}
+          </Text>
+        ) : null}
+        <StyledButton
+          onPress={() => setLoginType(LoginType.SignUp)}
+          text="Sign Up instead"
+        />
+      </>
     );
   }
 
   return (
     <SafeAreaView className="bg-primary">
-      <View className="flex h-full flex-col bg-primary px-4">
+      <View className="flex h-full w-full flex-col items-center bg-primary">
         <Stack.Screen options={{ header: () => null }} />
         {content}
+        <View className="absolute bottom-6">
+          <StyledButton onPress={() => void router.back()} text="Back" />
+        </View>
       </View>
     </SafeAreaView>
   );

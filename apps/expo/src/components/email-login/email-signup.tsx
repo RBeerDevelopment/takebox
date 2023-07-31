@@ -4,18 +4,11 @@ import { useSignUp } from "@clerk/clerk-expo";
 
 import { StyledButton } from "../button";
 import { ThemeableText } from "../themeable/themable-text";
+import { type EmailLoginProps } from "./email-login-props";
 import { LoginInputField } from "./login-input-field";
 import { emailLoginSchema } from "./validation";
 
-interface Props {
-  emailAddress: string;
-  setEmailAddress: (email: string) => void;
-  password: string;
-  setPassword: (password: string) => void;
-  setError: (error: string) => void;
-}
-
-export default function EmailSignUp(props: Props) {
+export default function EmailSignUp(props: EmailLoginProps) {
   const { emailAddress, setEmailAddress, password, setPassword, setError } =
     props;
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -71,7 +64,7 @@ export default function EmailSignUp(props: Props) {
   };
 
   return (
-    <View className="mb-4">
+    <View className="mb-4 w-11/12">
       <ThemeableText className="w-full p-6 text-center text-xl font-semibold">
         Sign Up with Email
       </ThemeableText>
