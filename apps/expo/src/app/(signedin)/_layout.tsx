@@ -23,7 +23,7 @@ export default function SignedinLayout(): React.ReactElement {
 
   return (
     <TRPCProvider>
-      <SafeAreaProvider className="">
+      <SafeAreaProvider>
         <Stack
           screenOptions={{
             title: "Flavoury",
