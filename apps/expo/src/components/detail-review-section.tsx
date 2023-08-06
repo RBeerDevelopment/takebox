@@ -71,7 +71,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
   const ownReviews = ownReviewsQuery.data;
 
   return (
-    <View className="mx-6 mb-10 flex flex-col">
+    <View className="mx-4 mb-10 flex flex-col">
       <ThemeableText className="mb-1 text-lg font-bold">Reviews</ThemeableText>
 
       <ReviewGraph reviewCounts={ratingCounts} />

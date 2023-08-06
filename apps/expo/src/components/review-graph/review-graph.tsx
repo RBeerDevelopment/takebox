@@ -3,6 +3,8 @@ import { View } from "react-native";
 
 import { type RatingCountMap } from "@flavoury/api/src/utils/rating-count-map";
 
+import { ReviewGraphBar } from "./review-graph-bar";
+
 interface Props {
   reviewCounts: RatingCountMap;
 }
@@ -13,16 +15,10 @@ export function ReviewGraph(props: Props): React.ReactElement {
   const maxCount = Math.max(...Object.values(reviewCounts));
 
   return (
-    <View className="flex h-20 flex-row items-end justify-center gap-1">
+    <View className="mt-4 flex h-20 w-full flex-row items-end justify-center">
       {Object.values(reviewCounts).map((count, idx) => {
-        const height = (count / maxCount) * 95 + 1;
-        return (
-          <View
-            key={idx}
-            style={{ height: `${height}%` }}
-            className={`dark:bg-primary-dark w-[calc(7%)] bg-primary`}
-          />
-        );
+        const heightInPx = (count / maxCount) * 76 + 4;
+        return <ReviewGraphBar height={heightInPx} key={idx} />;
       })}
     </View>
   );
