@@ -24,7 +24,7 @@ const defineConfig = () => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: "beer.robin.takebox",
-    buildNumber: "7",
+    buildNumber: "8",
   },
   android: {
     adaptiveIcon: {
