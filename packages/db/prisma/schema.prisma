@@ -48,6 +48,7 @@ model User {
   reviews    Review[]
   followedBy User[]   @relation("UserFollows")
   following  User[]   @relation("UserFollows")
+  tags        Tag[]
 }
 
 model Review {
@@ -62,8 +63,21 @@ model Review {
   restaurantId String
   user         User       @relation(fields: [userId], references: [id])
   userId       String
+  tags          Tag[]
 
   @@index([restaurantId])
+  @@index([userId])
+}
+
+model Tag {
+  id       String @id @default(cuid())
+  name     String
+  review   Review @relation(fields: [reviewId], references: [id])
+  reviewId String
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+
+  @@index([reviewId])
   @@index([userId])
 }
 
