@@ -4,6 +4,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
 import { LoadingIndicator } from "~/components/loading-indicator";
+import { TagInput } from "~/components/tag-input/tag-input";
 import { ThemeableText } from "~/components/themeable/themable-text";
 import { ThemeableView } from "~/components/themeable/themable-view";
 import { useCreateReview } from "~/hooks/queries/use-create-review";
@@ -58,7 +59,14 @@ export default function ReviewScreen(): React.ReactElement {
       />
       <StyledTextInput
         value={reviewInput.content}
+        multiline
         onChangeText={(content) => dispatchReviewInput({ content })}
+      />
+      <TagInput
+        options={[]}
+        onChange={() => {
+          return;
+        }}
       />
       <View className="mb-4 flex flex-row items-center">
         <BouncyCheckbox
