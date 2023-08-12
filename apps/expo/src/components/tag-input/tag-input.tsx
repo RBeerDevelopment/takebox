@@ -1,6 +1,5 @@
 import React from "react";
-import { Keyboard, ScrollView, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View } from "react-native";
 
 import { StyledTextInput } from "../inputs/styled-text-input";
 import { SuggestedTags } from "./suggested-tags";
