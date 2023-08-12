@@ -15,4 +15,14 @@ export const userRouter = createTRPCRouter({
         create: { username, id: auth.userId },
       });
     }),
+  getUserTags: protectedProcedure.query(async ({ ctx }) => {
+    const { auth, prisma } = ctx;
+
+    const tags = await prisma.tag.findMany({
+      where: { userId: auth.userId },
+      take: 20,
+    });
+
+    return tags;
+  }),
 });

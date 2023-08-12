@@ -67,6 +67,7 @@ export const reviewRouter = createTRPCRouter({
         placeId: z.string(),
         rating: z.number().min(1).max(10).step(1),
         content: z.string().min(5),
+        tags: z.array(z.string()).optional(),
         foods: z.array(z.string()).optional(),
         isTakeout: z.boolean(),
       }),
@@ -78,6 +79,7 @@ export const reviewRouter = createTRPCRouter({
       const { placeId, rating, content, foods, isTakeout } = input;
 
       const foodNames = foods || [];
+      const tags = input.tags || [];
 
       const review = await ctx.prisma.review.create({
         data: {
@@ -88,6 +90,22 @@ export const reviewRouter = createTRPCRouter({
             create: [
               ...foodNames.map((f) => ({
                 name: f,
+              })),
+            ],
+          },
+          tags: {
+            connectOrCreate: [
+              ...tags?.map((t) => ({
+                where: {
+                  name_userId: {
+                    name: t,
+                    userId: userId,
+                  },
+                },
+                create: {
+                  name: t,
+                  userId: userId,
+                },
               })),
             ],
           },
