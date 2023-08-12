@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { View } from "react-native";
+import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
@@ -55,30 +55,35 @@ export default function ReviewScreen(): React.ReactElement {
   }
 
   return (
-    <ThemeableView className="flex h-full w-full flex-col p-6">
-      <StarRating
-        onChangeRating={(rating) => dispatchReviewInput({ rating })}
-      />
-      <StyledTextInput
-        value={reviewInput.content}
-        multiline
-        onChangeText={(content) => dispatchReviewInput({ content })}
-      />
-      <TagInput
-        tags={reviewInput.tags}
-        onChange={(newTags) => {
-          dispatchReviewInput({ tags: newTags });
-        }}
-      />
-      <View className="mb-4 flex flex-row items-center">
-        <BouncyCheckbox
-          onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
-          fillColor={primaryColor}
+    <TouchableWithoutFeedback
+      className="h-full w-full"
+      onPress={Keyboard.dismiss}
+    >
+      <ThemeableView className="flex h-full w-full flex-col p-6">
+        <StarRating
+          onChangeRating={(rating) => dispatchReviewInput({ rating })}
         />
-        <ThemeableText className="-ml-2 text-lg">Takeout</ThemeableText>
-      </View>
+        <StyledTextInput
+          value={reviewInput.content}
+          multiline
+          onChangeText={(content) => dispatchReviewInput({ content })}
+        />
+        <TagInput
+          tags={reviewInput.tags}
+          onChange={(newTags) => {
+            dispatchReviewInput({ tags: newTags });
+          }}
+        />
+        <View className="mb-4 flex flex-row items-center">
+          <BouncyCheckbox
+            onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
+            fillColor={primaryColor}
+          />
+          <ThemeableText className="-ml-2 text-lg">Takeout</ThemeableText>
+        </View>
 
-      <StyledButton colorful text="Save" onPress={handleCreateReview} />
-    </ThemeableView>
+        <StyledButton colorful text="Save" onPress={handleCreateReview} />
+      </ThemeableView>
+    </TouchableWithoutFeedback>
   );
 }
