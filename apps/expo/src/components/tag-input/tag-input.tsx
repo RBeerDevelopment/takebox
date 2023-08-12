@@ -36,7 +36,11 @@ export function TagInput(props: Props): React.ReactElement {
         onFocus={() => setHasFocus(true)}
         onBlur={() => setHasFocus(false)}
       />
-      <SuggestedTags show={hasFocus} onAdd={handleAddTag} />
+      <SuggestedTags
+        show={hasFocus}
+        onAdd={handleAddTag}
+        currentInput={newTag}
+      />
       <TagList
         tags={tags}
         onDelete={(index) => onChange(tags.filter((_, i) => i !== index))}
