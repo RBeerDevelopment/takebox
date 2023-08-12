@@ -25,7 +25,7 @@ export function TagInput(props: Props): React.ReactElement {
   }
 
   return (
-    <View className="my-8 flex flex-col">
+    <View className="mb-4 mt-1 flex flex-col">
       <StyledTextInput
         onEnterPress={() => handleAddTag(newTag)}
         value={newTag}

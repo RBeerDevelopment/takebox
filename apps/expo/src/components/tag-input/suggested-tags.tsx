@@ -17,9 +17,15 @@ export function SuggestedTags(props: Props): React.ReactElement {
   const { data } = api.user.getUserTags.useQuery();
   const availableTags = data?.map((tag) => tag.name) ?? [];
 
-  const suggestedTags = fuzzysort
+  let suggestedTags = fuzzysort
     .go(currentInput, availableTags, {})
     .map((fuzzy) => fuzzy.target);
+
+  if (currentInput.length === 0) {
+    suggestedTags = availableTags;
+  }
+
+  suggestedTags = suggestedTags.slice(0, 5);
 
   if (!show || !suggestedTags || suggestedTags.length === 0) return <></>;
 

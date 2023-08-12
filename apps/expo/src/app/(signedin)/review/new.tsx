@@ -64,11 +64,14 @@ export default function ReviewScreen(): React.ReactElement {
           onChangeRating={(rating) => dispatchReviewInput({ rating })}
         />
         <StyledTextInput
+          label="Review"
           value={reviewInput.content}
           multiline
+          placeholder="Write a review..."
           onChangeText={(content) => dispatchReviewInput({ content })}
         />
         <TagInput
+          title="Tags"
           tags={reviewInput.tags}
           onChange={(newTags) => {
             dispatchReviewInput({ tags: newTags });
