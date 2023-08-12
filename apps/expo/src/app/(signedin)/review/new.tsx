@@ -17,6 +17,7 @@ interface ReviewInput {
   rating: number;
   content: string;
   isTakeout: boolean;
+  tags: string[];
 }
 
 export default function ReviewScreen(): React.ReactElement {
@@ -39,6 +40,7 @@ export default function ReviewScreen(): React.ReactElement {
     {
       rating: 3,
       content: "",
+      tags: [],
       isTakeout: false,
     },
   );
@@ -63,9 +65,9 @@ export default function ReviewScreen(): React.ReactElement {
         onChangeText={(content) => dispatchReviewInput({ content })}
       />
       <TagInput
-        options={[]}
-        onChange={() => {
-          return;
+        tags={reviewInput.tags}
+        onChange={(newTags) => {
+          dispatchReviewInput({ tags: newTags });
         }}
       />
       <View className="mb-4 flex flex-row items-center">

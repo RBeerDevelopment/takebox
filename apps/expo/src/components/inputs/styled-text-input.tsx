@@ -13,6 +13,8 @@ interface Props {
   className?: string;
   onEnterPress?: () => void;
   autoCorrect?: boolean;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 export function StyledTextInput(props: Props): React.ReactElement {
@@ -25,6 +27,12 @@ export function StyledTextInput(props: Props): React.ReactElement {
     className = "",
     onEnterPress,
     autoCorrect = true,
+    onFocus = () => {
+      return;
+    },
+    onBlur = () => {
+      return;
+    },
   } = props;
 
   return (
@@ -33,6 +41,8 @@ export function StyledTextInput(props: Props): React.ReactElement {
         <ThemeableText className="-mb-2 mt-4 text-lg">{label}</ThemeableText>
       )}
       <TextInput
+        onFocus={onFocus}
+        onBlur={onBlur}
         onSubmitEditing={() => {
           if (!onEnterPress) return;
           onEnterPress();

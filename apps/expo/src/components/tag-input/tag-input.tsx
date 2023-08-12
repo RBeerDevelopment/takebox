@@ -1,56 +1,64 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Keyboard, ScrollView, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
+import { api } from "~/utils/api";
 import { useKeyboardVisible } from "~/hooks/use-keyboard-visible";
 import { IconOnlyButton } from "../icon-button";
 import { StyledTextInput } from "../inputs/styled-text-input";
 
 interface Props {
-  options: string[];
-  presetTags?: string[];
+  tags: string[];
   onChange: (tags: string[]) => void;
   title?: string;
 }
 
 export function TagInput(props: Props): React.ReactElement {
-  const { options, onChange, presetTags, title } = props;
+  const { onChange, tags, title } = props;
+  const { data: suggestedTags } = api.user.getUserTags.useQuery();
 
   const [newTag, setNewTag] = React.useState<string>("");
+  const [hasFocus, setHasFocus] = React.useState<boolean>(false);
 
   const isKeyboardVisible = useKeyboardVisible();
 
-  const [tags, setTags] = React.useState<string[]>(presetTags ?? []);
+  function handleAddTag(input: string) {
+    if (!input.trim()) return;
+    onChange([...tags, input]);
 
-  // const [suggestedTags, setSuggestedTags] = React.useState<string[]>(options);
-
-  function onInputChange(text: string) {}
+    setTimeout(() => setNewTag(""), 50);
+  }
 
   return (
     <View className="my-8 flex flex-col">
       <StyledTextInput
-        onEnterPress={() => {
-          if (!newTag) return;
-          setTags([...tags, newTag]);
-          // use delay to avoid issues
-          setTimeout(() => setNewTag(""), 50);
-        }}
+        onEnterPress={() => handleAddTag(newTag)}
         value={newTag}
         label={title}
         onChangeText={setNewTag}
         multiline={false}
         autoCorrect={false}
+        onFocus={() => setHasFocus(true)}
+        onBlur={() => setHasFocus(false)}
       />
-      {options.length > 0 && (
+      {hasFocus && suggestedTags && suggestedTags.length > 0 && (
         <ScrollView
           className={`${
             isKeyboardVisible ? "absolute" : "hidden"
-          } -top-40 z-50 h-40 w-full transform overflow-scroll rounded-2xl bg-gray-800 shadow-sm shadow-gray-800`}
+          } -top-40 z-50 max-h-40 w-full transform overflow-scroll rounded-2xl bg-gray-800 shadow-sm shadow-gray-800`}
         >
-          {options.map((tag, index) => (
-            <View key={index} className="flex flex-col px-2">
-              <Text className="px-2 py-4 text-white">{tag}</Text>
+          {suggestedTags.map((tag, index) => (
+            <TouchableOpacity
+              key={index}
+              className="flex flex-col px-2"
+              onPress={() => {
+                handleAddTag(tag.name);
+                Keyboard.dismiss();
+              }}
+            >
+              <Text className="px-2 py-4 text-white">{tag.name}</Text>
               <View className="mx-auto h-px w-full bg-black" />
-            </View>
+            </TouchableOpacity>
           ))}
         </ScrollView>
       )}
@@ -65,7 +73,7 @@ export function TagInput(props: Props): React.ReactElement {
               iconName="cancel"
               iconFont="material"
               style="pl-1"
-              onPress={() => setTags(tags.filter((_, i) => i !== index))}
+              onPress={() => onChange(tags.filter((_, i) => i !== index))}
             />
           </View>
         ))}
