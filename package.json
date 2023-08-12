@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@flavoury/eslint-config": "^0.1.0",
-    "@ianvs/prettier-plugin-sort-imports": "^4.0.2",
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
     "@manypkg/cli": "^0.20.0",
     "@types/prettier": "^2.7.3",
     "eslint": "^8.42.0",
