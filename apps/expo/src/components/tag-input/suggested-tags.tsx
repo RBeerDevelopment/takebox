@@ -30,7 +30,7 @@ export function SuggestedTags(props: Props): React.ReactElement {
   if (!show || !suggestedTags || suggestedTags.length === 0) return <></>;
 
   return (
-    <ScrollView className="absolute -top-40 z-50 max-h-40 w-full transform overflow-scroll rounded-2xl bg-white shadow-lg dark:bg-gray-800 dark:shadow-sm dark:shadow-gray-800">
+    <ScrollView className="absolute bottom-0 z-50 max-h-40 w-full transform overflow-scroll rounded-2xl bg-white shadow-lg dark:bg-gray-800 dark:shadow-sm dark:shadow-gray-800">
       {suggestedTags.map((tag, index) => (
         <TouchableOpacity
           key={index}
