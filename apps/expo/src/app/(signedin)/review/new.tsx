@@ -1,9 +1,10 @@
 import React, { useReducer } from "react";
-import { View } from "react-native";
+import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
 import { LoadingIndicator } from "~/components/loading-indicator";
+import { TagInput } from "~/components/tag-input/tag-input";
 import { ThemeableText } from "~/components/themeable/themable-text";
 import { ThemeableView } from "~/components/themeable/themable-view";
 import { useCreateReview } from "~/hooks/queries/use-create-review";
@@ -16,6 +17,7 @@ interface ReviewInput {
   rating: number;
   content: string;
   isTakeout: boolean;
+  tags: string[];
 }
 
 export default function ReviewScreen(): React.ReactElement {
@@ -38,6 +40,7 @@ export default function ReviewScreen(): React.ReactElement {
     {
       rating: 3,
       content: "",
+      tags: [],
       isTakeout: false,
     },
   );
@@ -52,23 +55,38 @@ export default function ReviewScreen(): React.ReactElement {
   }
 
   return (
-    <ThemeableView className="flex h-full w-full flex-col p-6">
-      <StarRating
-        onChangeRating={(rating) => dispatchReviewInput({ rating })}
-      />
-      <StyledTextInput
-        value={reviewInput.content}
-        onChangeText={(content) => dispatchReviewInput({ content })}
-      />
-      <View className="mb-4 flex flex-row items-center">
-        <BouncyCheckbox
-          onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
-          fillColor={primaryColor}
+    <TouchableWithoutFeedback
+      className="h-full w-full"
+      onPress={Keyboard.dismiss}
+    >
+      <ThemeableView className="flex h-full w-full flex-col p-6">
+        <StarRating
+          onChangeRating={(rating) => dispatchReviewInput({ rating })}
         />
-        <ThemeableText className="-ml-2 text-lg">Takeout</ThemeableText>
-      </View>
+        <StyledTextInput
+          label="Review"
+          value={reviewInput.content}
+          multiline
+          placeholder="Write a review..."
+          onChangeText={(content) => dispatchReviewInput({ content })}
+        />
+        <TagInput
+          title="Tags"
+          tags={reviewInput.tags}
+          onChange={(newTags) => {
+            dispatchReviewInput({ tags: newTags });
+          }}
+        />
+        <View className="mb-4 flex flex-row items-center">
+          <BouncyCheckbox
+            onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
+            fillColor={primaryColor}
+          />
+          <ThemeableText className="-ml-2 text-lg">Takeout</ThemeableText>
+        </View>
 
-      <StyledButton colorful text="Save" onPress={handleCreateReview} />
-    </ThemeableView>
+        <StyledButton colorful text="Save" onPress={handleCreateReview} />
+      </ThemeableView>
+    </TouchableWithoutFeedback>
   );
 }

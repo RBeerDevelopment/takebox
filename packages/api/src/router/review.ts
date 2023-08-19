@@ -1,6 +1,12 @@
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import {
+  emptyRatingCountMap,
+  possibleRatings,
+  type PossibleRating,
+  type RatingCountMap,
+} from "../utils/rating-count-map";
 
 export const reviewRouter = createTRPCRouter({
   reviewSummary: protectedProcedure
@@ -13,21 +19,43 @@ export const reviewRouter = createTRPCRouter({
 
       if (!restaurant) throw new Error("Restaurant not found");
 
-      const result = await ctx.prisma.review.aggregate({
-        _avg: {
-          rating: true,
-        },
-        _count: {
-          rating: true,
-        },
-        where: {
-          restaurantId: restaurant.id,
-        },
+      // TODO check if it's just calculate the summary from the ratingCounts here
+      const [summary, ratingCounts] = await Promise.all([
+        ctx.prisma.review.aggregate({
+          _avg: {
+            rating: true,
+          },
+          _count: {
+            rating: true,
+          },
+          where: {
+            restaurantId: restaurant.id,
+          },
+        }),
+        ctx.prisma.review.groupBy({
+          by: ["rating"],
+          where: {
+            restaurantId: restaurant.id,
+          },
+          _count: {
+            rating: true,
+          },
+        }),
+      ]);
+
+      // empty rating count map
+      const ratingCountMap: RatingCountMap = { ...emptyRatingCountMap };
+
+      ratingCounts.forEach((ratingCount) => {
+        if (possibleRatings.includes(ratingCount.rating as PossibleRating))
+          ratingCountMap[ratingCount.rating as PossibleRating] =
+            ratingCount._count.rating;
       });
 
       const response = {
-        averageRating: result?._avg?.rating ? result._avg.rating / 2 : null,
-        reviewCount: result?._count?.rating || null,
+        averageRating: summary?._avg?.rating ? summary._avg.rating / 2 : null,
+        reviewCount: summary?._count?.rating || null,
+        ratingCounts: ratingCountMap,
       };
 
       return response;
@@ -39,6 +67,7 @@ export const reviewRouter = createTRPCRouter({
         placeId: z.string(),
         rating: z.number().min(1).max(10).step(1),
         content: z.string().min(5),
+        tags: z.array(z.string()).optional(),
         foods: z.array(z.string()).optional(),
         isTakeout: z.boolean(),
       }),
@@ -50,6 +79,7 @@ export const reviewRouter = createTRPCRouter({
       const { placeId, rating, content, foods, isTakeout } = input;
 
       const foodNames = foods || [];
+      const tags = input.tags || [];
 
       const review = await ctx.prisma.review.create({
         data: {
@@ -60,6 +90,22 @@ export const reviewRouter = createTRPCRouter({
             create: [
               ...foodNames.map((f) => ({
                 name: f,
+              })),
+            ],
+          },
+          tags: {
+            connectOrCreate: [
+              ...tags?.map((t) => ({
+                where: {
+                  name_userId: {
+                    name: t,
+                    userId: userId,
+                  },
+                },
+                create: {
+                  name: t,
+                  userId: userId,
+                },
               })),
             ],
           },
