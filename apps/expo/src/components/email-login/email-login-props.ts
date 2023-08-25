@@ -1,7 +1,6 @@
+import { type LoginInputState } from "./login-input-state";
+
 export interface EmailLoginProps {
-  emailAddress: string;
-  setEmailAddress: (email: string) => void;
-  password: string;
-  setPassword: (password: string) => void;
-  setError: (error: string) => void;
+  loginInputState: LoginInputState;
+  dispatchLoginInput: (newState: Partial<LoginInputState>) => void;
 }

@@ -1,8 +1,7 @@
 import React from "react";
-import { SafeAreaView } from "react-native";
 import Toast from "react-native-toast-message";
 import Constants from "expo-constants";
-import { Slot, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { ClerkProvider } from "@clerk/clerk-expo";
 
 import { useRequestLocation } from "../hooks/use-request-location";

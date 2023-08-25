@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { View } from "react-native";
+import { useRouter } from "expo-router";
 import { useSignIn } from "@clerk/clerk-expo";
 
 import { StyledButton } from "../button";
@@ -9,10 +9,12 @@ import { LoginInputField } from "./login-input-field";
 import { emailLoginSchema } from "./validation";
 
 export default function EmailSignIn(props: EmailLoginProps) {
-  const { emailAddress, setEmailAddress, password, setPassword, setError } =
-    props;
+  const { loginInputState, dispatchLoginInput } = props;
   const { isLoaded, signIn, setActive } = useSignIn();
 
+  const router = useRouter();
+
+  const { emailAddress, password } = loginInputState;
   // start the sign up process.
   async function onSignInPress() {
     if (!isLoaded) {
@@ -22,11 +24,13 @@ export default function EmailSignIn(props: EmailLoginProps) {
     const isValid = emailLoginSchema.safeParse({ emailAddress, password });
 
     if (!isValid.success) {
-      setError(isValid.error.errors[0]?.message || "Input error");
+      dispatchLoginInput({
+        error: isValid.error.errors[0]?.message || "Input error",
+      });
       return;
     }
 
-    setError("");
+    dispatchLoginInput({ error: undefined });
 
     try {
       const completeSignIn = await signIn.create({
@@ -36,8 +40,9 @@ export default function EmailSignIn(props: EmailLoginProps) {
       // This is an important step,
       // This indicates the user is signed in
       await setActive({ session: completeSignIn.createdSessionId });
-    } catch (err: any) {
-      console.log(err);
+      router.replace("/home");
+    } catch (err: unknown) {
+      console.log(JSON.stringify(err, null, 2));
     }
   }
 
@@ -50,15 +55,19 @@ export default function EmailSignIn(props: EmailLoginProps) {
         <LoginInputField
           autoCapitalize="none"
           value={emailAddress}
-          placeholder="Email..."
-          onChangeText={setEmailAddress}
+          placeholder="Email/Username..."
+          onChangeText={(newEmailAddress) => {
+            dispatchLoginInput({ emailAddress: newEmailAddress });
+          }}
         />
 
         <LoginInputField
           value={password}
           placeholder="Password..."
           secureTextEntry={true}
-          onChangeText={setPassword}
+          onChangeText={(newPassword) => {
+            dispatchLoginInput({ password: newPassword });
+          }}
         />
 
         <StyledButton

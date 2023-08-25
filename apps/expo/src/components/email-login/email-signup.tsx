@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View } from "react-native";
+import { useRouter } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
 
 import { StyledButton } from "../button";
@@ -9,12 +10,15 @@ import { LoginInputField } from "./login-input-field";
 import { emailLoginSchema } from "./validation";
 
 export default function EmailSignUp(props: EmailLoginProps) {
-  const { emailAddress, setEmailAddress, password, setPassword, setError } =
-    props;
+  const { loginInputState, dispatchLoginInput } = props;
   const { isLoaded, signUp, setActive } = useSignUp();
+
+  const { emailAddress, username, password } = loginInputState;
 
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
+
+  const router = useRouter();
 
   // start the sign up process.
   async function onSignUpPress() {
@@ -25,15 +29,21 @@ export default function EmailSignUp(props: EmailLoginProps) {
     const isValid = emailLoginSchema.safeParse({ emailAddress, password });
 
     if (!isValid.success) {
-      setError(isValid.error.errors[0]?.message || "Input error");
+      dispatchLoginInput({
+        error: isValid.error.errors[0]?.message || "Input error",
+      });
       return;
     }
 
-    setError("");
+    dispatchLoginInput({
+      error: undefined,
+    });
 
     try {
       await signUp.create({
         emailAddress,
+        password,
+        username,
       });
 
       // send the email.
@@ -57,7 +67,9 @@ export default function EmailSignUp(props: EmailLoginProps) {
         code,
       });
 
+      console.log(JSON.stringify(completeSignUp));
       await setActive({ session: completeSignUp.createdSessionId });
+      router.replace("/home");
     } catch (err: unknown) {
       console.error(JSON.stringify(err, null, 2));
     }
@@ -74,14 +86,27 @@ export default function EmailSignUp(props: EmailLoginProps) {
             autoCapitalize="none"
             value={emailAddress}
             placeholder="Email..."
-            onChangeText={setEmailAddress}
+            onChangeText={(newEmailAddress) =>
+              dispatchLoginInput({ emailAddress: newEmailAddress })
+            }
+          />
+
+          <LoginInputField
+            autoCapitalize="none"
+            value={username}
+            placeholder="Username..."
+            onChangeText={(newUsername) =>
+              dispatchLoginInput({ username: newUsername })
+            }
           />
 
           <LoginInputField
             value={password}
             placeholder="Password..."
             secureTextEntry={true}
-            onChangeText={setPassword}
+            onChangeText={(newPassword) =>
+              dispatchLoginInput({ password: newPassword })
+            }
           />
 
           <StyledButton
@@ -107,7 +132,7 @@ export default function EmailSignUp(props: EmailLoginProps) {
           />
 
           <StyledButton
-            onPress={() => void setPendingVerification(false)}
+            onPress={() => setPendingVerification(false)}
             text="Cancel"
           />
         </View>

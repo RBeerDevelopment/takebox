@@ -1,38 +1,49 @@
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
 
 import { StyledButton } from "~/components/button";
 import EmailSignIn from "~/components/email-login/email-signin";
 import EmailSignUp from "~/components/email-login/email-signup";
+import { type LoginInputState } from "~/components/email-login/login-input-state";
 
 enum LoginType {
   SignUp,
   SignIn,
 }
+
 export default function Email(): React.ReactElement {
   const router = useRouter();
 
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  console.log({ isLoaded, userId, sessionId, getToken });
+
   const [loginType, setLoginType] = useState(LoginType.SignUp);
 
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [loginInput, dispatchLoginInput] = useReducer(
+    (state: LoginInputState, newState: Partial<LoginInputState>) => ({
+      ...state,
+      ...newState,
+    }),
+    {
+      emailAddress: "",
+      username: "",
+      password: "",
+    },
+  );
 
   let content = null;
   if (loginType === LoginType.SignUp) {
     content = (
       <>
         <EmailSignUp
-          emailAddress={emailAddress}
-          setEmailAddress={setEmailAddress}
-          password={password}
-          setPassword={setPassword}
-          setError={setError}
+          loginInputState={loginInput}
+          dispatchLoginInput={dispatchLoginInput}
         />
-        {error.length > 0 ? (
+        {loginInput.error && loginInput.error.length > 0 ? (
           <Text className="w-full text-center text-lg italic text-white">
-            {error}
+            {loginInput.error}
           </Text>
         ) : null}
         <StyledButton
@@ -45,15 +56,12 @@ export default function Email(): React.ReactElement {
     content = (
       <>
         <EmailSignIn
-          emailAddress={emailAddress}
-          setEmailAddress={setEmailAddress}
-          password={password}
-          setPassword={setPassword}
-          setError={setError}
+          loginInputState={loginInput}
+          dispatchLoginInput={dispatchLoginInput}
         />
-        {error.length > 0 ? (
+        {loginInput.error && loginInput.error.length > 0 ? (
           <Text className="w-full text-center text-lg italic text-white">
-            {error}
+            {loginInput.error}
           </Text>
         ) : null}
         <StyledButton
