@@ -1,5 +1,5 @@
 import { Redirect } from "expo-router";
-import { SignedIn, SignedOut } from "@clerk/clerk-expo";
+import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 
 import "react-native-gesture-handler";
 

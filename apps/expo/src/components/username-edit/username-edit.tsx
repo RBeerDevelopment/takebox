@@ -42,7 +42,7 @@ export function UsernameEdit(): React.ReactElement {
         </ThemeableText>
       ) : (
         <ThemeableText className="px-2 py-4 text-xl italic text-gray-600">
-          username
+          Your username
         </ThemeableText>
       )}
       <IconOnlyButton

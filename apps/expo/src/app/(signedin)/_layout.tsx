@@ -75,6 +75,15 @@ export default function SignedinLayout(): React.ReactElement {
               headerRight: undefined,
             }}
           />
+          <Stack.Screen
+            name="username-setup/modal"
+            options={{
+              presentation: "modal",
+              title: "Username",
+              headerLeft: undefined,
+              headerRight: undefined,
+            }}
+          />
         </Stack>
         <StatusBar />
         <UsernameHandler />

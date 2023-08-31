@@ -20,8 +20,10 @@ const SignInWithOAuth = () => {
 
   const handleSignInWithApple = React.useCallback(async () => {
     try {
-      const { createdSessionId, setActive } =
+      const { createdSessionId, setActive, authSessionResult } =
         await appleSignIn.startOAuthFlow();
+
+      console.log({ authSessionResult });
       if (createdSessionId && setActive) {
         void setActive({ session: createdSessionId });
       } else {

@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "expo-router";
 import { useUser } from "@clerk/clerk-expo";
 
 import { api } from "~/utils/api";
@@ -10,12 +11,23 @@ export function UsernameHandler(): React.ReactElement {
 
   const { user } = useUser();
 
-  React.useEffect(() => {
-    if (!user || !persistedStore.isFirstUsage) return;
+  const router = useRouter();
 
+  React.useEffect(() => {
+    console.log({ user, isFirstUsage: persistedStore.isFirstUsage });
+    if (!user) return;
+    if (!user.username || user.username === "") {
+      console.log("replacing username");
+      router.replace("/username-setup/modal");
+      return;
+    }
+
+    if (!persistedStore.isFirstUsage) return;
+
+    console.log("upserting user");
     upsertUser({ username: user.username || undefined });
     persistedStore.setIsFirstUsage(false);
-  }, [persistedStore, user, upsertUser]);
+  }, [persistedStore, user]);
 
   return <></>;
 }

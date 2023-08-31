@@ -12,7 +12,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@clerk/clerk-expo": "^0.18.12",
+    "@clerk/clerk-expo": "^0.18.20",
     "@expo/metro-config": "^0.7.1",
     "@react-native-async-storage/async-storage": "1.17.11",
     "@shopify/flash-list": "1.4.3",
