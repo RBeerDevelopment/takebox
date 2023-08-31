@@ -33,6 +33,15 @@ export default function Email(): React.ReactElement {
     },
   );
 
+  const errorSection =
+    loginInput.error && loginInput.error.length > 0 ? (
+      <Text className="mx-auto w-4/5 text-center italic text-white">
+        {loginInput.error}
+      </Text>
+    ) : (
+      <></>
+    );
+
   let content = null;
   if (loginType === LoginType.SignUp) {
     content = (
@@ -41,11 +50,7 @@ export default function Email(): React.ReactElement {
           loginInputState={loginInput}
           dispatchLoginInput={dispatchLoginInput}
         />
-        {loginInput.error && loginInput.error.length > 0 ? (
-          <Text className="w-full text-center text-lg italic text-white">
-            {loginInput.error}
-          </Text>
-        ) : null}
+        {errorSection}
         <StyledButton
           onPress={() => setLoginType(LoginType.SignIn)}
           text="Sign In instead"
@@ -59,11 +64,7 @@ export default function Email(): React.ReactElement {
           loginInputState={loginInput}
           dispatchLoginInput={dispatchLoginInput}
         />
-        {loginInput.error && loginInput.error.length > 0 ? (
-          <Text className="w-full text-center text-lg italic text-white">
-            {loginInput.error}
-          </Text>
-        ) : null}
+        {errorSection}
         <StyledButton
           onPress={() => setLoginType(LoginType.SignUp)}
           text="Sign Up instead"

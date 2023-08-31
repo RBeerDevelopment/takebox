@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { useRouter } from "expo-router";
 import { useSignIn } from "@clerk/clerk-expo";
 
+import { isClerkError } from "~/utils/validation/isClerkError";
 import { StyledButton } from "../button";
 import { ThemeableText } from "../themeable/themable-text";
 import { type EmailLoginProps } from "./email-login-props";
@@ -42,7 +43,10 @@ export default function EmailSignIn(props: EmailLoginProps) {
       await setActive({ session: completeSignIn.createdSessionId });
       router.replace("/home");
     } catch (err: unknown) {
-      console.log(JSON.stringify(err, null, 2));
+      console.error(JSON.stringify(err, null, 2));
+      if (isClerkError(err)) {
+        dispatchLoginInput({ error: err.errors[0]?.message || "Input error" });
+      }
     }
   }
 

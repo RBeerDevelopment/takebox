@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { useRouter } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
 
+import { isClerkError } from "~/utils/validation/isClerkError";
 import { StyledButton } from "../button";
 import { ThemeableText } from "../themeable/themable-text";
 import { type EmailLoginProps } from "./email-login-props";
@@ -53,6 +54,9 @@ export default function EmailSignUp(props: EmailLoginProps) {
       setPendingVerification(true);
     } catch (err: unknown) {
       console.error(JSON.stringify(err, null, 2));
+      if (isClerkError(err)) {
+        dispatchLoginInput({ error: err.errors[0]?.message || "Input error" });
+      }
     }
   }
 
