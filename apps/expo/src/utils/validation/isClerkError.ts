@@ -12,5 +12,5 @@ export type ClerkError = {
 };
 
 export function isClerkError(error: unknown): error is ClerkError {
-  return (error as ClerkError).clerkError === true;
+  return Boolean(error && (error as ClerkError).clerkError === true);
 }

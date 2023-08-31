@@ -16,9 +16,6 @@ enum LoginType {
 export default function Email(): React.ReactElement {
   const router = useRouter();
 
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
-  console.log({ isLoaded, userId, sessionId, getToken });
-
   const [loginType, setLoginType] = useState(LoginType.SignUp);
 
   const [loginInput, dispatchLoginInput] = useReducer(

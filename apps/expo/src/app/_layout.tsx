@@ -18,7 +18,7 @@ export default function App() {
         }
         tokenCache={tokenCache}
       >
-        <Stack />
+        <Stack screenOptions={{ header: () => null }} />
       </ClerkProvider>
       <Toast />
     </>
