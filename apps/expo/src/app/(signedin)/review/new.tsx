@@ -2,6 +2,9 @@ import React, { useReducer } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useLocalSearchParams, useNavigation } from "expo-router";
+import DateTimePicker, {
+  type DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { TagInput } from "~/components/tag-input/tag-input";
@@ -17,12 +20,16 @@ interface ReviewInput {
   rating: number;
   content: string;
   isTakeout: boolean;
+  date: Date;
   tags: string[];
 }
 
 export default function ReviewScreen(): React.ReactElement {
   const params = useLocalSearchParams();
   const { goBack } = useNavigation();
+
+  const today = new Date();
+  const maxDate = new Date(today.setDate(today.getDate() + 1));
 
   const primaryColor = usePrimaryColor();
 
@@ -42,6 +49,7 @@ export default function ReviewScreen(): React.ReactElement {
       content: "",
       tags: [],
       isTakeout: false,
+      date: new Date(),
     },
   );
 
@@ -52,6 +60,12 @@ export default function ReviewScreen(): React.ReactElement {
 
   if (createReview.isLoading) {
     return <LoadingIndicator />;
+  }
+
+  function setDate(event: DateTimePickerEvent, date?: Date) {
+    console.log(date);
+    if (!date) return;
+    dispatchReviewInput({ date });
   }
 
   return (
@@ -77,6 +91,16 @@ export default function ReviewScreen(): React.ReactElement {
             dispatchReviewInput({ tags: newTags });
           }}
         />
+        <View className="flex flex-row items-start gap-2 pb-8">
+          <ThemeableText className="text-lg">Date</ThemeableText>
+          <DateTimePicker
+            mode="date"
+            onChange={setDate}
+            value={reviewInput.date}
+            maximumDate={new Date(2023, 9, 10)}
+            locale="de-DE"
+          />
+        </View>
         <View className="mb-4 flex flex-row items-center">
           <BouncyCheckbox
             onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
