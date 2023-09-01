@@ -23,7 +23,7 @@ export default function SignedinLayout(): React.ReactElement {
 
   return (
     <TRPCProvider>
-      <SafeAreaProvider className="">
+      <SafeAreaProvider>
         <Stack
           screenOptions={{
             title: "Flavoury",
@@ -72,6 +72,15 @@ export default function SignedinLayout(): React.ReactElement {
                   title="Close"
                 />
               ),
+              headerRight: undefined,
+            }}
+          />
+          <Stack.Screen
+            name="username-setup/modal"
+            options={{
+              presentation: "modal",
+              title: "Username",
+              headerLeft: undefined,
               headerRight: undefined,
             }}
           />
