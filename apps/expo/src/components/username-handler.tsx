@@ -14,17 +14,14 @@ export function UsernameHandler(): React.ReactElement {
   const router = useRouter();
 
   React.useEffect(() => {
-    console.log({ user, isFirstUsage: persistedStore.isFirstUsage });
     if (!user) return;
     if (!user.username || user.username === "") {
-      console.log("replacing username");
       router.replace("/username-setup/modal");
       return;
     }
 
     if (!persistedStore.isFirstUsage) return;
 
-    console.log("upserting user");
     upsertUser({ username: user.username || undefined });
     persistedStore.setIsFirstUsage(false);
   }, [persistedStore, user]);

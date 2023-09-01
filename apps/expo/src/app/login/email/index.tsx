@@ -1,7 +1,6 @@
 import React, { useReducer, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { useAuth } from "@clerk/clerk-expo";
 
 import { StyledButton } from "~/components/button";
 import EmailSignIn from "~/components/email-login/email-signin";

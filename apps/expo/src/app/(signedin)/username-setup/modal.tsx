@@ -1,11 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
-import {
-  useLocalSearchParams,
-  useNavigation,
-  usePathname,
-  useRouter,
-} from "expo-router";
+import { useRouter } from "expo-router";
 import { useUser } from "@clerk/clerk-expo";
 
 import { StyledButton } from "~/components/button";

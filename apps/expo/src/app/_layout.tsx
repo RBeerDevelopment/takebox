@@ -1,7 +1,7 @@
 import React from "react";
 import Toast from "react-native-toast-message";
 import Constants from "expo-constants";
-import { Stack, usePathname } from "expo-router";
+import { Stack } from "expo-router";
 import { ClerkProvider } from "@clerk/clerk-expo";
 
 import { useRequestLocation } from "../hooks/use-request-location";
