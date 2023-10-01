@@ -13,11 +13,17 @@ export function LatestReviewSection(): React.ReactElement {
     data: reviews,
     isLoading,
     isError,
-  } = api.review.latestReviews.useQuery({ take: 10 }, { refetchOnMount: true });
+  } = api.review.latestReviews.useQuery({ take: 10 }, { staleTime: 0 });
 
   if (isLoading) return <Skeleton />;
 
-  if (isError || reviews.length === 0) return <></>;
+  if (isError || reviews.length === 0)
+    return (
+      <div className="flex h-full w-full flex-col">
+        <p className="italic">No reviews found.</p>
+      </div>
+    );
+
   return (
     <ThemeableView className="flex h-[78vh] w-full flex-col p-4">
       <ThemeableText className="pb-2 font-bold dark:text-white">

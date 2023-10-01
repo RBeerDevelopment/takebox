@@ -2,6 +2,8 @@ import React from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
+import { type ReviewSummary } from "@flavoury/api";
+
 import { formatDateToReadable } from "~/utils/date-format";
 import { useDeleteReview } from "~/hooks/queries/use-delete-review";
 import { IconComponent } from "../icon-button/icon-component";
@@ -9,19 +11,8 @@ import { StarRating } from "../star-rating";
 import { ThemeableText } from "../themeable/themable-text";
 import { ThemeableView } from "../themeable/themable-view";
 
-interface ReviewSummaryInput {
-  id: string;
-  content: string;
-  rating: number;
-  restaurant: {
-    name: string;
-    googleId: string;
-  };
-  date: Date;
-}
-
 interface Props {
-  review: ReviewSummaryInput;
+  review: ReviewSummary;
   restaurantId?: string;
 }
 
@@ -64,10 +55,11 @@ export function ReviewSummary(props: Props): React.ReactElement {
   return (
     <View className="w-screen">
       <Swipeable renderRightActions={renderRightActions}>
-        <ThemeableView className="flex flex-col justify-start p-2 dark:bg-slate-950">
-          <ThemeableText className="-ml-1 text-lg font-semibold dark:text-white">
+        <ThemeableView className="flex flex-col justify-start gap-1 px-2 py-3 dark:bg-slate-950">
+          <ThemeableText className="-ml-0.5 text-lg font-semibold dark:text-white">
             {review.restaurant.name}
           </ThemeableText>
+          <ThemeableText>{review.user.username}</ThemeableText>
           <ThemeableText>{formatDateToReadable(review.date)}</ThemeableText>
           <View className="py-2">
             <StarRating

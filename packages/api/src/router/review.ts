@@ -177,6 +177,11 @@ export const reviewRouter = createTRPCRouter({
               googleId: true,
             },
           },
+          user: {
+            select: {
+              username: true,
+            },
+          },
           content: true,
         },
         take: input.take,
@@ -200,6 +205,11 @@ export const reviewRouter = createTRPCRouter({
             select: {
               name: true,
               googleId: true,
+            },
+          },
+          user: {
+            select: {
+              username: true,
             },
           },
           content: true,
