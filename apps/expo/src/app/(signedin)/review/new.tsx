@@ -2,7 +2,11 @@ import React, { useReducer } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useLocalSearchParams, useNavigation } from "expo-router";
+import DateTimePicker, {
+  type DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 
+import { getLanguageCode } from "~/utils/get-language-code";
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { TagInput } from "~/components/tag-input/tag-input";
 import { ThemeableText } from "~/components/themeable/themable-text";
@@ -17,12 +21,16 @@ interface ReviewInput {
   rating: number;
   content: string;
   isTakeout: boolean;
+  date: Date;
   tags: string[];
 }
 
 export default function ReviewScreen(): React.ReactElement {
   const params = useLocalSearchParams();
   const { goBack } = useNavigation();
+
+  const today = new Date();
+  const languageCode = getLanguageCode();
 
   const primaryColor = usePrimaryColor();
 
@@ -42,6 +50,7 @@ export default function ReviewScreen(): React.ReactElement {
       content: "",
       tags: [],
       isTakeout: false,
+      date: today,
     },
   );
 
@@ -52,6 +61,11 @@ export default function ReviewScreen(): React.ReactElement {
 
   if (createReview.isLoading) {
     return <LoadingIndicator />;
+  }
+
+  function setDate(event: DateTimePickerEvent, date?: Date) {
+    if (!date) return;
+    dispatchReviewInput({ date });
   }
 
   return (
@@ -77,6 +91,16 @@ export default function ReviewScreen(): React.ReactElement {
             dispatchReviewInput({ tags: newTags });
           }}
         />
+        <View className="flex flex-row items-start gap-2 pb-8">
+          <ThemeableText className="text-lg">Date</ThemeableText>
+          <DateTimePicker
+            mode="date"
+            onChange={setDate}
+            value={reviewInput.date}
+            maximumDate={today}
+            locale={languageCode}
+          />
+        </View>
         <View className="mb-4 flex flex-row items-center">
           <BouncyCheckbox
             onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}

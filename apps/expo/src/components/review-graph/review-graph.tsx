@@ -17,7 +17,7 @@ export function ReviewGraph(props: Props): React.ReactElement {
   return (
     <View className="mt-4 flex h-20 w-full flex-row items-end justify-center">
       {Object.values(reviewCounts).map((count, idx) => {
-        const heightInPx = (count / maxCount) * 76 + 4;
+        const heightInPx = (count / (maxCount || 1)) * 76 + 4;
         return <ReviewGraphBar height={heightInPx} key={idx} />;
       })}
     </View>

@@ -66,7 +66,8 @@ export const reviewRouter = createTRPCRouter({
       z.object({
         placeId: z.string(),
         rating: z.number().min(1).max(10).step(1),
-        content: z.string().min(5),
+        content: z.string(),
+        date: z.date(),
         tags: z.array(z.string()).optional(),
         foods: z.array(z.string()).optional(),
         isTakeout: z.boolean(),
@@ -76,7 +77,7 @@ export const reviewRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       const { userId } = ctx.auth;
 
-      const { placeId, rating, content, foods, isTakeout } = input;
+      const { placeId, rating, content, foods, isTakeout, date } = input;
 
       const foodNames = foods || [];
       const tags = input.tags || [];
@@ -86,6 +87,7 @@ export const reviewRouter = createTRPCRouter({
           rating,
           content,
           isTakeout,
+          date,
           foodName: {
             create: [
               ...foodNames.map((f) => ({
@@ -167,6 +169,7 @@ export const reviewRouter = createTRPCRouter({
         select: {
           id: true,
           rating: true,
+          date: true,
           updatedAt: true,
           restaurant: {
             select: {
@@ -177,9 +180,7 @@ export const reviewRouter = createTRPCRouter({
           content: true,
         },
         take: input.take,
-        orderBy: {
-          updatedAt: "desc",
-        },
+        orderBy: [{ date: "desc" }, { updatedAt: "desc" }],
       });
 
       return reviews;
@@ -194,7 +195,7 @@ export const reviewRouter = createTRPCRouter({
         select: {
           id: true,
           rating: true,
-          updatedAt: true,
+          date: true,
           restaurant: {
             select: {
               name: true,
@@ -212,7 +213,7 @@ export const reviewRouter = createTRPCRouter({
           },
         },
         orderBy: {
-          updatedAt: "desc",
+          date: "desc",
         },
       });
 
