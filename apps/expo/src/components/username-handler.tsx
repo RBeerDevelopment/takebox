@@ -24,6 +24,7 @@ export function UsernameHandler(): React.ReactElement {
 
     upsertUser({ username: user.username || undefined });
     persistedStore.setIsFirstUsage(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [persistedStore, user]);
 
   return <></>;

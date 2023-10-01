@@ -1,5 +1,3 @@
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-
 import { getLanguageCode } from "./get-language-code";
 
 export function formatDateToReadable(date: Date) {
