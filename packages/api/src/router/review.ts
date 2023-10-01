@@ -66,7 +66,7 @@ export const reviewRouter = createTRPCRouter({
       z.object({
         placeId: z.string(),
         rating: z.number().min(1).max(10).step(1),
-        content: z.string().min(5),
+        content: z.string(),
         date: z.date(),
         tags: z.array(z.string()).optional(),
         foods: z.array(z.string()).optional(),
