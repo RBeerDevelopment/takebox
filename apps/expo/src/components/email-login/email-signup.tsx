@@ -71,7 +71,6 @@ export default function EmailSignUp(props: EmailLoginProps) {
         code,
       });
 
-      console.log(JSON.stringify(completeSignUp));
       await setActive({ session: completeSignUp.createdSessionId });
       router.replace("/home");
     } catch (err: unknown) {
