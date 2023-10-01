@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Link, Stack, useSearchParams } from "expo-router";
+import { Link, Stack, useGlobalSearchParams } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
 import { ThemeableText } from "~/components/themeable/themable-text";
@@ -13,7 +13,7 @@ import { useLocationStore } from "../../../state";
 export default function SearchScreen() {
   const location = useLocationStore((state) => state.location);
 
-  const { query } = useSearchParams();
+  const { query } = useGlobalSearchParams();
 
   const { restaurants, isFetching, isError } = useSearch(
     query as string | undefined,

@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { Image } from "expo-image";
-import { Stack, useSearchParams } from "expo-router";
+import { Stack, useGlobalSearchParams } from "expo-router";
 
 import { api } from "~/utils/api";
 import { blurhash } from "~/utils/blur-hash";
@@ -13,7 +13,7 @@ import { ThemeableView } from "~/components/themeable/themable-view";
 import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
 
 export default function DetailScreen() {
-  const { id } = useSearchParams();
+  const { id } = useGlobalSearchParams();
 
   useWarmUpBrowser();
 
