@@ -17,7 +17,7 @@ interface ReviewSummaryInput {
     name: string;
     googleId: string;
   };
-  updatedAt: Date;
+  date: Date;
 }
 
 interface Props {
@@ -68,9 +68,7 @@ export function ReviewSummary(props: Props): React.ReactElement {
           <ThemeableText className="-ml-1 text-lg font-semibold dark:text-white">
             {review.restaurant.name}
           </ThemeableText>
-          <ThemeableText className="dark:text-white">
-            {formatDateToReadable(review.updatedAt)}
-          </ThemeableText>
+          <ThemeableText>{formatDateToReadable(review.date)}</ThemeableText>
           <View className="py-2">
             <StarRating
               presetRating={review.rating}
@@ -79,9 +77,7 @@ export function ReviewSummary(props: Props): React.ReactElement {
             />
           </View>
 
-          <ThemeableText className="dark:text-white">
-            {review.content}
-          </ThemeableText>
+          <ThemeableText>{review.content}</ThemeableText>
         </ThemeableView>
       </Swipeable>
     </View>

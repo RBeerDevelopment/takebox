@@ -1,7 +1,12 @@
-export function formatDateToReadable(date: Date) {
-    const formatter = new Intl.DateTimeFormat("en-US", {
-        dateStyle: "long",
-    });
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
-    return formatter.format(date);
+import { getLanguageCode } from "./get-language-code";
+
+export function formatDateToReadable(date: Date) {
+  const languageCode = getLanguageCode();
+  const formatter = new Intl.DateTimeFormat(languageCode, {
+    dateStyle: "long",
+  });
+
+  return formatter.format(date);
 }

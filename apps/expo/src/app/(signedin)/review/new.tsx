@@ -6,6 +6,7 @@ import DateTimePicker, {
   type DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 
+import { getLanguageCode } from "~/utils/get-language-code";
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { TagInput } from "~/components/tag-input/tag-input";
 import { ThemeableText } from "~/components/themeable/themable-text";
@@ -29,7 +30,7 @@ export default function ReviewScreen(): React.ReactElement {
   const { goBack } = useNavigation();
 
   const today = new Date();
-  const maxDate = new Date(today.setDate(today.getDate() + 1));
+  const languageCode = getLanguageCode();
 
   const primaryColor = usePrimaryColor();
 
@@ -49,7 +50,7 @@ export default function ReviewScreen(): React.ReactElement {
       content: "",
       tags: [],
       isTakeout: false,
-      date: new Date(),
+      date: today,
     },
   );
 
@@ -63,7 +64,6 @@ export default function ReviewScreen(): React.ReactElement {
   }
 
   function setDate(event: DateTimePickerEvent, date?: Date) {
-    console.log(date);
     if (!date) return;
     dispatchReviewInput({ date });
   }
@@ -97,8 +97,8 @@ export default function ReviewScreen(): React.ReactElement {
             mode="date"
             onChange={setDate}
             value={reviewInput.date}
-            maximumDate={new Date(2023, 9, 10)}
-            locale="de-DE"
+            maximumDate={today}
+            locale={languageCode}
           />
         </View>
         <View className="mb-4 flex flex-row items-center">

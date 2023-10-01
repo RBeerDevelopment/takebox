@@ -97,7 +97,6 @@ export function DetailReviewSection(props: Props): React.ReactElement {
         buttonStyle="w-1/2 bg-transparent mx-auto"
         textStyle="text-primary dark:text-primary-dark font-bold animate-ping"
       />
-
       {ownReviews.length > 0 && (
         <>
           <ThemeableText className="mb-1 font-bold">My reviews</ThemeableText>
@@ -105,7 +104,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
             <ReviewSummary
               review={review}
               restaurantId={restaurantId || ""}
-              key={review.updatedAt.toISOString()}
+              key={String(review.date)}
             />
           ))}
         </>

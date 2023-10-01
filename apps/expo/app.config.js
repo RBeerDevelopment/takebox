@@ -46,6 +46,7 @@ const defineConfig = () => ({
         locationAlwaysAndWhenInUsePermission: `Allow TakeBox to use your location, to show you restaurants near you.`,
       },
     ],
+    "expo-localization",
   ],
 });
 
