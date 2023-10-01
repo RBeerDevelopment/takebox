@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, StatusBar } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Redirect, Stack, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 
+import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
 import { IconOnlyButton } from "~/components/icon-button";
 import { UsernameHandler } from "~/components/username-handler";
 import { useDarkMode } from "~/hooks/use-dark-mode";
@@ -23,7 +24,7 @@ export default function SignedinLayout(): React.ReactElement {
 
   return (
     <TRPCProvider>
-      <SafeAreaProvider>
+      <CustomSafeAreaProvider>
         <Stack
           screenOptions={{
             title: "Flavoury",
@@ -86,7 +87,7 @@ export default function SignedinLayout(): React.ReactElement {
         </Stack>
         <StatusBar />
         <UsernameHandler />
-      </SafeAreaProvider>
+      </CustomSafeAreaProvider>
     </TRPCProvider>
   );
 }

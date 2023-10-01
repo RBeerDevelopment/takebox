@@ -1,8 +1,9 @@
 import React, { useReducer, useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
 
 import { StyledButton } from "~/components/button";
+import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
 import EmailSignIn from "~/components/email-login/email-signin";
 import EmailSignUp from "~/components/email-login/email-signup";
 import { type LoginInputState } from "~/components/email-login/login-input-state";
@@ -70,7 +71,7 @@ export default function Email(): React.ReactElement {
   }
 
   return (
-    <SafeAreaView className="bg-primary">
+    <CustomSafeAreaProvider className="bg-primary">
       <View className="flex h-full w-full flex-col items-center bg-primary">
         <Stack.Screen options={{ header: () => null }} />
         {content}
@@ -78,6 +79,6 @@ export default function Email(): React.ReactElement {
           <StyledButton onPress={() => void router.back()} text="Back" />
         </View>
       </View>
-    </SafeAreaView>
+    </CustomSafeAreaProvider>
   );
 }

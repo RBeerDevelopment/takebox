@@ -1,8 +1,9 @@
 import React from "react";
-import { SafeAreaView, View } from "react-native";
+import { View } from "react-native";
 import { Redirect, Stack, useRouter } from "expo-router";
 import { useAuth, useOAuth } from "@clerk/clerk-expo";
 
+import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
 import { IconButton } from "~/components/icon-button/icon-button";
 import { ThemeableText } from "~/components/themeable/themable-text";
 import { appName } from "../../constants";
@@ -57,7 +58,7 @@ const SignInWithOAuth = () => {
   }
 
   return (
-    <SafeAreaView className="bg-primary">
+    <CustomSafeAreaProvider className="bg-primary">
       <View className="flex h-full flex-col bg-primary px-4">
         <Stack.Screen options={{ header: () => null }} />
         <ThemeableText className="w-full pt-8 text-center text-3xl capitalize">{`Sign in to use ${appName}`}</ThemeableText>
@@ -84,7 +85,7 @@ const SignInWithOAuth = () => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </CustomSafeAreaProvider>
   );
 };
 
