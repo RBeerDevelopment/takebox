@@ -47,6 +47,7 @@ const defineConfig = () => ({
       },
     ],
     "expo-localization",
+    "expo-router",
   ],
 });
 
