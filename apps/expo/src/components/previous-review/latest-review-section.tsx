@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import { Link } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
@@ -19,9 +20,9 @@ export function LatestReviewSection(): React.ReactElement {
 
   if (isError || reviews.length === 0)
     return (
-      <div className="flex h-full w-full flex-col">
-        <p className="italic">No reviews found.</p>
-      </div>
+      <View className="flex h-full w-full items-center pt-10">
+        <ThemeableText className="italic">No reviews found.</ThemeableText>
+      </View>
     );
 
   return (
