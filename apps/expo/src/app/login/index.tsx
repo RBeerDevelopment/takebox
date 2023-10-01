@@ -12,7 +12,7 @@ const SignInWithOAuth = () => {
   useWarmUpBrowser();
 
   const appleSignIn = useOAuth({ strategy: "oauth_apple" });
-  // const googleSignIn = useOAuth({ strategy: "oauth_google" });
+  const googleSignIn = useOAuth({ strategy: "oauth_google" });
 
   const { isSignedIn } = useAuth();
 
@@ -20,10 +20,9 @@ const SignInWithOAuth = () => {
 
   const handleSignInWithApple = React.useCallback(async () => {
     try {
-      const { createdSessionId, setActive, authSessionResult } =
+      const { createdSessionId, setActive } =
         await appleSignIn.startOAuthFlow();
 
-      console.log({ authSessionResult });
       if (createdSessionId && setActive) {
         void setActive({ session: createdSessionId });
       } else {
@@ -32,9 +31,26 @@ const SignInWithOAuth = () => {
         );
       }
     } catch (err) {
-      console.log(JSON.stringify(err, null, 2));
+      console.error(JSON.stringify(err, null, 2));
     }
   }, [appleSignIn]);
+
+  const handleSignInWithGoogle = React.useCallback(async () => {
+    try {
+      const { createdSessionId, setActive } =
+        await googleSignIn.startOAuthFlow();
+
+      if (createdSessionId && setActive) {
+        void setActive({ session: createdSessionId });
+      } else {
+        throw new Error(
+          "There are unmet requirements, modifiy this else to handle them",
+        );
+      }
+    } catch (err) {
+      console.error(JSON.stringify(err, null, 2));
+    }
+  }, [googleSignIn]);
 
   if (isSignedIn) {
     return <Redirect href="/home" />;
@@ -61,11 +77,11 @@ const SignInWithOAuth = () => {
             onPress={() => void handleSignInWithApple()}
             iconName="apple"
           />
-          {/* <IconButton
-          text="Sign in with Google"
-          onPress={() => void handleSignInWithGoogle()}
-          iconName="google"
-        /> */}
+          <IconButton
+            text="Sign in with Google"
+            onPress={() => void handleSignInWithGoogle()}
+            iconName="google"
+          />
         </View>
       </View>
     </SafeAreaView>
