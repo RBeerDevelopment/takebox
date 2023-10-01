@@ -1,21 +1,19 @@
 import React from "react";
-import { Button, StatusBar } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StatusBar } from "react-native";
 import { Redirect, Stack, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 
+import { StyledButton } from "~/components/button";
 import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
 import { IconOnlyButton } from "~/components/icon-button";
 import { UsernameHandler } from "~/components/username-handler";
 import { useDarkMode } from "~/hooks/use-dark-mode";
-import { usePrimaryColor } from "~/hooks/use-primary-color";
 import { TRPCProvider } from "../../utils/api";
 
 export default function SignedinLayout(): React.ReactElement {
   const router = useRouter();
 
   const isDarkMode = useDarkMode();
-  const primaryColor = usePrimaryColor();
 
   const auth = useAuth();
   if (!auth.isSignedIn) {
@@ -50,11 +48,13 @@ export default function SignedinLayout(): React.ReactElement {
             options={{
               presentation: "modal",
               title: "Review",
+              headerTitleAlign: "center",
               headerLeft: () => (
-                <Button
-                  color={primaryColor}
+                <StyledButton
                   onPress={router.back}
-                  title="Close"
+                  text="Close"
+                  buttonStyle="w-fit px-2"
+                  textStyle="text-primary"
                 />
               ),
               headerRight: undefined,
@@ -65,11 +65,13 @@ export default function SignedinLayout(): React.ReactElement {
             options={{
               presentation: "modal",
               title: "Profile",
+              headerTitleAlign: "center",
               headerLeft: () => (
-                <Button
-                  color={primaryColor}
+                <StyledButton
                   onPress={router.back}
-                  title="Close"
+                  text="Close"
+                  buttonStyle="w-fit px-2"
+                  textStyle="text-primary"
                 />
               ),
               headerRight: undefined,
