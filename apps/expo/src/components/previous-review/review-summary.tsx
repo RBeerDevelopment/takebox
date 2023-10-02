@@ -69,7 +69,7 @@ export function ReviewSummary(props: Props): React.ReactElement {
             />
           </View>
 
-          <ThemeableText>{review.content}</ThemeableText>
+          <ThemeableText className="pr-2">{review.content}</ThemeableText>
         </ThemeableView>
       </Swipeable>
     </View>

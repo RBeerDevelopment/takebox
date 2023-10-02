@@ -4,6 +4,7 @@ import { Link } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
 import { api } from "~/utils/api";
+import { useRefreshOnFocus } from "~/hooks/use-refetch-on-focus";
 import { Skeleton } from "../skeleton/skeleton";
 import { ThemeableText } from "../themeable/themable-text";
 import { ThemeableView } from "../themeable/themable-view";
@@ -14,7 +15,10 @@ export function LatestReviewSection(): React.ReactElement {
     data: reviews,
     isLoading,
     isError,
-  } = api.review.latestReviews.useQuery({ take: 10 }, { staleTime: 0 });
+    refetch,
+  } = api.review.latestReviews.useQuery({ take: 10 }, { staleTime: 1 });
+
+  useRefreshOnFocus(refetch);
 
   if (isLoading) return <Skeleton />;
 

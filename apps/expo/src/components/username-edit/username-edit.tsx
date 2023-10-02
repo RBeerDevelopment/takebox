@@ -7,10 +7,17 @@ import { useDarkMode } from "~/hooks/use-dark-mode";
 import { IconOnlyButton } from "../icon-button";
 import { ThemeableText } from "../themeable/themable-text";
 
-export function UsernameEdit(): React.ReactElement {
+interface Props {
+  startInEditMode?: boolean;
+}
+
+export function UsernameEdit(props: Props): React.ReactElement {
+  const { startInEditMode = false } = props;
+
   const { user } = useUser();
 
-  const [usernameEditMode, setUsernameEditMode] = React.useState(false);
+  const [usernameEditMode, setUsernameEditMode] =
+    React.useState(startInEditMode);
   const [username, setUsername] = React.useState(user?.username || "");
   const [error, setError] = React.useState<string>();
 

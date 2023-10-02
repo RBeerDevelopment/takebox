@@ -21,7 +21,7 @@ export default function UsernameSetupModal(): React.ReactElement {
         <ThemeableText>
           You haven&apos;t setup your username yet. Please pick one now.
         </ThemeableText>
-        <UsernameEdit />
+        <UsernameEdit startInEditMode={true} />
         {user?.username && (
           <StyledButton
             colorful={true}

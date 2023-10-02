@@ -1,6 +1,7 @@
 import React from "react";
 import { TextInput } from "react-native";
 
+import { useDarkMode } from "~/hooks/use-dark-mode";
 import { cn } from "~/utils";
 import { ThemeableText } from "../themeable/themable-text";
 
@@ -35,6 +36,8 @@ export function StyledTextInput(props: Props): React.ReactElement {
     },
   } = props;
 
+  const isDarkMode = useDarkMode();
+
   return (
     <>
       {label && (
@@ -50,8 +53,9 @@ export function StyledTextInput(props: Props): React.ReactElement {
         autoCorrect={autoCorrect}
         placeholder={placeholder}
         multiline={multiline}
+        placeholderTextColor={isDarkMode ? "#b1b1b1" : "#212121"}
         className={cn(
-          "my-4 w-full rounded-lg bg-gray-200 p-2 dark:bg-gray-900 dark:text-white",
+          " my-4 w-full rounded-lg bg-gray-200 p-2 dark:bg-gray-900 dark:text-white",
           multiline ? "h-16" : "h-12",
           className,
         )}

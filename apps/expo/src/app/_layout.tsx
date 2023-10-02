@@ -4,6 +4,7 @@ import Constants from "expo-constants";
 import { Stack } from "expo-router";
 import { ClerkProvider } from "@clerk/clerk-expo";
 
+import { TRPCProvider } from "~/utils/api";
 import { useRequestLocation } from "../hooks/use-request-location";
 import { tokenCache } from "../utils/cache";
 
@@ -18,7 +19,9 @@ export default function App() {
         }
         tokenCache={tokenCache}
       >
-        <Stack screenOptions={{ header: () => null }} />
+        <TRPCProvider>
+          <Stack screenOptions={{ header: () => null }} />
+        </TRPCProvider>
       </ClerkProvider>
       <Toast />
     </>
