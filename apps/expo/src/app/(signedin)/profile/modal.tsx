@@ -14,7 +14,7 @@ export default function ProfileModal(): React.ReactElement {
 
   return (
     <ThemeableView className="flex h-full w-full flex-col items-center p-2">
-      {user?.profileImageUrl ? (
+      {user?.imageUrl ? (
         <Image
           alt="Profile Image"
           className="m-8 mb-2 aspect-square w-1/3 rounded-full "
