@@ -93,8 +93,6 @@ export const restaurantRouter = createTRPCRouter({
         );
 
         imageUrl = await uploadImageBlob(image, restaurantInDb.googleId);
-
-        console.log({ imageUrl });
         await ctx.prisma.restaurant.update({
           where: { googleId: restaurantInDb.googleId },
           data: { imageUrl: imageUrl },

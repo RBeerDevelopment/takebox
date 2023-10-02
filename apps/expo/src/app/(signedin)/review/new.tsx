@@ -68,7 +68,6 @@ export default function ReviewScreen(): React.ReactElement {
   }
 
   function setDate(event: DateTimePickerEvent, date?: Date) {
-    console.log({ date });
     if (!date) return;
     dispatchReviewInput({ date });
     setShowDatePicker(false);

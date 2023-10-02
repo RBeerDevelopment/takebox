@@ -14,14 +14,11 @@ export function LatestReviewSection(): React.ReactElement {
   const {
     data: reviews,
     isLoading,
-    isFetching,
     isError,
     refetch,
   } = api.review.latestReviews.useQuery({ take: 10 }, { staleTime: 1 });
 
   useRefreshOnFocus(refetch);
-
-  console.log({ isFetching });
 
   if (isLoading) return <Skeleton />;
 
