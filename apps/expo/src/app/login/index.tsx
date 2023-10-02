@@ -58,7 +58,7 @@ const SignInWithOAuth = () => {
   }
 
   return (
-    <CustomSafeAreaProvider className="bg-primary">
+    <CustomSafeAreaProvider isColorfulBackground={true}>
       <View className="flex h-full flex-col bg-primary px-4">
         <Stack.Screen options={{ header: () => null }} />
         <ThemeableText className="w-full pt-8 text-center text-3xl capitalize">{`Sign in to use ${appName}`}</ThemeableText>

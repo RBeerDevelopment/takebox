@@ -1,11 +1,13 @@
 import React, { useReducer } from "react";
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
+import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import DateTimePicker, {
   type DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 
+import { formatDateToReadable } from "~/utils/date-format";
 import { getLanguageCode } from "~/utils/get-language-code";
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { TagInput } from "~/components/tag-input/tag-input";
@@ -31,6 +33,8 @@ export default function ReviewScreen(): React.ReactElement {
 
   const today = new Date();
   const languageCode = getLanguageCode();
+
+  const [showDatePicker, setShowDatePicker] = React.useState(false);
 
   const primaryColor = usePrimaryColor();
 
@@ -64,8 +68,10 @@ export default function ReviewScreen(): React.ReactElement {
   }
 
   function setDate(event: DateTimePickerEvent, date?: Date) {
+    console.log({ date });
     if (!date) return;
     dispatchReviewInput({ date });
+    setShowDatePicker(false);
   }
 
   return (
@@ -91,15 +97,23 @@ export default function ReviewScreen(): React.ReactElement {
             dispatchReviewInput({ tags: newTags });
           }}
         />
-        <View className="flex flex-row items-start gap-2 pb-8">
+        <View className="flex flex-col items-start gap-2 pb-8">
           <ThemeableText className="text-lg">Date</ThemeableText>
-          <DateTimePicker
-            mode="date"
-            onChange={setDate}
-            value={reviewInput.date}
-            maximumDate={today}
-            locale={languageCode}
-          />
+          <TouchableOpacity
+            className="rounded-lg bg-gray-200 px-3 py-2"
+            onPress={() => setShowDatePicker(true)}
+          >
+            <Text>{formatDateToReadable(reviewInput.date)}</Text>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              mode="date"
+              onChange={setDate}
+              value={reviewInput.date}
+              maximumDate={today}
+              locale={languageCode}
+            />
+          )}
         </View>
         <View className="mb-4 flex flex-row items-center">
           <BouncyCheckbox
