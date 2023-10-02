@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { AppState, type AppStateStatus } from "react-native";
 import Constants from "expo-constants";
 import { useAuth } from "@clerk/clerk-expo";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import NetInfo from "@react-native-community/netinfo";
+import {
+  focusManager,
+  onlineManager,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import superjson from "superjson";
@@ -43,8 +50,8 @@ export const TRPCProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { getToken } = useAuth();
-  const [queryClient] = React.useState(() => new QueryClient());
-  const [trpcClient] = React.useState(() =>
+  const [queryClient] = useState(() => new QueryClient());
+  const [trpcClient] = useState(() =>
     api.createClient({
       transformer: superjson,
       links: [
@@ -60,6 +67,25 @@ export const TRPCProvider: React.FC<{ children: React.ReactNode }> = ({
       ],
     }),
   );
+
+  function onAppStateChange(status: AppStateStatus) {
+    focusManager.setFocused(status === "active");
+  }
+
+  useEffect(() => {
+    onlineManager.setEventListener((setOnline) => {
+      return NetInfo.addEventListener((state) =>
+        setOnline(!!state.isConnected),
+      );
+    });
+
+    const subscription = AppState.addEventListener("change", onAppStateChange);
+
+    return () => {
+      onlineManager.setEventListener(() => undefined);
+      subscription.remove();
+    };
+  }, []);
 
   return (
     <api.Provider client={trpcClient} queryClient={queryClient}>

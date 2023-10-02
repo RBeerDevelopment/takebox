@@ -12,16 +12,18 @@ export default function App() {
   useRequestLocation();
 
   return (
-    <TRPCProvider>
+    <>
       <ClerkProvider
         publishableKey={
           Constants.expoConfig?.extra?.CLERK_PUBLISHABLE_KEY as string
         }
         tokenCache={tokenCache}
       >
-        <Stack screenOptions={{ header: () => null }} />
+        <TRPCProvider>
+          <Stack screenOptions={{ header: () => null }} />
+        </TRPCProvider>
       </ClerkProvider>
       <Toast />
-    </TRPCProvider>
+    </>
   );
 }

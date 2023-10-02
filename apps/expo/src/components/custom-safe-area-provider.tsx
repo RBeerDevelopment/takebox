@@ -21,8 +21,8 @@ export function CustomSafeAreaProvider({
         isColorfulBackground
           ? "bg-primary"
           : isDarkMode
-          ? "bg-white"
-          : "bg-slate-950"
+          ? "bg-slate-950"
+          : "bg-white"
       }
       style={{
         paddingTop: insets.top,
