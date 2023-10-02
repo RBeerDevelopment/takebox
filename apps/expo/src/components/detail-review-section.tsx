@@ -45,9 +45,6 @@ export function DetailReviewSection(props: Props): React.ReactElement {
   if (isLoading) {
     return (
       <View className="mx-6 flex flex-col">
-        <ThemeableText className="mb-1 text-lg font-bold">
-          Reviews
-        </ThemeableText>
         <Skeleton mods="h-6 my-2" />
         <Skeleton mods="h-6 my-2" />
         <Skeleton mods="h-6 my-2" />
@@ -58,9 +55,6 @@ export function DetailReviewSection(props: Props): React.ReactElement {
   if (isError || !reviewSummaryQuery.data || !ownReviewsQuery.data)
     return (
       <View className="mx-6 flex flex-col">
-        <ThemeableText className="mb-1 text-lg font-bold">
-          Reviews
-        </ThemeableText>
         <ThemeableText className="mx-auto italic text-red-800">
           Error loading reviews.
         </ThemeableText>
@@ -72,8 +66,6 @@ export function DetailReviewSection(props: Props): React.ReactElement {
 
   return (
     <View className="mx-4 mb-10 flex flex-col">
-      <ThemeableText className="mb-1 text-lg font-bold">Reviews</ThemeableText>
-
       <ReviewGraph reviewCounts={ratingCounts} />
       {averageRating && reviewCount !== 0 && (
         <View className="flex flex-row justify-center py-2">

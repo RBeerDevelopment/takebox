@@ -5,7 +5,7 @@ import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-b
 import { fetchNearbyRestaurants } from "../google-maps/search";
 import { uploadImageBlob } from "../s3/upload-image-blob";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { shortenUrlForDb } from "../utils/clean-url";
+import { shortenUrlForDb } from "../utils/shorten-url-for-db";
 
 export const restaurantRouter = createTRPCRouter({
   nearbyRestaurantsByQuery: protectedProcedure
