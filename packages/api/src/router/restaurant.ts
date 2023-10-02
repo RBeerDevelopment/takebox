@@ -5,6 +5,7 @@ import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-b
 import { fetchNearbyRestaurants } from "../google-maps/search";
 import { uploadImageBlob } from "../s3/upload-image-blob";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { shortenUrlForDb } from "../utils/clean-url";
 
 export const restaurantRouter = createTRPCRouter({
   nearbyRestaurantsByQuery: protectedProcedure
@@ -59,7 +60,9 @@ export const restaurantRouter = createTRPCRouter({
       const restaurantDetails = await prisma.restaurant.update({
         where: { googleId: placeId },
         data: {
-          websiteUrl: fetchedDetails.website,
+          websiteUrl: fetchedDetails.website
+            ? shortenUrlForDb(fetchedDetails.website)
+            : undefined,
           googleUrl: fetchedDetails.url,
         },
       });
@@ -91,6 +94,7 @@ export const restaurantRouter = createTRPCRouter({
 
         imageUrl = await uploadImageBlob(image, restaurantInDb.googleId);
 
+        console.log({ imageUrl });
         await ctx.prisma.restaurant.update({
           where: { googleId: restaurantInDb.googleId },
           data: { imageUrl: imageUrl },
