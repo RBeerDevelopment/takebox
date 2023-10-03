@@ -71,7 +71,7 @@ export default function Email(): React.ReactElement {
   }
 
   return (
-    <CustomSafeAreaProvider className="bg-primary">
+    <CustomSafeAreaProvider isColorfulBackground={true}>
       <View className="flex h-full w-full flex-col items-center bg-primary">
         <Stack.Screen options={{ header: () => null }} />
         {content}
