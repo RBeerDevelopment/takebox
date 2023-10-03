@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import DateTimePicker, {
   type DateTimePickerEvent,
@@ -9,10 +9,10 @@ import DateTimePicker, {
 
 import { formatDateToReadable } from "~/utils/date-format";
 import { getLanguageCode } from "~/utils/get-language-code";
+import { ImagePicker } from "~/components/image-picker";
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { TagInput } from "~/components/tag-input/tag-input";
 import { ThemeableText } from "~/components/themeable/themable-text";
-import { ThemeableView } from "~/components/themeable/themable-view";
 import { useCreateReview } from "~/hooks/queries/use-create-review";
 import { usePrimaryColor } from "~/hooks/use-primary-color";
 import { StyledButton } from "../../../components/button";
@@ -25,6 +25,7 @@ interface ReviewInput {
   isTakeout: boolean;
   date: Date;
   tags: string[];
+  imageUri: string | null;
 }
 
 export default function ReviewScreen(): React.ReactElement {
@@ -55,6 +56,7 @@ export default function ReviewScreen(): React.ReactElement {
       tags: [],
       isTakeout: false,
       date: today,
+      imageUri: null,
     },
   );
 
@@ -78,7 +80,11 @@ export default function ReviewScreen(): React.ReactElement {
       className="h-full w-full"
       onPress={Keyboard.dismiss}
     >
-      <ThemeableView className="flex h-full w-full flex-col p-6">
+      <ScrollView className="flex h-full w-full flex-col overflow-y-scroll bg-white p-6 dark:bg-slate-950">
+        <ImagePicker
+          imageUri={reviewInput.imageUri}
+          onChangeImageUri={(imageUri) => dispatchReviewInput({ imageUri })}
+        />
         <StarRating
           onChangeRating={(rating) => dispatchReviewInput({ rating })}
         />
@@ -122,8 +128,13 @@ export default function ReviewScreen(): React.ReactElement {
           <ThemeableText className="-ml-2 text-lg">Takeout</ThemeableText>
         </View>
 
-        <StyledButton colorful text="Save" onPress={handleCreateReview} />
-      </ThemeableView>
+        <StyledButton
+          colorful
+          text="Save"
+          onPress={handleCreateReview}
+          buttonStyle="mb-20"
+        />
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }

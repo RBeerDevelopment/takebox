@@ -43,11 +43,20 @@ const defineConfig = () => ({
     [
       "expo-location",
       {
-        locationAlwaysAndWhenInUsePermission: `Allow TakeBox to use your location, to show you restaurants near you.`,
+        locationAlwaysAndWhenInUsePermission: `Allow Flavoury to use your location to show you restaurants near you. You can also choose to only share a rough location and most likely this should work fine as well.`,
       },
     ],
     "expo-localization",
     "expo-router",
+    [
+      "expo-image-picker",
+      {
+        photosPermission:
+          "Allow Flavoury to accesses your photos to add them to your reviews.",
+        cameraPermission:
+          "Allow Flavoury to take photos to add them to your reviews.",
+      },
+    ],
   ],
 });
 
