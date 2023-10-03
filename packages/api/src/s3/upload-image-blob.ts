@@ -1,6 +1,7 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { client } from "./client";
 import { nanoid } from "nanoid";
+
+import { client } from "./client";
 
 export async function uploadImageBlob(blob: Blob, key: string) {
   const randomId = nanoid(5);
@@ -20,10 +21,10 @@ export async function uploadImageBlob(blob: Blob, key: string) {
     Bucket: bucketName,
     Key: fullKey,
     Body: buffer,
-    ACL: "public-read",
+    ACL: "private",
   });
 
   await client.send(command);
 
-  return `https://${bucketName}.s3.amazonaws.com/${fullKey}`;
+  return fullKey;
 }

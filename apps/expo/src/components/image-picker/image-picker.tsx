@@ -87,7 +87,7 @@ export function ImagePicker(props: Props) {
             iconFont="material"
             iconName="close"
             onPress={() => {
-              setImageUri(null);
+              onChangeImageUri(null);
             }}
           />
         </View>

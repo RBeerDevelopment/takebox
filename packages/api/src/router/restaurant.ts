@@ -3,6 +3,7 @@ import { z } from "zod";
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
 import { fetchNearbyRestaurants } from "../google-maps/search";
+import { createPresignedDownloadUrl } from "../s3/create-presigned-download-url";
 import { uploadImageBlob } from "../s3/upload-image-blob";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { shortenUrlForDb } from "../utils/shorten-url-for-db";
@@ -93,6 +94,11 @@ export const restaurantRouter = createTRPCRouter({
         );
 
         imageUrl = await uploadImageBlob(image, restaurantInDb.googleId);
+
+        console.log({ imageUrl });
+
+        const presignedUrl = await createPresignedDownloadUrl(imageUrl);
+        console.log({ presignedUrl });
         await ctx.prisma.restaurant.update({
           where: { googleId: restaurantInDb.googleId },
           data: { imageUrl: imageUrl },
