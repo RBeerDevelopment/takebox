@@ -1,3 +1,5 @@
+import Toast from "react-native-toast-message";
+
 import { api } from "~/utils/api";
 
 export function useCreateReview(restaurantId?: string) {
@@ -8,6 +10,14 @@ export function useCreateReview(restaurantId?: string) {
       void utils.review.reviewSummary.invalidate({ placeId: restaurantId });
       void utils.review.ownReviewsForRestaurant.invalidate({
         restaurantId,
+      });
+    },
+    onError: () => {
+      Toast.show({
+        type: "error",
+        text1: "Error posting review. Please try again.",
+        position: "bottom",
+        visibilityTime: 3000,
       });
     },
   });

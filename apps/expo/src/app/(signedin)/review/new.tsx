@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import Toast from "react-native-toast-message";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import DateTimePicker, {
   type DateTimePickerEvent,
@@ -52,7 +53,7 @@ export default function ReviewScreen(): React.ReactElement {
       return { ...prevState, ...newState };
     },
     {
-      rating: 3,
+      rating: 5,
       content: "",
       tags: [],
       isTakeout: false,
@@ -75,10 +76,17 @@ export default function ReviewScreen(): React.ReactElement {
             goBack();
             return;
           }
-          // upload image to s3
           uploadImage(reviewInput.imageUri, s3UploadUrl)
             .then(goBack)
-            .catch((e: unknown) => console.log(e));
+            .catch((e: unknown) => {
+              console.error(e);
+              Toast.show({
+                type: "error",
+                text1: "Error uploading image. Please try again.",
+                position: "bottom",
+                visibilityTime: 3000,
+              });
+            });
         },
       },
     );

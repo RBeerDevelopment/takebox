@@ -2,9 +2,7 @@ import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import { client } from "./client";
-
-const PresignedUrlType = ["getObject", "putObject"] as const;
-type PresignedUrlType = (typeof PresignedUrlType)[number];
+import { PresignedUrlType } from "./presigned-url-type";
 
 export async function createPresignedUrl(type: PresignedUrlType, key: string) {
   const commandOptions = {
