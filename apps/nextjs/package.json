@@ -24,7 +24,7 @@
     "@trpc/react-query": "^10.27.1",
     "@trpc/server": "^10.27.1",
     "daisyui": "^2.51.6",
-    "next": "^13.4.10",
+    "next": "^13.5.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sharp": "^0.32.3",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@flavoury/eslint-config": "^0.1.0",
     "@types/node": "^18.16.5",
-    "@types/react": "^18.2.8",
+    "@types/react": "^18.2.24",
     "@types/react-dom": "^18.2.6",
     "autoprefixer": "^10.4.14",
     "dotenv-cli": "^7.2.1",

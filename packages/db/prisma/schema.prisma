@@ -17,7 +17,7 @@ model Restaurant {
   createdAt            DateTime            @default(now())
   updatedAt            DateTime            @updatedAt
   googleId             String              @unique
-  imageUrl             String?
+  s3ImageKey           String?
   googlePhotoReference String?
   name                 String
   address              String
@@ -62,6 +62,7 @@ model Review {
   isTakeout    Boolean    @default(false)
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
+  s3ImageKey   String?
   user         User       @relation(fields: [userId], references: [id])
   userId       String
   tags         Tag[]
