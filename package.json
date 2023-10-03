@@ -17,8 +17,9 @@
     "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
     "lint": "turbo lint && manypkg check",
     "lint:fix": "turbo lint:fix && manypkg fix",
-    "type-check": "turbo type-check",
-    "sims": "open -a Simulator && emulator -avd Pixel_7_Pro_API_34 &"
+    "publish:ios": "cd apps/expo && EXPO_NO_CAPABILITY_SYNC=1 eas build --platform ios --auto-submit",
+    "sims": "open -a Simulator && emulator -avd Pixel_7_Pro_API_34 &",
+    "type-check": "turbo type-check"
   },
   "dependencies": {
     "@flavoury/eslint-config": "^0.1.0",
