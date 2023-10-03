@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { createPresignedUrl } from "../s3/create-presigned-url";
+import { generateReviewImageKey } from "../s3/generate-review-image-key";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import {
   emptyRatingCountMap,
@@ -60,7 +62,6 @@ export const reviewRouter = createTRPCRouter({
 
       return response;
     }),
-
   postReview: protectedProcedure
     .input(
       z.object({
@@ -71,16 +72,27 @@ export const reviewRouter = createTRPCRouter({
         tags: z.array(z.string()).optional(),
         foods: z.array(z.string()).optional(),
         isTakeout: z.boolean(),
+        hasImage: z.boolean(),
       }),
     )
-    .output(z.boolean())
+    .output(
+      z.object({
+        reviewId: z.string(),
+        s3UploadUrl: z.string().optional(),
+      }),
+    )
     .mutation(async ({ input, ctx }) => {
       const { userId } = ctx.auth;
 
-      const { placeId, rating, content, foods, isTakeout, date } = input;
+      const { placeId, rating, content, foods, isTakeout, date, hasImage } =
+        input;
 
       const foodNames = foods || [];
       const tags = input.tags || [];
+
+      const imageKey = hasImage
+        ? generateReviewImageKey(placeId, userId)
+        : null;
 
       const review = await ctx.prisma.review.create({
         data: {
@@ -88,6 +100,7 @@ export const reviewRouter = createTRPCRouter({
           content,
           isTakeout,
           date,
+          s3ImageKey: imageKey,
           foodName: {
             create: [
               ...foodNames.map((f) => ({
@@ -129,7 +142,17 @@ export const reviewRouter = createTRPCRouter({
         },
       });
 
-      return Boolean(review);
+      if (!imageKey) {
+        return {
+          reviewId: review.id,
+        };
+      }
+
+      const s3UploadUrl = await createPresignedUrl("putObject", imageKey);
+      return {
+        reviewId: review.id,
+        s3UploadUrl,
+      };
     }),
 
   usersOwnReviews: protectedProcedure.query(async ({ ctx }) => {

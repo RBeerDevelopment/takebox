@@ -11,8 +11,8 @@ export function responseToRestaurant(
     lat: r.geometry.location.lat,
     lng: r.geometry.location.lng,
     googlePhotoReference: r.photos[0]?.photo_reference || null,
-    imageUrl: null,
+    s3ImageKey: null,
     websiteUrl: null,
-    googleUrl: null
+    googleUrl: null,
   };
 }

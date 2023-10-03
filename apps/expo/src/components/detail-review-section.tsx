@@ -96,7 +96,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
             <ReviewSummary
               review={review}
               restaurantId={restaurantId || ""}
-              key={String(review.date)}
+              key={String(review.id)}
             />
           ))}
         </>

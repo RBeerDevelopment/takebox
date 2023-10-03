@@ -3,7 +3,7 @@ import { z } from "zod";
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
 import { fetchNearbyRestaurants } from "../google-maps/search";
-import { createPresignedDownloadUrl } from "../s3/create-presigned-download-url";
+import { createPresignedUrl } from "../s3/create-presigned-url";
 import { uploadImageBlob } from "../s3/upload-image-blob";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { shortenUrlForDb } from "../utils/shorten-url-for-db";
@@ -84,28 +84,24 @@ export const restaurantRouter = createTRPCRouter({
         where: { googleId: placeId },
       });
 
-      let imageUrl = restaurantInDb?.imageUrl;
+      let s3ImageKey = restaurantInDb?.s3ImageKey;
 
-      if (imageUrl) return imageUrl;
+      if (s3ImageKey) return createPresignedUrl("getObject", s3ImageKey);
 
       if (restaurantInDb?.googlePhotoReference) {
         const image = await fetchGooglePhotoBlob(
           restaurantInDb.googlePhotoReference,
         );
 
-        imageUrl = await uploadImageBlob(image, restaurantInDb.googleId);
+        s3ImageKey = await uploadImageBlob(image, restaurantInDb.googleId);
 
-        console.log({ imageUrl });
-
-        const presignedUrl = await createPresignedDownloadUrl(imageUrl);
-        console.log({ presignedUrl });
         await ctx.prisma.restaurant.update({
           where: { googleId: restaurantInDb.googleId },
-          data: { imageUrl: imageUrl },
+          data: { s3ImageKey },
         });
       }
 
-      if (!imageUrl) throw new Error("could not retrieve image url");
-      return imageUrl;
+      if (!s3ImageKey) throw new Error("could not retrieve image url");
+      return createPresignedUrl("getObject", s3ImageKey);
     }),
 });

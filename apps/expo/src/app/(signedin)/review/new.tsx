@@ -9,6 +9,7 @@ import DateTimePicker, {
 
 import { formatDateToReadable } from "~/utils/date-format";
 import { getLanguageCode } from "~/utils/get-language-code";
+import { uploadImage } from "~/utils/upload-image";
 import { ImagePicker } from "~/components/image-picker";
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { TagInput } from "~/components/tag-input/tag-input";
@@ -62,7 +63,25 @@ export default function ReviewScreen(): React.ReactElement {
 
   function handleCreateReview() {
     if (!id) return;
-    createReview.mutate({ placeId: id, ...reviewInput }, { onSuccess: goBack });
+    createReview.mutate(
+      {
+        placeId: id,
+        ...reviewInput,
+        hasImage: Boolean(reviewInput.imageUri),
+      },
+      {
+        onSuccess: ({ s3UploadUrl }) => {
+          if (!s3UploadUrl || reviewInput.imageUri === null) {
+            goBack();
+            return;
+          }
+          // upload image to s3
+          uploadImage(reviewInput.imageUri, s3UploadUrl)
+            .then(goBack)
+            .catch((e: unknown) => console.log(e));
+        },
+      },
+    );
   }
 
   if (createReview.isLoading) {
