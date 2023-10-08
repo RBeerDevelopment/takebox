@@ -224,6 +224,7 @@ export const reviewRouter = createTRPCRouter({
           id: true,
           rating: true,
           date: true,
+          s3ImageKey: true,
           restaurant: {
             select: {
               name: true,
@@ -250,7 +251,19 @@ export const reviewRouter = createTRPCRouter({
         },
       });
 
-      return reviews;
+      const reviewsWithUrl = await Promise.all(reviews.map(async (review) => {
+        const {s3ImageKey, ...reviewWithoutS3 } = review;
+        if (!s3ImageKey) return { ...reviewWithoutS3, imageUrl: null };
+
+        const url = await createPresignedUrl("getObject", s3ImageKey);
+
+        return {
+          ...reviewWithoutS3,
+          imageUrl: url,
+        };
+    }));
+
+      return reviewsWithUrl;
     }),
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))

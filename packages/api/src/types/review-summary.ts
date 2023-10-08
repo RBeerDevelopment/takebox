@@ -10,4 +10,5 @@ export interface ReviewSummary {
     username: string | null;
   };
   date: Date;
+  imageUrl: string | null;
 }
