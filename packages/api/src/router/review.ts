@@ -9,6 +9,8 @@ import {
   type PossibleRating,
   type RatingCountMap,
 } from "../utils/rating-count-map";
+import { buildReviewListQuery } from "../query-builder/build-review-list-query";
+import { buildCreateReviewQuery, createReviewInput } from "../query-builder/build-create-review-query";
 
 export const reviewRouter = createTRPCRouter({
   reviewSummary: protectedProcedure
@@ -64,16 +66,7 @@ export const reviewRouter = createTRPCRouter({
     }),
   postReview: protectedProcedure
     .input(
-      z.object({
-        placeId: z.string(),
-        rating: z.number().min(1).max(10).step(1),
-        content: z.string(),
-        date: z.date(),
-        tags: z.array(z.string()).optional(),
-        foods: z.array(z.string()).optional(),
-        isTakeout: z.boolean(),
-        hasImage: z.boolean(),
-      }),
+     createReviewInput
     )
     .output(
       z.object({
@@ -83,64 +76,15 @@ export const reviewRouter = createTRPCRouter({
     )
     .mutation(async ({ input, ctx }) => {
       const { userId } = ctx.auth;
+      const { placeId, hasImage } = input
 
-      const { placeId, rating, content, foods, isTakeout, date, hasImage } =
-        input;
-
-      const foodNames = foods || [];
-      const tags = input.tags || [];
+      const query = buildCreateReviewQuery(input, userId)
 
       const imageKey = hasImage
         ? generateReviewImageKey(placeId, userId)
         : null;
 
-      const review = await ctx.prisma.review.create({
-        data: {
-          rating,
-          content,
-          isTakeout,
-          date,
-          s3ImageKey: imageKey,
-          foodName: {
-            create: [
-              ...foodNames.map((f) => ({
-                name: f,
-              })),
-            ],
-          },
-          tags: {
-            connectOrCreate: [
-              ...tags?.map((t) => ({
-                where: {
-                  name_userId: {
-                    name: t,
-                    userId: userId,
-                  },
-                },
-                create: {
-                  name: t,
-                  userId: userId,
-                },
-              })),
-            ],
-          },
-          user: {
-            connectOrCreate: {
-              where: {
-                id: userId,
-              },
-              create: {
-                id: userId,
-              },
-            },
-          },
-          restaurant: {
-            connect: {
-              googleId: placeId,
-            },
-          },
-        },
-      });
+      const review = await ctx.prisma.review.create(query);
 
       if (!imageKey) {
         return {
@@ -155,101 +99,38 @@ export const reviewRouter = createTRPCRouter({
       };
     }),
 
-  usersOwnReviews: protectedProcedure.query(async ({ ctx }) => {
-    const {
-      prisma,
-      auth: { userId },
-    } = ctx;
-
-    const reviews = await prisma.review.findMany({
-      select: {
-        id: true,
-        rating: true,
-        updatedAt: true,
-        restaurant: {
-          select: {
-            name: true,
-          },
-        },
-        content: true,
-      },
-      where: { userId: userId },
-      take: 10,
-      orderBy: {
-        updatedAt: "desc",
-      },
-    });
-
-    return reviews;
-  }),
 
   latestReviews: protectedProcedure
     .input(z.object({ take: z.number().min(1).max(50).default(12) }))
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
 
-      const reviews = await prisma.review.findMany({
-        select: {
-          id: true,
-          rating: true,
-          date: true,
-          updatedAt: true,
-          restaurant: {
-            select: {
-              name: true,
-              googleId: true,
-            },
-          },
-          user: {
-            select: {
-              username: true,
-            },
-          },
-          content: true,
-        },
-        take: input.take,
-        orderBy: [{ date: "desc" }, { updatedAt: "desc" }],
-      });
+      const query = buildReviewListQuery({ otherArgs: { take: input.take } });
+
+      const reviews = await prisma.review.findMany({...query});
 
       return reviews;
     }),
+
   ownReviewsForRestaurant: protectedProcedure
     .input(z.object({ restaurantId: z.string() }))
     .query(async ({ ctx, input }) => {
       const { prisma, auth } = ctx;
       const { restaurantId } = input;
+    
+      const query = buildReviewListQuery({ where: {
+        AND: {
+          restaurant: {
+            googleId: restaurantId,
+          },
+          userId: auth.userId,
+        }
+      }})
 
       const reviews = await prisma.review.findMany({
-        select: {
-          id: true,
-          rating: true,
-          date: true,
-          s3ImageKey: true,
-          restaurant: {
-            select: {
-              name: true,
-              googleId: true,
-            },
-          },
-          user: {
-            select: {
-              username: true,
-            },
-          },
-          content: true,
-        },
-        where: {
-          AND: {
-            restaurant: {
-              googleId: restaurantId,
-            },
-            userId: auth.userId,
-          },
-        },
-        orderBy: {
-          date: "desc",
-        },
-      });
+        ...query,
+      })
+        
 
       const reviewsWithUrl = await Promise.all(reviews.map(async (review) => {
         const {s3ImageKey, ...reviewWithoutS3 } = review;
