@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+import {
+  buildCreateReviewQuery,
+  createReviewInput,
+} from "../query-builder/build-create-review-query";
+import { buildReviewListQuery } from "../query-builder/build-review-list-query";
 import { createPresignedUrl } from "../s3/create-presigned-url";
 import { generateReviewImageKey } from "../s3/generate-review-image-key";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -9,8 +14,6 @@ import {
   type PossibleRating,
   type RatingCountMap,
 } from "../utils/rating-count-map";
-import { buildReviewListQuery } from "../query-builder/build-review-list-query";
-import { buildCreateReviewQuery, createReviewInput } from "../query-builder/build-create-review-query";
 
 export const reviewRouter = createTRPCRouter({
   reviewSummary: protectedProcedure
@@ -65,9 +68,7 @@ export const reviewRouter = createTRPCRouter({
       return response;
     }),
   postReview: protectedProcedure
-    .input(
-     createReviewInput
-    )
+    .input(createReviewInput)
     .output(
       z.object({
         reviewId: z.string(),
@@ -76,9 +77,9 @@ export const reviewRouter = createTRPCRouter({
     )
     .mutation(async ({ input, ctx }) => {
       const { userId } = ctx.auth;
-      const { placeId, hasImage } = input
+      const { placeId, hasImage } = input;
 
-      const query = buildCreateReviewQuery(input, userId)
+      const query = buildCreateReviewQuery(input, userId);
 
       const imageKey = hasImage
         ? generateReviewImageKey(placeId, userId)
@@ -99,7 +100,6 @@ export const reviewRouter = createTRPCRouter({
       };
     }),
 
-
   latestReviews: protectedProcedure
     .input(z.object({ take: z.number().min(1).max(50).default(12) }))
     .query(async ({ ctx, input }) => {
@@ -107,9 +107,50 @@ export const reviewRouter = createTRPCRouter({
 
       const query = buildReviewListQuery({ otherArgs: { take: input.take } });
 
-      const reviews = await prisma.review.findMany({...query});
+      const reviews = await prisma.review.findMany({ ...query });
 
       return reviews;
+    }),
+
+  reviewById: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { prisma } = ctx;
+      const { id } = input;
+
+      const query = {
+        where: { id },
+        select: {
+          id: true,
+          rating: true,
+          date: true,
+          s3ImageKey: true,
+          restaurant: {
+            select: {
+              name: true,
+              googleId: true,
+            },
+          },
+          user: {
+            select: {
+              username: true,
+              id: true,
+            },
+          },
+          content: true,
+        },
+      } as const;
+
+      const reviewResult = await prisma.review.findUnique(query);
+
+      if (!reviewResult) return null;
+
+      const { s3ImageKey, ...review } = reviewResult;
+      const imageUrl = s3ImageKey
+        ? await createPresignedUrl("getObject", s3ImageKey)
+        : null;
+
+      return { ...review, imageUrl };
     }),
 
   ownReviewsForRestaurant: protectedProcedure
@@ -117,32 +158,35 @@ export const reviewRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { prisma, auth } = ctx;
       const { restaurantId } = input;
-    
-      const query = buildReviewListQuery({ where: {
-        AND: {
-          restaurant: {
-            googleId: restaurantId,
+
+      const query = buildReviewListQuery({
+        where: {
+          AND: {
+            restaurant: {
+              googleId: restaurantId,
+            },
+            userId: auth.userId,
           },
-          userId: auth.userId,
-        }
-      }})
+        },
+      });
 
       const reviews = await prisma.review.findMany({
         ...query,
-      })
-        
+      });
 
-      const reviewsWithUrl = await Promise.all(reviews.map(async (review) => {
-        const {s3ImageKey, ...reviewWithoutS3 } = review;
-        if (!s3ImageKey) return { ...reviewWithoutS3, imageUrl: null };
+      const reviewsWithUrl = await Promise.all(
+        reviews.map(async (review) => {
+          const { s3ImageKey, ...reviewWithoutS3 } = review;
+          if (!s3ImageKey) return { ...reviewWithoutS3, imageUrl: null };
 
-        const url = await createPresignedUrl("getObject", s3ImageKey);
+          const url = await createPresignedUrl("getObject", s3ImageKey);
 
-        return {
-          ...reviewWithoutS3,
-          imageUrl: url,
-        };
-    }));
+          return {
+            ...reviewWithoutS3,
+            imageUrl: url,
+          };
+        }),
+      );
 
       return reviewsWithUrl;
     }),
