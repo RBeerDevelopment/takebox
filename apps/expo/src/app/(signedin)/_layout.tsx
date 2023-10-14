@@ -61,6 +61,23 @@ export default function SignedinLayout(): React.ReactElement {
             }}
           />
           <Stack.Screen
+            name="review/detail/[id]"
+            options={{
+              presentation: "modal",
+              title: "Review",
+              headerTitleAlign: "center",
+              headerLeft: () => (
+                <StyledButton
+                  onPress={router.back}
+                  text="Close"
+                  buttonStyle="w-fit px-2 -translate-y-2"
+                  textStyle="text-primary"
+                />
+              ),
+              headerRight: undefined,
+            }}
+          />
+          <Stack.Screen
             name="profile/modal"
             options={{
               presentation: "modal",
