@@ -51,7 +51,6 @@ export default function ReviewDetailModal(): React.ReactElement {
   }
 
   const { imageUrl } = review;
-  const isOwnReview = review.user.id === user.user?.id;
 
   return (
     <ThemeableView className="flex h-full flex-col justify-start gap-1 px-2 py-3">
@@ -67,7 +66,7 @@ export default function ReviewDetailModal(): React.ReactElement {
         {imageUrl ? (
           <Image
             alt="Review Image"
-            className="aspect-square w-3/4 rounded-xl"
+            className="aspect-square w-full rounded-xl"
             source={imageUrl}
             placeholder={blurhash}
             contentFit="cover"

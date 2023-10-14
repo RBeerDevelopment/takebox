@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import { router } from "expo-router";
+import { Link } from "expo-router";
 
 import { type ReviewSummary } from "@flavoury/api";
 
@@ -56,28 +56,24 @@ export function ReviewSummary(props: Props): React.ReactElement {
   return (
     <TouchableOpacity>
       <Swipeable renderRightActions={renderRightActions}>
-        <ThemeableView
-          className="flex flex-col justify-start gap-1 px-2 py-3 dark:bg-slate-950"
-          onPress={() => {
-            console.log("click");
-            router.push(`/review/detail/${review.id}`);
-          }}
-        >
-          <ThemeableText className="-ml-0.5 text-lg font-semibold dark:text-white">
-            {review.restaurant.name}
-          </ThemeableText>
-          <ThemeableText>{review.user.username}</ThemeableText>
-          <ThemeableText>{formatDateToReadable(review.date)}</ThemeableText>
-          <View className="py-2">
-            <StarRating
-              presetRating={review.rating}
-              isEditable={false}
-              isSmall
-            />
-          </View>
+        <Link href={`/review/detail/${review.id}`}>
+          <ThemeableView className="flex flex-col justify-start gap-1 px-2 py-3 dark:bg-slate-950">
+            <ThemeableText className="-ml-0.5 text-lg font-semibold dark:text-white">
+              {review.restaurant.name}
+            </ThemeableText>
+            <ThemeableText>{review.user.username}</ThemeableText>
+            <ThemeableText>{formatDateToReadable(review.date)}</ThemeableText>
+            <View className="py-2">
+              <StarRating
+                presetRating={review.rating}
+                isEditable={false}
+                isSmall
+              />
+            </View>
 
-          <ThemeableText className="pr-2">{review.content}</ThemeableText>
-        </ThemeableView>
+            <ThemeableText className="pr-2">{review.content}</ThemeableText>
+          </ThemeableView>
+        </Link>
       </Swipeable>
     </TouchableOpacity>
   );
