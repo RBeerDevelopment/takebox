@@ -1,10 +1,12 @@
 import { z } from "zod";
 
+import { selectLastestReviews } from "../db/review/select-latest-reviews";
+import { selectOwnReviewsByRestaurantId } from "../db/review/select-own-reviews-by-restaurant-id";
+import { selectReviewById } from "../db/review/select-review-by-id";
 import {
   buildCreateReviewQuery,
   createReviewInput,
 } from "../query-builder/build-create-review-query";
-import { buildReviewListQuery } from "../query-builder/build-review-list-query";
 import { createPresignedUrl } from "../s3/create-presigned-url";
 import { generateReviewImageKey } from "../s3/generate-review-image-key";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -105,11 +107,7 @@ export const reviewRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
 
-      const query = buildReviewListQuery({ otherArgs: { take: input.take } });
-
-      const reviews = await prisma.review.findMany({ ...query });
-
-      return reviews;
+      return await selectLastestReviews(prisma, input.take);
     }),
 
   reviewById: protectedProcedure
@@ -118,39 +116,7 @@ export const reviewRouter = createTRPCRouter({
       const { prisma } = ctx;
       const { id } = input;
 
-      const query = {
-        where: { id },
-        select: {
-          id: true,
-          rating: true,
-          date: true,
-          s3ImageKey: true,
-          restaurant: {
-            select: {
-              name: true,
-              googleId: true,
-            },
-          },
-          user: {
-            select: {
-              username: true,
-              id: true,
-            },
-          },
-          content: true,
-        },
-      } as const;
-
-      const reviewResult = await prisma.review.findUnique(query);
-
-      if (!reviewResult) return null;
-
-      const { s3ImageKey, ...review } = reviewResult;
-      const imageUrl = s3ImageKey
-        ? await createPresignedUrl("getObject", s3ImageKey)
-        : null;
-
-      return { ...review, imageUrl };
+      return await selectReviewById(prisma, id);
     }),
 
   ownReviewsForRestaurant: protectedProcedure
@@ -159,36 +125,13 @@ export const reviewRouter = createTRPCRouter({
       const { prisma, auth } = ctx;
       const { restaurantId } = input;
 
-      const query = buildReviewListQuery({
-        where: {
-          AND: {
-            restaurant: {
-              googleId: restaurantId,
-            },
-            userId: auth.userId,
-          },
-        },
-      });
-
-      const reviews = await prisma.review.findMany({
-        ...query,
-      });
-
-      const reviewsWithUrl = await Promise.all(
-        reviews.map(async (review) => {
-          const { s3ImageKey, ...reviewWithoutS3 } = review;
-          if (!s3ImageKey) return { ...reviewWithoutS3, imageUrl: null };
-
-          const url = await createPresignedUrl("getObject", s3ImageKey);
-
-          return {
-            ...reviewWithoutS3,
-            imageUrl: url,
-          };
-        }),
+      const reviews = selectOwnReviewsByRestaurantId(
+        prisma,
+        restaurantId,
+        auth.userId,
       );
 
-      return reviewsWithUrl;
+      return reviews;
     }),
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
