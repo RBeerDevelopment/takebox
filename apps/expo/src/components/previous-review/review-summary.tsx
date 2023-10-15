@@ -3,7 +3,7 @@ import { Alert, Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { Link } from "expo-router";
 
-import { type ReviewSummary } from "@flavoury/api";
+import { type ReviewListItem } from "@flavoury/api/src/db/review/review-list-item";
 
 import { formatDateToReadable } from "~/utils/date-format";
 import { useDeleteReview } from "~/hooks/queries/use-delete-review";
@@ -13,7 +13,7 @@ import { ThemeableText } from "../themeable/themable-text";
 import { ThemeableView } from "../themeable/themable-view";
 
 interface Props {
-  review: ReviewSummary;
+  review: ReviewListItem;
   restaurantId?: string;
 }
 

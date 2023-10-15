@@ -26,8 +26,6 @@ export default function ReviewDetailModal(): React.ReactElement {
     { enabled: Boolean(id), staleTime: secInMs(30), refetchOnMount: false },
   );
 
-  const user = useUser();
-
   if (!id) {
     return (
       <CentralItem>

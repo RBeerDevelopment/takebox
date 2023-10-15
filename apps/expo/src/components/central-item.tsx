@@ -1,6 +1,3 @@
-import { View } from "react-native";
-
-import { cn } from "~/utils";
 import { ThemeableView } from "./themeable/themable-view";
 
 interface Props {
