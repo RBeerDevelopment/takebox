@@ -1,6 +1,6 @@
-import { UserButton, useAuth } from "@clerk/nextjs";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
+import { useAuth, UserButton } from "@clerk/nextjs";
 
 export function NavbarUser(): React.ReactElement {
   const { isSignedIn } = useAuth();

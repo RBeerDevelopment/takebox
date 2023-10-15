@@ -2,7 +2,6 @@ import React from "react";
 import { View } from "react-native";
 import { Image } from "expo-image";
 import { useGlobalSearchParams } from "expo-router";
-import { useUser } from "@clerk/clerk-expo";
 
 import { api } from "~/utils/api";
 import { blurhash } from "~/utils/blur-hash";
