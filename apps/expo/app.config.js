@@ -6,7 +6,7 @@ process.env.EXPO_ROUTER_APP_ROOT = __dirname + "/src/app";
 
 const defineConfig = () => ({
   name: "Flavoury",
-  slug: "Flavoury",
+  slug: "TakeBox",
   version: "0.6.2",
   scheme: "beer.robin.takebox",
   orientation: "portrait",
