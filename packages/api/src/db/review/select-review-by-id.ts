@@ -1,7 +1,7 @@
-import { PrismaClient } from "@flavoury/db";
+import type { PrismaClient } from "@flavoury/db";
 
 import { createPresignedUrl } from "../../s3/create-presigned-url";
-import { ReviewDetail } from "./review-detail";
+import type { ReviewDetail } from "./review-detail";
 
 export async function selectReviewById(
   prisma: PrismaClient,

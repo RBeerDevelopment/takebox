@@ -1,6 +1,6 @@
-import { PrismaClient } from "@flavoury/db";
+import type { PrismaClient } from "@flavoury/db";
 
-import { ReviewListItem } from "./review-list-item";
+import type { ReviewListItem } from "./review-list-item";
 
 export async function selectLastestReviews(
   prisma: PrismaClient,
