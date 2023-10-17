@@ -1,8 +1,9 @@
 import React from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import { Link } from "expo-router";
 
-import { type ReviewSummary } from "@flavoury/api";
+import { type ReviewListItem } from "@flavoury/api/src/db/review/review-list-item";
 
 import { formatDateToReadable } from "~/utils/date-format";
 import { useDeleteReview } from "~/hooks/queries/use-delete-review";
@@ -12,7 +13,7 @@ import { ThemeableText } from "../themeable/themable-text";
 import { ThemeableView } from "../themeable/themable-view";
 
 interface Props {
-  review: ReviewSummary;
+  review: ReviewListItem;
   restaurantId?: string;
 }
 
@@ -53,25 +54,27 @@ export function ReviewSummary(props: Props): React.ReactElement {
   }
 
   return (
-    <View className="w-screen">
+    <TouchableOpacity>
       <Swipeable renderRightActions={renderRightActions}>
-        <ThemeableView className="flex flex-col justify-start gap-1 px-2 py-3 dark:bg-slate-950">
-          <ThemeableText className="-ml-0.5 text-lg font-semibold dark:text-white">
-            {review.restaurant.name}
-          </ThemeableText>
-          <ThemeableText>{review.user.username}</ThemeableText>
-          <ThemeableText>{formatDateToReadable(review.date)}</ThemeableText>
-          <View className="py-2">
-            <StarRating
-              presetRating={review.rating}
-              isEditable={false}
-              isSmall
-            />
-          </View>
+        <Link href={`/review/detail/${review.id}`}>
+          <ThemeableView className="flex flex-col justify-start gap-1 px-2 py-3 dark:bg-slate-950">
+            <ThemeableText className="-ml-0.5 text-lg font-semibold dark:text-white">
+              {review.restaurant.name}
+            </ThemeableText>
+            <ThemeableText>{review.user.username}</ThemeableText>
+            <ThemeableText>{formatDateToReadable(review.date)}</ThemeableText>
+            <View className="py-2">
+              <StarRating
+                presetRating={review.rating}
+                isEditable={false}
+                isSmall
+              />
+            </View>
 
-          <ThemeableText className="pr-2">{review.content}</ThemeableText>
-        </ThemeableView>
+            <ThemeableText className="pr-2">{review.content}</ThemeableText>
+          </ThemeableView>
+        </Link>
       </Swipeable>
-    </View>
+    </TouchableOpacity>
   );
 }

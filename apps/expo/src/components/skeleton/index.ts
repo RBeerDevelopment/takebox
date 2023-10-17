@@ -1,1 +1,1 @@
-export { SearchResultsSkeleton } from "./search-result-skeleton"
+export { SearchResultsSkeleton } from "./search-result-skeleton";

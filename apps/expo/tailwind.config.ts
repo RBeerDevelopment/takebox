@@ -1,5 +1,6 @@
-import baseConfig from "@flavoury/tailwind-config";
 import { type Config } from "tailwindcss";
+
+import baseConfig from "@flavoury/tailwind-config";
 
 import { colors } from "./src/utils/colors";
 

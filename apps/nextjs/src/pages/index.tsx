@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
-import { Navbar } from "../components/navbar";
 import Image from "next/image";
+
 import Pizza from "../assets/pizza.webp";
 import { BottomBar } from "../components/bottom-bar/bottom-bar";
+import { Navbar } from "../components/navbar";
 import { PageWithPinkElements } from "../components/page-with-pink-elements/page-with-pink-elements";
 
 const Home: NextPage = () => {

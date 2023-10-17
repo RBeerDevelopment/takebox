@@ -1,7 +1,8 @@
-export interface ReviewSummary {
+export type ReviewListItem = {
   id: string;
-  content: string;
   rating: number;
+  date: Date;
+  content: string;
   restaurant: {
     name: string;
     googleId: string;
@@ -9,5 +10,4 @@ export interface ReviewSummary {
   user: {
     username: string | null;
   };
-  date: Date;
-}
+};
