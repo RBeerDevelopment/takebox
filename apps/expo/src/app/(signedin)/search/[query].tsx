@@ -1,9 +1,8 @@
 import React from "react";
-import { View } from "react-native";
-import { Link, Stack, useGlobalSearchParams } from "expo-router";
+import { Stack, useGlobalSearchParams } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
-import { ThemeableText } from "~/components/themeable/themable-text";
+import { RestaurantSearchItem } from "~/components/restaurant-search-item";
 import { ThemeableView } from "~/components/themeable/themable-view";
 import { ErrorMessage } from "../../../components/error-message";
 import { SearchResultsSkeleton } from "../../../components/skeleton";
@@ -24,7 +23,7 @@ export default function SearchScreen() {
   if (isFetching) {
     return new Array(10)
       .fill("")
-      .map((i, idx) => <SearchResultsSkeleton key={idx} />);
+      .map((_, idx) => <SearchResultsSkeleton key={idx} />);
   }
 
   if (isError) {
@@ -37,16 +36,7 @@ export default function SearchScreen() {
       <FlashList
         data={restaurants}
         renderItem={({ item }) => (
-          <Link href={`/details/${item.googleId}`} key={item.googleId}>
-            <View className="w-full flex-col p-4">
-              <ThemeableText className="text-lg font-bold dark:text-white">
-                {item.name}
-              </ThemeableText>
-              <ThemeableText className="text-md dark:text-white">
-                {item.address}
-              </ThemeableText>
-            </View>
-          </Link>
+          <RestaurantSearchItem {...item} key={item.id} />
         )}
         estimatedItemSize={280}
       />
