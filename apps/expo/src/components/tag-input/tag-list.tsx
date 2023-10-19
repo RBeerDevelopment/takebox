@@ -8,7 +8,7 @@ import { ThemeableText } from "../themeable/themable-text";
 
 interface Props {
   tags: string[];
-  onDelete: (index: number) => void;
+  onDelete?: (index: number) => void;
 }
 
 export function TagList(props: Props): React.ReactElement {
@@ -26,13 +26,15 @@ export function TagList(props: Props): React.ReactElement {
           className="mx-2 my-2 flex w-fit flex-row items-center justify-center rounded-full px-2 py-1"
         >
           <ThemeableText>{tag}</ThemeableText>
-          <IconOnlyButton
-            iconName="clear"
-            iconFont="material"
-            style="pl-1"
-            iconColor={isDarkMode ? "white" : "black"}
-            onPress={() => onDelete(index)}
-          />
+          {onDelete !== undefined ? (
+            <IconOnlyButton
+              iconName="clear"
+              iconFont="material"
+              style="pl-1"
+              iconColor={isDarkMode ? "white" : "black"}
+              onPress={() => onDelete(index)}
+            />
+          ) : null}
         </View>
       ))}
     </View>
