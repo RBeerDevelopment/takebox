@@ -41,5 +41,5 @@ export async function selectReviewById(
     ? await createPresignedUrl("getObject", s3ImageKey)
     : null;
 
-  return { ...review, imageUrl };
+  return { ...review, imageUrl, tags: review.tags.map((tag) => tag.name) };
 }
