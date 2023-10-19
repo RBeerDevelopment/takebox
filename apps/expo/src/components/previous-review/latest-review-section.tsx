@@ -14,6 +14,7 @@ export function LatestReviewSection(): React.ReactElement {
   const {
     data: reviews,
     isLoading,
+    isRefetching,
     isError,
     refetch,
   } = api.review.latestReviews.useQuery({ take: 10 }, { staleTime: 1 });
@@ -45,6 +46,8 @@ export function LatestReviewSection(): React.ReactElement {
           </Link>
         )}
         estimatedItemSize={280}
+        onRefresh={() => void refetch()}
+        refreshing={isRefetching}
       />
     </ThemeableView>
   );
