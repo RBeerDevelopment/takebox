@@ -28,7 +28,7 @@ export async function selectOwnReviewsByRestaurantId(
     where: {
       AND: {
         restaurant: {
-          googleId: restaurantId,
+          id: restaurantId,
         },
         userId: userId,
       },
