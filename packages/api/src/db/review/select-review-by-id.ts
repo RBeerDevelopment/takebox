@@ -25,6 +25,7 @@ export async function selectReviewById(
           id: true,
         },
       },
+      tags: true,
       content: true,
     },
     where: {
