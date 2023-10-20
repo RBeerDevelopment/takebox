@@ -1,6 +1,5 @@
 import React from "react";
 import { View } from "react-native";
-import { Link } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
 import { api } from "~/utils/api";
@@ -37,14 +36,7 @@ export function LatestReviewSection(): React.ReactElement {
       </ThemeableText>
       <FlashList
         data={reviews}
-        renderItem={({ item }) => (
-          <Link
-            className="w-full"
-            href={`/details/${item.restaurant.googleId}`}
-          >
-            <ReviewSummary review={item} />
-          </Link>
-        )}
+        renderItem={({ item }) => <ReviewSummary review={item} />}
         estimatedItemSize={280}
         onRefresh={() => void refetch()}
         refreshing={isRefetching}

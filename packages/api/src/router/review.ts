@@ -22,7 +22,7 @@ export const reviewRouter = createTRPCRouter({
     .input(z.object({ placeId: z.string() }))
     .query(async ({ input, ctx }) => {
       const restaurant = await ctx.prisma.restaurant.findUnique({
-        where: { googleId: input.placeId },
+        where: { id: input.placeId },
         select: { id: true },
       });
 
@@ -52,7 +52,6 @@ export const reviewRouter = createTRPCRouter({
         }),
       ]);
 
-      // empty rating count map
       const ratingCountMap: RatingCountMap = { ...emptyRatingCountMap };
 
       ratingCounts.forEach((ratingCount) => {

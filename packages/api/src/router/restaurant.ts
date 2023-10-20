@@ -3,6 +3,7 @@ import { z } from "zod";
 import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
 import { fetchNearbyRestaurants } from "../google-maps/search";
+import { calculateDistanceFromCoordinates } from "../helper/calculate-distance-from-coordinates";
 import { createPresignedUrl } from "../s3/create-presigned-url";
 import { uploadImageBlob } from "../s3/upload-image-blob";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -23,16 +24,41 @@ export const restaurantRouter = createTRPCRouter({
 
       // const dbQuery = buildRestaurantSearchQuery(query, lat, lng);
       // const restaurantsFromDb = await ctx.prisma.restaurant.findMany(dbQuery);
-      const [restaurantsFromGoogle] = await Promise.all([
-        fetchNearbyRestaurants(query, lat, lng),
-      ]);
+      const restaurantsFromGoogle = await fetchNearbyRestaurants(
+        query,
+        lat,
+        lng,
+      );
 
       await ctx.prisma.restaurant.createMany({
         skipDuplicates: true,
         data: [...restaurantsFromGoogle],
       });
 
-      return restaurantsFromGoogle;
+      const restaurants = await ctx.prisma.restaurant.findMany({
+        select: {
+          id: true,
+          name: true,
+          address: true,
+          lat: true,
+          lng: true,
+        },
+        where: {
+          googleId: { in: restaurantsFromGoogle.map((r) => r.googleId) },
+        },
+      });
+
+      const restaurantsWithDistance = restaurants.map((restaurant) => ({
+        id: restaurant.id,
+        name: restaurant.name,
+        address: restaurant.address,
+        distance: calculateDistanceFromCoordinates(
+          { lat, lng },
+          { lat: restaurant.lat, lng: restaurant.lng },
+        ),
+      }));
+
+      return restaurantsWithDistance.sort((a, b) => a.distance - b.distance);
     }),
   getRestaurantDetails: protectedProcedure
     .input(
@@ -46,7 +72,14 @@ export const restaurantRouter = createTRPCRouter({
       const { prisma } = ctx;
 
       const restaurantInDb = await prisma.restaurant.findUnique({
-        where: { googleId: placeId },
+        select: {
+          googleId: true,
+          websiteUrl: true,
+          googleUrl: true,
+          address: true,
+          name: true,
+        },
+        where: { id: placeId },
       });
 
       if (
@@ -55,11 +88,15 @@ export const restaurantRouter = createTRPCRouter({
       )
         return restaurantInDb;
 
-      const fetchedDetails = await fetchRestaurantDetails(placeId);
+      if (!restaurantInDb?.googleId) return;
+
+      const fetchedDetails = await fetchRestaurantDetails(
+        restaurantInDb?.googleId,
+      );
       if (!fetchedDetails) return;
 
       const restaurantDetails = await prisma.restaurant.update({
-        where: { googleId: placeId },
+        where: { id: placeId },
         data: {
           websiteUrl: fetchedDetails.website
             ? shortenUrlForDb(fetchedDetails.website)
@@ -81,7 +118,8 @@ export const restaurantRouter = createTRPCRouter({
       const { placeId } = input;
 
       const restaurantInDb = await ctx.prisma.restaurant.findUnique({
-        where: { googleId: placeId },
+        select: { s3ImageKey: true, googlePhotoReference: true },
+        where: { id: placeId },
       });
 
       let s3ImageKey = restaurantInDb?.s3ImageKey;
@@ -93,10 +131,10 @@ export const restaurantRouter = createTRPCRouter({
           restaurantInDb.googlePhotoReference,
         );
 
-        s3ImageKey = await uploadImageBlob(image, restaurantInDb.googleId);
+        s3ImageKey = await uploadImageBlob(image, placeId);
 
         await ctx.prisma.restaurant.update({
-          where: { googleId: restaurantInDb.googleId },
+          where: { id: placeId },
           data: { s3ImageKey },
         });
       }

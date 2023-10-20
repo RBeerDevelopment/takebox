@@ -14,8 +14,8 @@ export async function selectOwnReviewsByRestaurantId(
       date: true,
       restaurant: {
         select: {
+          id: true,
           name: true,
-          googleId: true,
         },
       },
       user: {
@@ -28,7 +28,7 @@ export async function selectOwnReviewsByRestaurantId(
     where: {
       AND: {
         restaurant: {
-          googleId: restaurantId,
+          id: restaurantId,
         },
         userId: userId,
       },

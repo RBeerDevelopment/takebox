@@ -1,33 +1,24 @@
-import { z } from "zod";
-
-const coordinateSchema = z.object({
-  lat: z.number().min(-90).max(90),
-  lng: z.number().min(-180).max(180),
-});
-
-type Cooridnates = z.infer<typeof coordinateSchema>;
-
-const earthRadius = 6378137;
+import { EARTH_RADIUS, type Coordinates } from "./coordinates";
 
 type BoundingBox = {
-  min: Cooridnates;
-  max: Cooridnates;
+  min: Coordinates;
+  max: Coordinates;
 };
 
 export function generateBoundingBoxAsCoordinates(
-  coords: Cooridnates,
+  coords: Coordinates,
   radiusInMeters = 1000,
 ): BoundingBox {
-  const latDist = radiusInMeters / earthRadius;
+  const latDist = radiusInMeters / EARTH_RADIUS;
   const lonDist =
-    radiusInMeters / (earthRadius * Math.cos((coords.lat * Math.PI) / 180));
+    radiusInMeters / (EARTH_RADIUS * Math.cos((coords.lat * Math.PI) / 180));
 
-  const minCooords: Cooridnates = {
+  const minCooords: Coordinates = {
     lat: coords.lat - (latDist * 180) / Math.PI,
     lng: coords.lng - (lonDist * 180) / Math.PI,
   };
 
-  const maxCoodrds: Cooridnates = {
+  const maxCoodrds: Coordinates = {
     lat: coords.lat + (latDist * 180) / Math.PI,
     lng: coords.lng + (lonDist * 180) / Math.PI,
   };

@@ -13,8 +13,8 @@ export async function selectLastestReviews(
       date: true,
       restaurant: {
         select: {
+          id: true,
           name: true,
-          googleId: true,
         },
       },
       user: {

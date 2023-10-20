@@ -68,7 +68,7 @@ export function buildCreateReviewQuery(
       },
       restaurant: {
         connect: {
-          googleId: placeId,
+          id: placeId,
         },
       },
     },
