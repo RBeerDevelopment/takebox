@@ -4,10 +4,13 @@ import * as WebBrowser from "expo-web-browser";
 
 import { DetailRow } from "./detail-row";
 import { ThemeableText } from "./themeable/themable-text";
-import { type Restaurant } from ".prisma/client";
 
 interface Props {
-  restaurant?: Restaurant;
+  restaurant?: {
+    address: string | null;
+    googleUrl: string | null;
+    websiteUrl: string | null;
+  };
 }
 
 export function DetailSection(props: Props): React.ReactElement {

@@ -72,7 +72,14 @@ export const restaurantRouter = createTRPCRouter({
       const { prisma } = ctx;
 
       const restaurantInDb = await prisma.restaurant.findUnique({
-        where: { googleId: placeId },
+        select: {
+          googleId: true,
+          websiteUrl: true,
+          googleUrl: true,
+          address: true,
+          name: true,
+        },
+        where: { id: placeId },
       });
 
       if (
@@ -81,11 +88,15 @@ export const restaurantRouter = createTRPCRouter({
       )
         return restaurantInDb;
 
-      const fetchedDetails = await fetchRestaurantDetails(placeId);
+      if (!restaurantInDb?.googleId) return;
+
+      const fetchedDetails = await fetchRestaurantDetails(
+        restaurantInDb?.googleId,
+      );
       if (!fetchedDetails) return;
 
       const restaurantDetails = await prisma.restaurant.update({
-        where: { googleId: placeId },
+        where: { id: placeId },
         data: {
           websiteUrl: fetchedDetails.website
             ? shortenUrlForDb(fetchedDetails.website)
@@ -107,7 +118,8 @@ export const restaurantRouter = createTRPCRouter({
       const { placeId } = input;
 
       const restaurantInDb = await ctx.prisma.restaurant.findUnique({
-        where: { googleId: placeId },
+        select: { s3ImageKey: true, googlePhotoReference: true },
+        where: { id: placeId },
       });
 
       let s3ImageKey = restaurantInDb?.s3ImageKey;
@@ -119,10 +131,10 @@ export const restaurantRouter = createTRPCRouter({
           restaurantInDb.googlePhotoReference,
         );
 
-        s3ImageKey = await uploadImageBlob(image, restaurantInDb.googleId);
+        s3ImageKey = await uploadImageBlob(image, placeId);
 
         await ctx.prisma.restaurant.update({
-          where: { googleId: restaurantInDb.googleId },
+          where: { id: placeId },
           data: { s3ImageKey },
         });
       }

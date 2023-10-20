@@ -4,8 +4,8 @@ export type ReviewListItem = {
   date: Date;
   content: string;
   restaurant: {
+    id: string;
     name: string;
-    googleId: string;
   };
   user: {
     username: string | null;

@@ -37,14 +37,7 @@ export function LatestReviewSection(): React.ReactElement {
       </ThemeableText>
       <FlashList
         data={reviews}
-        renderItem={({ item }) => (
-          <Link
-            className="w-full"
-            href={`/details/${item.restaurant.googleId}`}
-          >
-            <ReviewSummary review={item} />
-          </Link>
-        )}
+        renderItem={({ item }) => <ReviewSummary review={item} />}
         estimatedItemSize={280}
         onRefresh={() => void refetch()}
         refreshing={isRefetching}
