@@ -9,7 +9,7 @@ import { ThemeableText } from "./themeable/themable-text";
 
 interface Props {
   iconName: string;
-  text?: string;
+  text?: string | null;
   onPress?: () => void;
   allowCopy?: boolean;
 }

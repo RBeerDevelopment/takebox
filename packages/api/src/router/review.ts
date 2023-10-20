@@ -52,7 +52,6 @@ export const reviewRouter = createTRPCRouter({
         }),
       ]);
 
-      // empty rating count map
       const ratingCountMap: RatingCountMap = { ...emptyRatingCountMap };
 
       ratingCounts.forEach((ratingCount) => {
