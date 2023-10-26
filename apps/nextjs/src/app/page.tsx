@@ -1,18 +1,20 @@
-import type { NextPage } from "next";
 import Image from "next/image";
 
-import Pizza from "../assets/pizza.webp";
-import { BottomBar } from "../components/bottom-bar/bottom-bar";
-import { Navbar } from "../components/navbar";
-import { PageWithPinkElements } from "../components/page-with-pink-elements/page-with-pink-elements";
+import { Navbar } from "~/components/navbar";
+import PizzaImage from "~/assets/pizza.webp";
 
-const Home: NextPage = () => {
+export default function Page() {
   return (
-    <PageWithPinkElements>
+    <>
       <h1 className="ml-32 mt-12 text-5xl font-bold text-black">Take|Box</h1>
       <Navbar />
       <section className="flex w-screen flex-row gap-32">
-        <Image src={Pizza} alt="Pizza on a plate" className="w-1/3" priority />
+        <Image
+          src={PizzaImage}
+          alt="Pizza on a plate"
+          //   className="w-1/3"
+          priority
+        />
         <div className="my-20 flex flex-col">
           <h2 className="text-4xl font-bold capitalize text-black">
             Can&apos;t recall if you enjoyed a restaurant?
@@ -28,9 +30,6 @@ const Home: NextPage = () => {
           </button>
         </div>
       </section>
-      <BottomBar />
-    </PageWithPinkElements>
+    </>
   );
-};
-
-export default Home;
+}

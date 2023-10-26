@@ -31,7 +31,6 @@ export function Navbar(): React.ReactElement {
           <NavbarLink href={l.href} label={l.label} key={l.href} />
         ))}
       </div>
-      <NavbarUser />
     </section>
   );
 }
