@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 import { Navbar } from "~/components/navbar";
 import PizzaImage from "~/assets/pizza.webp";
@@ -25,9 +26,7 @@ export default function Page() {
             Google Maps and follow like-minded food enthusiasts to uncover their
             favorites.
           </p>
-          <button className="btn btn-primary ml-6 w-fit text-white">
-            Download App
-          </button>
+          <Button>Download App</Button>
         </div>
       </section>
     </>

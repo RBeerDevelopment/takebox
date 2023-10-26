@@ -4,6 +4,9 @@ import { PageWithPinkElements } from "~/components/page-with-pink-elements";
 import "./globals.css";
 
 import { type Metadata } from "next";
+import { cn } from "@/lib/utils";
+
+import { fontSans } from "~/utils/font-sans";
 
 export const metadata: Metadata = {
   title: "Flavoury App",
@@ -17,7 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body
+        className={cn(
+          "bg-background min-h-screen font-sans antialiased",
+          fontSans.variable,
+        )}
+      >
         <PageWithPinkElements>
           {children}
           <BottomBar />
