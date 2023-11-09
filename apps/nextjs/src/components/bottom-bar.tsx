@@ -1,26 +1,14 @@
 import React from "react";
 import Link from "next/link";
-import { Button, buttonVariants } from "@/components/ui/button";
 
 export function BottomBar(): React.ReactElement {
   return (
-    <footer className="flex h-48 w-full flex-col items-center rounded pb-4 pt-10">
-      <div className="flex w-1/2 flex-row justify-around">
-        <Button asChild variant="destructive">
-          <Link href="/contact">Contact</Link>
-        </Button>
-        <Button asChild>
-          <Link href="/imprint">Imprint</Link>
-        </Button>
-        <Button variant="secondary">Test</Button>
-        <Link
-          className={buttonVariants({ variant: "destructive" })}
-          href="/test"
-        >
-          Click here
-        </Link>
+    <footer className="border-t-0.5 mt-4 flex h-48 w-full flex-col items-center gap-4 border-t border-t-gray-200 pb-4 pt-4">
+      <div className="flex w-1/2 flex-row justify-around text-sm">
+        <Link href="/#">Home</Link>
+        <Link href="/imprint">Imprint</Link>
       </div>
-      <div>
+      {/* <div>
         <div className="grid grid-flow-col gap-4">
           <a className="">
             <svg
@@ -56,9 +44,14 @@ export function BottomBar(): React.ReactElement {
             </svg>
           </a>
         </div>
-      </div>
-      <div className="flex w-full flex-col items-center">
-        <p>Copyright © 2023 - All right reserved by Robin Beer Development</p>
+      </div> */}
+      <div className="flex w-full flex-col items-center text-xs">
+        <p>
+          Copyright © {new Date().getFullYear()} - All right reserved by{" "}
+          <a href="https://robin.beer/" className="text-blue-600">
+            Robin Beer Development
+          </a>
+        </p>
       </div>
     </footer>
   );
