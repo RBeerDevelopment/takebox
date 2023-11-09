@@ -4,10 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "~/components/navbar";
 import PizzaImage from "~/assets/pizza.webp";
 
+export const dynamic = "force-static";
+export const metadata = {
+  title: "Flavoury",
+};
+
 export default function Page() {
   return (
     <>
-      <h1 className="ml-32 mt-12 text-5xl font-bold text-black">Take|Box</h1>
+      <h1 className="ml-32 mt-12 text-5xl font-bold text-black">Flavoury</h1>
       <Navbar />
       <section className="flex w-screen flex-row gap-32">
         <Image
