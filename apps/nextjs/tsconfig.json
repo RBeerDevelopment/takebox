@@ -5,7 +5,12 @@
     "paths": {
       "~/*": ["./src/*"]
     },
-    "plugins": [{ "name": "next" }]
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
   },
   "exclude": [],
   "include": [
@@ -14,6 +19,7 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "postcss.config.cjs"
   ]
 }

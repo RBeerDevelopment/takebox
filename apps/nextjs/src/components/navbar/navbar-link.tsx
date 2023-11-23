@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 interface Props {
   label: string;
@@ -8,13 +7,6 @@ interface Props {
 }
 export function NavbarLink(props: Props): React.ReactElement {
   const { label, href } = props;
-  const router = useRouter();
 
-  const isActive = router.asPath === href;
-
-  return (
-    <Link href={href} className={`${isActive ? "text-primary" : "text-black"}`}>
-      {label}
-    </Link>
-  );
+  return <Link href={href}>{label}</Link>;
 }

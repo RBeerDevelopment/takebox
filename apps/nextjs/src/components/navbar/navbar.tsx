@@ -1,7 +1,6 @@
 import React from "react";
 
 import { NavbarLink } from "./navbar-link";
-import { NavbarUser } from "./navbar-user";
 
 interface NavbarLink {
   label: string;
@@ -11,7 +10,7 @@ interface NavbarLink {
 const navbarLinks: NavbarLink[] = [
   {
     label: "Home",
-    href: "/",
+    href: "/#",
   },
   {
     label: "Features",
@@ -31,7 +30,6 @@ export function Navbar(): React.ReactElement {
           <NavbarLink href={l.href} label={l.label} key={l.href} />
         ))}
       </div>
-      <NavbarUser />
     </section>
   );
 }

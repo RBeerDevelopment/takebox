@@ -67,7 +67,6 @@
     "@expo/config-plugins": "^7.2.5",
     "@flavoury/api": "^0.1.0",
     "@flavoury/eslint-config": "^0.1.0",
-    "@flavoury/tailwind-config": "^0.1.0",
     "@types/babel__core": "^7.20.0",
     "@types/react": "^18.2.24",
     "@types/webpack-env": "^1.18.0",
