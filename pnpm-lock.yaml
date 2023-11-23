@@ -198,9 +198,6 @@ importers:
       '@flavoury/eslint-config':
         specifier: ^0.1.0
         version: link:../../packages/config/eslint
-      '@flavoury/tailwind-config':
-        specifier: ^0.1.0
-        version: link:../../packages/config/tailwind
       '@types/babel__core':
         specifier: ^7.20.0
         version: 7.20.0
@@ -237,9 +234,6 @@ importers:
       '@flavoury/db':
         specifier: ^0.1.0
         version: link:../../packages/db
-      '@flavoury/tailwind-config':
-        specifier: ^0.1.0
-        version: link:../../packages/config/tailwind
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@18.2.24)(react@18.2.0)
@@ -399,18 +393,6 @@ importers:
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
-
-  packages/config/tailwind:
-    devDependencies:
-      autoprefixer:
-        specifier: ^10.4.14
-        version: 10.4.14(postcss@8.4.24)
-      postcss:
-        specifier: ^8.4.24
-        version: 8.4.24
-      tailwindcss:
-        specifier: ^3.3.2
-        version: 3.3.2
 
   packages/db:
     dependencies:

@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 
 import { Navbar } from "~/components/navbar";
+import { Button } from "~/components/ui/button";
 import PizzaImage from "~/assets/pizza.webp";
 
 export const dynamic = "force-static";
@@ -31,7 +31,7 @@ export default function Page() {
             Google Maps and follow like-minded food enthusiasts to uncover their
             favorites.
           </p>
-          <Button>Download App</Button>
+          <Button className="w-fit">Download App</Button>
         </div>
       </section>
     </>

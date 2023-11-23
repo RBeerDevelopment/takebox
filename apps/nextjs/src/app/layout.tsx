@@ -4,9 +4,9 @@ import { PageWithPinkElements } from "~/components/page-with-pink-elements";
 import "./globals.css";
 
 import { type Metadata } from "next";
-import { cn } from "@/lib/utils";
 
 import { fontSans } from "~/utils/font-sans";
+import { cn } from "~/utils/shadcn";
 
 export const metadata: Metadata = {
   title: "Flavoury App",
