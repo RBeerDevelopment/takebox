@@ -5,7 +5,6 @@ export function BottomBar(): React.ReactElement {
   return (
     <footer className="border-t-0.5 mt-4 flex h-48 w-full flex-col items-center gap-4 border-t border-t-gray-200 pb-4 pt-4">
       <div className="flex w-1/2 flex-row justify-around text-sm">
-        <Link href="/#">Home</Link>
         <Link href="/imprint">Imprint</Link>
       </div>
       {/* <div>
@@ -49,7 +48,7 @@ export function BottomBar(): React.ReactElement {
         <p>
           Copyright © {new Date().getFullYear()} - All right reserved by{" "}
           <a href="https://robin.beer/" className="text-blue-600">
-            Robin Beer Development
+            Robin Beer
           </a>
         </p>
       </div>

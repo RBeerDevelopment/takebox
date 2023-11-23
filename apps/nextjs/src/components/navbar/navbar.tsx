@@ -10,7 +10,7 @@ interface NavbarLink {
 const navbarLinks: NavbarLink[] = [
   {
     label: "Home",
-    href: "/",
+    href: "/#",
   },
   {
     label: "Features",
