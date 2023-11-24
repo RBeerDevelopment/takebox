@@ -1,7 +1,10 @@
 import { colors } from "~/utils/colors";
-import { useDarkMode } from "./use-dark-mode";
 
+/**
+ * this will be used in the future to handle light and dark mode,
+ * at the moment it's just a wrapper around the primary color
+ * @returns hex color string of the primary color
+ */
 export function usePrimaryColor() {
-  const isDarkMode = useDarkMode();
-  return isDarkMode ? colors.primary.dark : colors.primary.DEFAULT;
+  return colors.primary;
 }

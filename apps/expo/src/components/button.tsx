@@ -21,30 +21,19 @@ export function StyledButton(props: Props): React.ReactElement {
     colorful = false,
   } = props;
 
-  const isDarkMode = useDarkMode();
+  console.log({ textStyle });
 
   return (
     <TouchableOpacity
       className={cn(
         `my-2 flex w-full items-center justify-center rounded-lg ${
-          colorful
-            ? isDarkMode
-              ? "bg-primary-dark"
-              : "bg-primary"
-            : "bg-transparent"
+          colorful ? "bg-primary" : "bg-transparent"
         } py-2`,
         buttonStyle,
       )}
       onPress={onPress}
     >
-      <Text
-        className={cn(
-          `text-lg capitalize ${
-            colorful ? "text-white" : isDarkMode ? "text-white" : "text-black"
-          }`,
-          textStyle,
-        )}
-      >
+      <Text className={cn("text-lg capitalize text-white", textStyle)}>
         {text}
       </Text>
     </TouchableOpacity>

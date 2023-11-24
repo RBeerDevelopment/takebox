@@ -16,6 +16,7 @@ export function ReviewGraphBar(props: Props): React.ReactElement {
   const { height } = props;
 
   const bgColor = usePrimaryColor();
+  console.log({ bgColor });
 
   const animatedHeight = useSharedValue<number>(0);
 
