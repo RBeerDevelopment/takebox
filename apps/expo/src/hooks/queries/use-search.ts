@@ -11,6 +11,7 @@ export function useSearch(query?: string, lat?: number, lng?: number) {
     data: restaurants,
     isFetching,
     isError,
+    error,
   } = api.restaurant.nearbyRestaurantsByQuery.useQuery(
     {
       query: cleanedQuery,
@@ -31,5 +32,6 @@ export function useSearch(query?: string, lat?: number, lng?: number) {
     restaurants,
     isFetching,
     isError,
+    error,
   };
 }
