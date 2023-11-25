@@ -12,8 +12,6 @@ interface Props {
 export function ReviewGraph(props: Props): React.ReactElement {
   const { reviewCounts } = props;
 
-  console.log({ reviewCounts });
-
   const maxCount = Math.max(...Object.values(reviewCounts));
 
   return (

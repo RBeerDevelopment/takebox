@@ -21,8 +21,6 @@ export function StyledButton(props: Props): React.ReactElement {
     colorful = false,
   } = props;
 
-  console.log({ textStyle });
-
   return (
     <TouchableOpacity
       className={cn(
