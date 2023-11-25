@@ -3,7 +3,6 @@ import { Pressable, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { colors } from "~/utils/colors";
-import { useDarkMode } from "~/hooks/use-dark-mode";
 
 const starRatingOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 
@@ -22,8 +21,6 @@ export function StarRating(props: Props): React.ReactElement {
   const [rating, setRating] = useState<number>(
     presetRating !== null && presetRating !== undefined ? presetRating : 3,
   );
-
-  const isDarkMode = useDarkMode();
 
   const heightStyle = isSmall ? "justify-start" : "h-30 justify-center";
   return (

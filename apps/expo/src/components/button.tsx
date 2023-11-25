@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 
-import { useDarkMode } from "~/hooks/use-dark-mode";
 import { cn } from "~/utils";
 
 interface Props {
