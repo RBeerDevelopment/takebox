@@ -11,7 +11,7 @@ export const logRouter = createTRPCRouter({
     )
     .mutation(({ input, ctx }) => {
       const { auth, prisma } = ctx;
-      prisma.errorLog.create({
+      void prisma.errorLog.create({
         data: {
           message: input.message,
           userId: auth.userId,

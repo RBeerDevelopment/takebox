@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Toast from "react-native-toast-message";
 
 import { api } from "~/utils/api";

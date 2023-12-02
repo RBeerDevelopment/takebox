@@ -37,7 +37,7 @@ export function useSearch(query?: string, lat?: number, lng?: number) {
   useEffect(() => {
     if (!error?.message || error?.message.length === 0) return;
     logError(String(error?.message) + String(error?.data));
-  }, [error?.message]);
+  }, [error?.data, error?.message, logError]);
 
   return {
     restaurants,

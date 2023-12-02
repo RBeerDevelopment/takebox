@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Text, View } from "react-native";
+import { Switch, View } from "react-native";
 import { Image } from "expo-image";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 
