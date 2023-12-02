@@ -21,9 +21,7 @@ export default function SearchScreen() {
   );
 
   if (isFetching) {
-    return new Array(10)
-      .fill("")
-      .map((_, idx) => <SearchResultsSkeleton key={idx} />);
+    return <SearchResultsSkeleton />;
   }
 
   if (isError) {
