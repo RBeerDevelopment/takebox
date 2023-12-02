@@ -1,5 +1,8 @@
+import { useEffect } from "react";
+
 import { api } from "../../utils/api";
 import { smoothCoordinatePart } from "../../utils/smooth-coordinate-part";
+import { useErrorLogging } from "../use-error-logging";
 
 export function useSearch(query?: string, lat?: number, lng?: number) {
   const roundedLat = smoothCoordinatePart(lat);
@@ -7,8 +10,11 @@ export function useSearch(query?: string, lat?: number, lng?: number) {
 
   const cleanedQuery = query?.trim().toLowerCase() || "";
 
+  const logError = useErrorLogging();
+
   const {
     data: restaurants,
+
     isFetching,
     isError,
     error,
@@ -27,6 +33,11 @@ export function useSearch(query?: string, lat?: number, lng?: number) {
       staleTime: Infinity,
     },
   );
+
+  useEffect(() => {
+    if (!error?.message || error?.message.length === 0) return;
+    logError(String(error?.message) + String(error?.data));
+  }, [error?.message]);
 
   return {
     restaurants,
