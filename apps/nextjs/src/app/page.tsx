@@ -1,7 +1,6 @@
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 
 import { Navbar } from "~/components/navbar";
-import { Button } from "~/components/ui/button";
 import AppstoreImage from "~/assets/appstore.svg";
 import PizzaImage from "~/assets/pizza.webp";
 
@@ -33,7 +32,7 @@ export default function Page() {
             favorites.
           </p>
           <Image
-            src={AppstoreImage}
+            src={AppstoreImage as StaticImageData}
             className="w-32"
             alt="Download on the App Store"
           />

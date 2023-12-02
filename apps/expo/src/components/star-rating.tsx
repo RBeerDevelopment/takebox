@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Pressable, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { useDarkMode } from "~/hooks/use-dark-mode";
+import { colors } from "~/utils/colors";
 
 const starRatingOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 
@@ -21,8 +21,6 @@ export function StarRating(props: Props): React.ReactElement {
   const [rating, setRating] = useState<number>(
     presetRating !== null && presetRating !== undefined ? presetRating : 3,
   );
-
-  const isDarkMode = useDarkMode();
 
   const heightStyle = isSmall ? "justify-start" : "h-30 justify-center";
   return (
@@ -64,7 +62,7 @@ export function StarRating(props: Props): React.ReactElement {
             <MaterialCommunityIcons
               name={iconName}
               size={isSmall ? 28 : 40}
-              color={isDarkMode ? "#FF4FC4" : "#F191A8"}
+              color={colors.primary}
             />
           </Pressable>
         );

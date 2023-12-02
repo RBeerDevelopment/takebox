@@ -1,7 +1,8 @@
 import React from "react";
 import { View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Image } from "expo-image";
-import { useGlobalSearchParams } from "expo-router";
+import { useGlobalSearchParams, useRouter } from "expo-router";
 
 import { api } from "~/utils/api";
 import { blurhash } from "~/utils/blur-hash";
@@ -16,6 +17,8 @@ import { ThemeableView } from "~/components/themeable/themable-view";
 
 export default function ReviewDetailModal(): React.ReactElement {
   const { id } = useGlobalSearchParams();
+
+  const router = useRouter();
 
   const {
     data: review,
@@ -52,9 +55,16 @@ export default function ReviewDetailModal(): React.ReactElement {
 
   return (
     <ThemeableView className="flex h-full flex-col justify-start gap-1 px-2 py-3">
-      <ThemeableText className="text-2xl font-semibold">
-        {review.restaurant.name}
-      </ThemeableText>
+      <TouchableOpacity
+        onPress={() => {
+          router.push("../");
+          router.push(`/restaurant/${review.restaurant.id}`);
+        }}
+      >
+        <ThemeableText className="text-2xl font-semibold">
+          {review.restaurant.name}
+        </ThemeableText>
+      </TouchableOpacity>
       <ThemeableText>{review.user.username}</ThemeableText>
       <ThemeableText>{formatDateToReadable(review.date)}</ThemeableText>
       <View className="py-2">

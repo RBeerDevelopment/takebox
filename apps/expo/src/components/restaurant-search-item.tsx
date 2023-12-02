@@ -19,7 +19,7 @@ export function RestaurantSearchItem(props: Props): React.ReactElement {
   return (
     <TouchableOpacity
       className="flex w-full flex-col px-4 py-2"
-      onPress={() => router.push(`/details/${id}`)}
+      onPress={() => router.push(`/restaurant/${id}`)}
     >
       <ThemeableText className="text-lg font-bold dark:text-white">
         {name}

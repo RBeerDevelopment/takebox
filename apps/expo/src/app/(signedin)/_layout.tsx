@@ -71,7 +71,7 @@ export default function SignedinLayout(): React.ReactElement {
                   onPress={router.back}
                   text="Close"
                   buttonStyle="w-fit px-2 -translate-y-2"
-                  textStyle="text-primary"
+                  textStyle="text-red-900"
                 />
               ),
               headerRight: undefined,

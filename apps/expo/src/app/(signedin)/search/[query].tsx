@@ -14,7 +14,7 @@ export default function SearchScreen() {
 
   const { query } = useGlobalSearchParams();
 
-  const { restaurants, isFetching, isError } = useSearch(
+  const { restaurants, isFetching, isError, error } = useSearch(
     query as string | undefined,
     location?.coords.latitude,
     location?.coords.longitude,
@@ -27,7 +27,11 @@ export default function SearchScreen() {
   }
 
   if (isError) {
-    return <ErrorMessage text="Error while loading, try again." />;
+    return (
+      <ErrorMessage
+        text={`Error while loading, try again. ${error?.message}`}
+      />
+    );
   }
 
   return (

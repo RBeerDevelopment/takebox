@@ -16,7 +16,7 @@ export async function selectReviewById(
       restaurant: {
         select: {
           name: true,
-          googleId: true,
+          id: true,
         },
       },
       user: {
