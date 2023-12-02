@@ -58,7 +58,10 @@ export default function ReviewDetailModal(): React.ReactElement {
       <TouchableOpacity
         onPress={() => {
           router.push("../");
-          router.push(`/restaurant/${review.restaurant.id}`);
+          setTimeout(
+            () => router.push(`/restaurant/${review.restaurant.id}`),
+            150,
+          );
         }}
       >
         <ThemeableText className="text-2xl font-semibold">
