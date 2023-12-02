@@ -60,7 +60,7 @@ export default function ReviewDetailModal(): React.ReactElement {
           router.push("../");
           setTimeout(
             () => router.push(`/restaurant/${review.restaurant.id}`),
-            150,
+            50,
           );
         }}
       >
