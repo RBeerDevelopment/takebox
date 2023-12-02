@@ -4,6 +4,7 @@ import { FlashList } from "@shopify/flash-list";
 
 import { api } from "~/utils/api";
 import { useRefreshOnFocus } from "~/hooks/use-refetch-on-focus";
+import { SearchResultsSkeleton } from "../skeleton";
 import { Skeleton } from "../skeleton/skeleton";
 import { ThemeableText } from "../themeable/themable-text";
 import { ThemeableView } from "../themeable/themable-view";
@@ -20,7 +21,7 @@ export function LatestReviewSection(): React.ReactElement {
 
   useRefreshOnFocus(refetch);
 
-  if (isLoading) return <Skeleton />;
+  if (isLoading) return <SearchResultsSkeleton />;
 
   if (isError || reviews.length === 0)
     return (

@@ -37,8 +37,9 @@ export default function SignedinLayout(): React.ReactElement {
               <IconOnlyButton
                 onPress={() => void router.push("/profile/modal")}
                 iconName="person"
+                style="p-2"
                 iconFont="material"
-                iconColor={isDarkMode ? "white" : "black"}
+                iconColor="white"
               />
             ),
           }}
