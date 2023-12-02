@@ -87,7 +87,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
         }
         text="Add Review"
         buttonStyle="w-1/2 bg-transparent mx-auto"
-        textStyle="text-primary dark:text-primary-dark font-bold animate-ping"
+        textStyle="text-primary font-bold animate-ping"
       />
       {ownReviews.length > 0 && (
         <>
