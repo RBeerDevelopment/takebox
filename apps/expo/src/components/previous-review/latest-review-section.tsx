@@ -5,7 +5,6 @@ import { FlashList } from "@shopify/flash-list";
 import { api } from "~/utils/api";
 import { useRefreshOnFocus } from "~/hooks/use-refetch-on-focus";
 import { SearchResultsSkeleton } from "../skeleton";
-import { Skeleton } from "../skeleton/skeleton";
 import { ThemeableText } from "../themeable/themable-text";
 import { ThemeableView } from "../themeable/themable-view";
 import { ReviewSummary } from "./review-summary";
