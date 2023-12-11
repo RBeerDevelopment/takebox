@@ -13,7 +13,7 @@ export const restaurantRouter = createTRPCRouter({
   nearbyRestaurantsByQuery: protectedProcedure
     .input(
       z.object({
-        query: z.string().min(3),
+        query: z.string(),
         lat: z.number().min(-90).max(90),
         lng: z.number().min(-180).max(180),
         radius: z.number().min(100).max(5000).default(3000),
@@ -29,6 +29,9 @@ export const restaurantRouter = createTRPCRouter({
         lat,
         lng,
       );
+
+      if (!restaurantsFromGoogle || restaurantsFromGoogle.length === 0)
+        return [];
 
       await ctx.prisma.restaurant.createMany({
         skipDuplicates: true,

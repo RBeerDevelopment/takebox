@@ -3,7 +3,7 @@ import { Stack, useGlobalSearchParams } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
 import { RestaurantSearchItem } from "~/components/restaurant-search-item";
-import { ThemeableView } from "~/components/themeable/themable-view";
+import { ScreenWrapper } from "~/components/screen-wrapper";
 import { ErrorMessage } from "../../../components/error-message";
 import { SearchResultsSkeleton } from "../../../components/skeleton";
 import { useSearch } from "../../../hooks/queries/use-search";
@@ -21,19 +21,25 @@ export default function SearchScreen() {
   );
 
   if (isFetching) {
-    return <SearchResultsSkeleton />;
+    return (
+      <ScreenWrapper>
+        <SearchResultsSkeleton />
+      </ScreenWrapper>
+    );
   }
 
   if (isError) {
     return (
-      <ErrorMessage
-        text={`Error while loading, try again. ${error?.message}`}
-      />
+      <ScreenWrapper>
+        <ErrorMessage
+          text={`Error while loading, try again. ${error?.message}`}
+        />
+      </ScreenWrapper>
     );
   }
 
   return (
-    <ThemeableView className="h-full w-full">
+    <ScreenWrapper className="h-full w-full">
       <Stack.Screen options={{ title: "Search" }} />
       <FlashList
         data={restaurants}
@@ -42,6 +48,6 @@ export default function SearchScreen() {
         )}
         estimatedItemSize={280}
       />
-    </ThemeableView>
+    </ScreenWrapper>
   );
 }
