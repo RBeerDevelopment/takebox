@@ -13,9 +13,9 @@ const defineConfig = () => ({
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
   splash: {
-    image: "./assets/icon.png",
+    image: "./assets/splash.png",
     resizeMode: "contain",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#020617",
   },
   updates: {
     fallbackToCacheTimeout: 0,
