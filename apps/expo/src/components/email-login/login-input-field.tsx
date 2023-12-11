@@ -1,22 +1,28 @@
-import { TextInput } from "react-native";
+import { TextInput, View } from "react-native";
+
+import { ThemeableText } from "../themeable/themable-text";
 
 interface LoginInputFieldProps {
   value: string;
   onChangeText: (text: string) => void;
-  placeholder: string;
+  label: string;
+  placeholder?: string;
   [key: string]: unknown;
 }
 export function LoginInputField(props: LoginInputFieldProps) {
-  const { value, onChangeText, placeholder, ...rest } = props;
+  const { value, onChangeText, label, placeholder, ...rest } = props;
 
   return (
-    <TextInput
-      className="mx-4 my-1 w-11/12 rounded-lg bg-white px-4 py-4 text-black"
-      value={value}
-      placeholder={placeholder}
-      placeholderTextColor="black"
-      onChangeText={onChangeText}
-      {...rest}
-    />
+    <View className="mb-3 flex w-full flex-col">
+      <ThemeableText className="text-lg">{label}</ThemeableText>
+      <TextInput
+        className="w-full rounded-lg border border-gray-100 bg-slate-800 px-3 py-2 text-lg text-white"
+        value={value}
+        placeholder={placeholder}
+        onChangeText={onChangeText}
+        textAlignVertical="center"
+        {...rest}
+      />
+    </View>
   );
 }

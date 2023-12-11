@@ -6,7 +6,7 @@ import { StyledButton } from "~/components/button";
 import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
 import EmailSignIn from "~/components/email-login/email-signin";
 import EmailSignUp from "~/components/email-login/email-signup";
-import { type LoginInputState } from "~/components/email-login/login-input-state";
+import { type LoginInputState } from "~/types/login-input-state";
 
 enum LoginType {
   SignUp,
@@ -72,7 +72,7 @@ export default function Email(): React.ReactElement {
 
   return (
     <CustomSafeAreaProvider isColorfulBackground={true}>
-      <View className="flex h-full w-full flex-col items-center bg-primary">
+      <View className="bg-primary flex h-full w-full flex-col items-center">
         <Stack.Screen options={{ header: () => null }} />
         {content}
         <View className="absolute bottom-6">

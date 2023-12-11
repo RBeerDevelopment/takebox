@@ -4,7 +4,6 @@ import { useSignIn } from "@clerk/clerk-expo";
 
 import { isClerkError } from "~/utils/validation/isClerkError";
 import { StyledButton } from "../button";
-import { ThemeableText } from "../themeable/themable-text";
 import { type EmailLoginProps } from "./email-login-props";
 import { LoginInputField } from "./login-input-field";
 import { emailLoginSchema } from "./validation";
@@ -51,15 +50,13 @@ export default function EmailSignIn(props: EmailLoginProps) {
   }
 
   return (
-    <View className="mb-4 w-11/12">
-      <ThemeableText className="w-full p-6 text-center text-xl font-semibold">
-        Sign In with Email
-      </ThemeableText>
-      <View className="flex flex-col items-center">
+    <View className="mb-4 w-full">
+      <View className="flex flex-col">
         <LoginInputField
           autoCapitalize="none"
           value={emailAddress}
-          placeholder="Email/Username..."
+          label="Email"
+          placeholder="me@example.com"
           onChangeText={(newEmailAddress) => {
             dispatchLoginInput({ emailAddress: newEmailAddress });
           }}
@@ -67,7 +64,8 @@ export default function EmailSignIn(props: EmailLoginProps) {
 
         <LoginInputField
           value={password}
-          placeholder="Password..."
+          label="Password"
+          placeholder="********"
           secureTextEntry={true}
           onChangeText={(newPassword) => {
             dispatchLoginInput({ password: newPassword });
@@ -75,10 +73,15 @@ export default function EmailSignIn(props: EmailLoginProps) {
         />
 
         <StyledButton
-          buttonStyle="bg-white w-1/3"
-          textStyle="text-primary dark:text-primary-dark"
+          buttonStyle="w-full"
+          colorful
           onPress={() => void onSignInPress()}
-          text="Sign in"
+          text="Login"
+        />
+
+        <StyledButton
+          onPress={() => void router.push("/forgot-password")}
+          text="Create Account"
         />
       </View>
     </View>
