@@ -20,6 +20,15 @@ export default function SignedinLayout(): React.ReactElement {
     return <Redirect href={"login"} />;
   }
 
+  const modalCloseButton = (
+    <StyledButton
+      onPress={router.back}
+      text="Close"
+      buttonStyle="w-fit pl-1 -translate-y-2"
+      textStyle="text-primary"
+    />
+  );
+
   return (
     <ActionSheetProvider>
       <CustomSafeAreaProvider isColorfulBackground={false}>
@@ -35,7 +44,7 @@ export default function SignedinLayout(): React.ReactElement {
             },
             headerRight: () => (
               <IconOnlyButton
-                onPress={() => void router.push("/profile/modal")}
+                onPress={() => void router.push("/settings/modal")}
                 iconName="person"
                 style="p-2"
                 iconFont="material"
@@ -50,14 +59,8 @@ export default function SignedinLayout(): React.ReactElement {
               presentation: "modal",
               title: "Review",
               headerTitleAlign: "center",
-              headerLeft: () => (
-                <StyledButton
-                  onPress={router.back}
-                  text="Close"
-                  buttonStyle="w-fit px-2 -translate-y-2"
-                  textStyle="text-primary"
-                />
-              ),
+              headerLeft: () => modalCloseButton,
+
               headerRight: undefined,
             }}
           />
@@ -67,29 +70,22 @@ export default function SignedinLayout(): React.ReactElement {
               presentation: "modal",
               title: "Review",
               headerTitleAlign: "center",
-              headerLeft: () => (
-                <StyledButton
-                  onPress={router.back}
-                  text="Close"
-                  buttonStyle="w-fit px-2 -translate-y-2"
-                  textStyle="text-red-900"
-                />
-              ),
+              headerLeft: () => modalCloseButton,
               headerRight: undefined,
             }}
           />
           <Stack.Screen
-            name="profile/modal"
+            name="settings/modal"
             options={{
               presentation: "modal",
-              title: "Profile",
+              title: "Settings",
               headerTitleAlign: "center",
               headerLeft: () => (
                 <StyledButton
                   onPress={router.back}
                   text="Close"
                   buttonStyle="w-fit px-2 -translate-y-2"
-                  textStyle="text-primary"
+                  textStyle="text-white"
                 />
               ),
               headerRight: undefined,

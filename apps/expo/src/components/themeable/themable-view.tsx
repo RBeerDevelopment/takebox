@@ -11,7 +11,7 @@ type Props = {
 export function ThemeableView(props: Props): React.ReactElement {
   const { children, className = "", onPress, ...rest } = props;
 
-  const classes = cn("bg-white dark:bg-slate-950", className);
+  const classes = cn("bg-background", className);
 
   if (onPress) {
     return (
