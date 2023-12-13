@@ -1,3 +1,5 @@
+import { green } from "tailwindcss/colors";
+
 export const colors = {
-  primary: "#22c55e",
+  primary: green[500],
 } as const;

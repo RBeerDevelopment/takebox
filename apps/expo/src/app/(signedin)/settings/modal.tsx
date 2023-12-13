@@ -15,10 +15,10 @@ export default function ProfileModal(): React.ReactElement {
   const { user } = useUser();
   const auth = useAuth();
 
-  // const [isDeveloperMode, setIsDeveloperMode] = usePersistedStore((state) => [
-  //   state.isDeveloperMode,
-  //   state.setIsDeveloperMode,
-  // ]);
+  const [isDeveloperMode, setIsDeveloperMode] = usePersistedStore((state) => [
+    state.isDeveloperMode,
+    state.setIsDeveloperMode,
+  ]);
 
   return (
     <ThemeableView className="flex h-full w-full flex-col items-center p-2">
@@ -34,7 +34,7 @@ export default function ProfileModal(): React.ReactElement {
       <UsernameEdit />
       <ThemeableText>{user?.primaryEmailAddress?.emailAddress}</ThemeableText>
 
-      {/* <View className="flex w-full flex-row items-center justify-between px-4 pt-20">
+      <View className="flex w-full flex-row items-center justify-between px-4 pt-20">
         <ThemeableText>Enable Developer Mode</ThemeableText>
         <Switch
           trackColor={{ false: "#767577", true: colors.primary }}
@@ -43,7 +43,7 @@ export default function ProfileModal(): React.ReactElement {
           onValueChange={(value) => setIsDeveloperMode(value)}
           value={isDeveloperMode}
         />
-      </View> */}
+      </View>
 
       <StyledButton
         buttonStyle="w-1/2 absolute bottom-16"
