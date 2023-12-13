@@ -10,7 +10,7 @@ export function SignInWithAppleButton(props: Props): React.ReactElement {
   const { onPress } = props;
 
   return (
-    <TouchableOpacity className="flex" onPress={onPress}>
+    <TouchableOpacity className="flex h-14 w-full" onPress={onPress}>
       <View className="flex h-fit flex-row items-center justify-center rounded-full bg-white px-4 py-3">
         <View className="absolute left-6">
           <Icon size={28} name={"apple" as any} />

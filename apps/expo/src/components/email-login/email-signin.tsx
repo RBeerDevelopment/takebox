@@ -1,4 +1,5 @@
-import { View } from "react-native";
+import { Keyboard, View } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useRouter } from "expo-router";
 import { useSignIn } from "@clerk/clerk-expo";
 
@@ -50,13 +51,17 @@ export default function EmailSignIn(props: EmailLoginProps) {
   }
 
   return (
-    <View className="mb-4 w-full">
+    <TouchableWithoutFeedback
+      className="h-full w-full"
+      onPress={Keyboard.dismiss}
+    >
       <View className="flex flex-col">
         <LoginInputField
           autoCapitalize="none"
+          autoComplete="email"
           value={emailAddress}
           label="Email"
-          placeholder="me@example.com"
+          placeholder="name@example.com"
           onChangeText={(newEmailAddress) => {
             dispatchLoginInput({ emailAddress: newEmailAddress });
           }}
@@ -65,6 +70,7 @@ export default function EmailSignIn(props: EmailLoginProps) {
         <LoginInputField
           value={password}
           label="Password"
+          autoComplete="password"
           placeholder="********"
           secureTextEntry={true}
           onChangeText={(newPassword) => {
@@ -78,12 +84,7 @@ export default function EmailSignIn(props: EmailLoginProps) {
           onPress={() => void onSignInPress()}
           text="Login"
         />
-
-        <StyledButton
-          onPress={() => void router.push("/forgot-password")}
-          text="Create Account"
-        />
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }

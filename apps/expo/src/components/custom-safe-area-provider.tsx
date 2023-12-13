@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useDarkMode } from "~/hooks/use-dark-mode";
@@ -32,7 +32,12 @@ export function CustomSafeAreaProvider({
         flex: 1,
       }}
     >
-      {children}
+      <TouchableWithoutFeedback
+        className="h-full w-full"
+        onPress={() => Keyboard.dismiss()}
+      >
+        {children}
+      </TouchableWithoutFeedback>
     </View>
   );
 }
