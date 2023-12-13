@@ -32,12 +32,7 @@ export function CustomSafeAreaProvider({
         flex: 1,
       }}
     >
-      <TouchableWithoutFeedback
-        className="h-full w-full"
-        onPress={() => Keyboard.dismiss()}
-      >
-        {children}
-      </TouchableWithoutFeedback>
+      {children}
     </View>
   );
 }

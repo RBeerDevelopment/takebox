@@ -1,5 +1,10 @@
 import React from "react";
-import { KeyboardAvoidingView, View } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { Image } from "expo-image";
 import { Redirect, Stack } from "expo-router";
 import { useAuth, useOAuth } from "@clerk/clerk-expo";
@@ -42,34 +47,39 @@ const SignInWithOAuth = () => {
 
   return (
     <CustomSafeAreaProvider isColorfulBackground={false}>
-      <KeyboardAvoidingView
-        className="flex h-full w-full flex-col bg-slate-950 px-4"
-        behavior="height"
+      <TouchableWithoutFeedback
+        className="h-full w-full"
+        onPress={() => Keyboard.dismiss()}
       >
-        <View className="flex h-2/5 flex-col items-center pt-4">
-          <Image
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            source={require("../../../assets/splash.png")}
-            className="h-full w-full rounded-xl"
-            contentFit="contain"
-            alt="App Logo"
-          />
-        </View>
-        <Stack.Screen options={{ header: () => null }} />
-
-        <View className="flex h-3/5 flex-col justify-between pb-8">
-          <EmailSection />
-          <View
-            className={`flex flex-col ${isKeyboardVisibile ? "hidden" : ""}`}
-          >
-            <View className="-mt-20 mb-8 h-px w-11/12 self-center bg-gray-300"></View>
-
-            <SignInWithAppleButton
-              onPress={() => void handleSignInWithApple()}
+        <KeyboardAvoidingView
+          className="flex h-full w-full flex-col bg-slate-950 px-4"
+          behavior="height"
+        >
+          <View className="flex h-2/5 flex-col items-center pt-4">
+            <Image
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              source={require("../../../assets/splash.png")}
+              className="h-full w-full rounded-xl"
+              contentFit="contain"
+              alt="App Logo"
             />
           </View>
-        </View>
-      </KeyboardAvoidingView>
+          <Stack.Screen options={{ header: () => null }} />
+
+          <View className="flex h-3/5 flex-col justify-between pb-8">
+            <EmailSection />
+            <View
+              className={`flex flex-col ${isKeyboardVisibile ? "hidden" : ""}`}
+            >
+              <View className="-mt-20 mb-8 h-px w-11/12 self-center bg-gray-300"></View>
+
+              <SignInWithAppleButton
+                onPress={() => void handleSignInWithApple()}
+              />
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </CustomSafeAreaProvider>
   );
 };

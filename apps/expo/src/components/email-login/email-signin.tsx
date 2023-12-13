@@ -1,5 +1,4 @@
-import { Keyboard, View } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { View } from "react-native";
 import { useRouter } from "expo-router";
 import { useSignIn } from "@clerk/clerk-expo";
 
@@ -51,40 +50,35 @@ export default function EmailSignIn(props: EmailLoginProps) {
   }
 
   return (
-    <TouchableWithoutFeedback
-      className="h-full w-full"
-      onPress={Keyboard.dismiss}
-    >
-      <View className="flex flex-col">
-        <LoginInputField
-          autoCapitalize="none"
-          autoComplete="email"
-          value={emailAddress}
-          label="Email"
-          placeholder="name@example.com"
-          onChangeText={(newEmailAddress) => {
-            dispatchLoginInput({ emailAddress: newEmailAddress });
-          }}
-        />
+    <View className="flex w-full flex-col">
+      <LoginInputField
+        autoCapitalize="none"
+        autoComplete="email"
+        value={emailAddress}
+        label="Email"
+        placeholder="name@example.com"
+        onChangeText={(newEmailAddress) => {
+          dispatchLoginInput({ emailAddress: newEmailAddress });
+        }}
+      />
 
-        <LoginInputField
-          value={password}
-          label="Password"
-          autoComplete="password"
-          placeholder="********"
-          secureTextEntry={true}
-          onChangeText={(newPassword) => {
-            dispatchLoginInput({ password: newPassword });
-          }}
-        />
+      <LoginInputField
+        value={password}
+        label="Password"
+        autoComplete="password"
+        placeholder="********"
+        secureTextEntry={true}
+        onChangeText={(newPassword) => {
+          dispatchLoginInput({ password: newPassword });
+        }}
+      />
 
-        <StyledButton
-          buttonStyle="w-full"
-          colorful
-          onPress={() => void onSignInPress()}
-          text="Login"
-        />
-      </View>
-    </TouchableWithoutFeedback>
+      <StyledButton
+        buttonStyle="w-full"
+        colorful
+        onPress={() => void onSignInPress()}
+        text="Login"
+      />
+    </View>
   );
 }

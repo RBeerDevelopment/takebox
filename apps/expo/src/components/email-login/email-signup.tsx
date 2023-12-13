@@ -127,7 +127,8 @@ export default function EmailSignUp(props: EmailLoginProps) {
             onChangeText={setCode}
           />
           <StyledButton
-            buttonStyle="bg-white w-full"
+            buttonStyle="w-full"
+            colorful
             onPress={() => void onPressVerify()}
             text="Verify Email"
           />
