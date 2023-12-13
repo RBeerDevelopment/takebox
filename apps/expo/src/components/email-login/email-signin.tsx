@@ -4,7 +4,6 @@ import { useSignIn } from "@clerk/clerk-expo";
 
 import { isClerkError } from "~/utils/validation/isClerkError";
 import { StyledButton } from "../button";
-import { ThemeableText } from "../themeable/themable-text";
 import { type EmailLoginProps } from "./email-login-props";
 import { LoginInputField } from "./login-input-field";
 import { emailLoginSchema } from "./validation";
@@ -51,36 +50,35 @@ export default function EmailSignIn(props: EmailLoginProps) {
   }
 
   return (
-    <View className="mb-4 w-11/12">
-      <ThemeableText className="w-full p-6 text-center text-xl font-semibold">
-        Sign In with Email
-      </ThemeableText>
-      <View className="flex flex-col items-center">
-        <LoginInputField
-          autoCapitalize="none"
-          value={emailAddress}
-          placeholder="Email/Username..."
-          onChangeText={(newEmailAddress) => {
-            dispatchLoginInput({ emailAddress: newEmailAddress });
-          }}
-        />
+    <View className="flex w-full flex-col">
+      <LoginInputField
+        autoCapitalize="none"
+        autoComplete="email"
+        value={emailAddress}
+        label="Email"
+        placeholder="name@example.com"
+        onChangeText={(newEmailAddress) => {
+          dispatchLoginInput({ emailAddress: newEmailAddress });
+        }}
+      />
 
-        <LoginInputField
-          value={password}
-          placeholder="Password..."
-          secureTextEntry={true}
-          onChangeText={(newPassword) => {
-            dispatchLoginInput({ password: newPassword });
-          }}
-        />
+      <LoginInputField
+        value={password}
+        label="Password"
+        autoComplete="password"
+        placeholder="********"
+        secureTextEntry={true}
+        onChangeText={(newPassword) => {
+          dispatchLoginInput({ password: newPassword });
+        }}
+      />
 
-        <StyledButton
-          buttonStyle="bg-white w-1/3"
-          textStyle="text-primary dark:text-primary-dark"
-          onPress={() => void onSignInPress()}
-          text="Sign in"
-        />
-      </View>
+      <StyledButton
+        buttonStyle="w-full"
+        colorful
+        onPress={() => void onSignInPress()}
+        text="Login"
+      />
     </View>
   );
 }

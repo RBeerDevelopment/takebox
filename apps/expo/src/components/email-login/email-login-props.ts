@@ -1,4 +1,4 @@
-import { type LoginInputState } from "./login-input-state";
+import { type LoginInputState } from "../../types/login-input-state";
 
 export interface EmailLoginProps {
   loginInputState: LoginInputState;

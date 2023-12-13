@@ -5,7 +5,6 @@ import { useSignUp } from "@clerk/clerk-expo";
 
 import { isClerkError } from "~/utils/validation/isClerkError";
 import { StyledButton } from "../button";
-import { ThemeableText } from "../themeable/themable-text";
 import { type EmailLoginProps } from "./email-login-props";
 import { LoginInputField } from "./login-input-field";
 import { emailLoginSchema } from "./validation";
@@ -79,16 +78,14 @@ export default function EmailSignUp(props: EmailLoginProps) {
   };
 
   return (
-    <View className="mb-4 w-11/12">
-      <ThemeableText className="w-full p-6 text-center text-xl font-semibold">
-        Sign Up with Email
-      </ThemeableText>
-      {!pendingVerification && (
+    <View className="mb-4">
+      {!pendingVerification ? (
         <View className="flex flex-col items-center">
           <LoginInputField
             autoCapitalize="none"
+            label="Email"
             value={emailAddress}
-            placeholder="Email..."
+            placeholder="name@example.com"
             onChangeText={(newEmailAddress) =>
               dispatchLoginInput({ emailAddress: newEmailAddress })
             }
@@ -97,7 +94,8 @@ export default function EmailSignUp(props: EmailLoginProps) {
           <LoginInputField
             autoCapitalize="none"
             value={username}
-            placeholder="Username..."
+            placeholder="user_name"
+            label="Username"
             onChangeText={(newUsername) =>
               dispatchLoginInput({ username: newUsername })
             }
@@ -105,7 +103,8 @@ export default function EmailSignUp(props: EmailLoginProps) {
 
           <LoginInputField
             value={password}
-            placeholder="Password..."
+            label="Password"
+            placeholder="********"
             secureTextEntry={true}
             onChangeText={(newPassword) =>
               dispatchLoginInput({ password: newPassword })
@@ -113,23 +112,23 @@ export default function EmailSignUp(props: EmailLoginProps) {
           />
 
           <StyledButton
-            buttonStyle="bg-white w-1/3"
-            textStyle="text-primary dark:text-primary-dark"
+            colorful
+            buttonStyle="w-full"
             onPress={() => void onSignUpPress()}
-            text="Sign up"
+            text="Create Account"
           />
         </View>
-      )}
-      {pendingVerification && (
+      ) : (
         <View className="flex flex-col items-center">
           <LoginInputField
+            label="Code"
             value={code}
-            placeholder="Code..."
+            placeholder="123456"
             onChangeText={setCode}
           />
           <StyledButton
-            buttonStyle="bg-white w-1/3"
-            textStyle="text-primary dark:text-primary-dark"
+            buttonStyle="w-full"
+            colorful
             onPress={() => void onPressVerify()}
             text="Verify Email"
           />

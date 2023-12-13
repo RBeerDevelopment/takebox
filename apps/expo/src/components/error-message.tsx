@@ -8,10 +8,10 @@ interface Props {
 }
 
 export function ErrorMessage(props: Props): React.ReactElement {
-  const { text = "Es ist ein Fehler aufgetreten." } = props;
+  const { text = "An error occured." } = props;
   return (
-    <View className="h-3/4 w-full items-center justify-center">
-      <ThemeableText className="text-md italic text-red-800">
+    <View className="h-3/4 w-full items-center justify-center px-6">
+      <ThemeableText className="text-md italic text-red-500">
         {text}
       </ThemeableText>
     </View>

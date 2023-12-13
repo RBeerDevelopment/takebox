@@ -10,7 +10,7 @@ type Props = {
 export function ThemeableText(props: Props): React.ReactElement {
   const { children, className = "", ...rest } = props;
 
-  const classes = cn("text-black dark:text-white", className);
+  const classes = cn("text-white", className);
 
   return (
     <Text className={classes} {...rest}>

@@ -30,7 +30,13 @@ export function StyledButton(props: Props): React.ReactElement {
       )}
       onPress={onPress}
     >
-      <Text className={cn("text-lg capitalize text-white", textStyle)}>
+      <Text
+        className={cn(
+          "text-lg capitalize",
+          colorful ? "text-black" : "text-white",
+          textStyle,
+        )}
+      >
         {text}
       </Text>
     </TouchableOpacity>
