@@ -71,7 +71,9 @@ export function ReviewSummary(props: Props): React.ReactElement {
               />
             </View>
 
-            <ThemeableText className="pr-2">{review.content}</ThemeableText>
+            {review.content.length > 0 ? (
+              <ThemeableText className="pr-2">{review.content}</ThemeableText>
+            ) : null}
           </ThemeableView>
         </Link>
       </Swipeable>
