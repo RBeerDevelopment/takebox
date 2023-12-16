@@ -2,12 +2,15 @@ import React from "react";
 import { View } from "react-native";
 import { useRouter } from "expo-router";
 
+import { type ReviewListItem } from "@flavoury/api/src/db/review/review-list-item";
+
 import { api } from "~/utils/api";
 import { StyledButton } from "./button";
 import { ReviewSummary } from "./previous-review/review-summary";
 import { ReviewGraph } from "./review-graph";
 import { Skeleton } from "./skeleton/skeleton";
 import { ThemeableText } from "./themeable/themable-text";
+import { Review } from ".prisma/client";
 
 interface Props {
   restaurantId?: string;
@@ -18,7 +21,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
 
   const router = useRouter();
 
-  const [reviewSummaryQuery, ownReviewsQuery] = api.useQueries((t) => [
+  const [reviewSummaryQuery, latestReviewsQuery] = api.useQueries((t) => [
     t.review.reviewSummary(
       {
         placeId: restaurantId as string,
@@ -29,7 +32,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
         refetchOnMount: false,
       },
     ),
-    t.review.ownReviewsForRestaurant(
+    t.review.latestReviewsForRestaurant(
       { restaurantId: restaurantId || "" },
       {
         enabled: Boolean(restaurantId),
@@ -39,8 +42,9 @@ export function DetailReviewSection(props: Props): React.ReactElement {
     ),
   ]);
 
-  const isLoading = reviewSummaryQuery.isLoading || ownReviewsQuery.isLoading;
-  const isError = reviewSummaryQuery.isError || ownReviewsQuery.isError;
+  const isLoading =
+    reviewSummaryQuery.isLoading || latestReviewsQuery.isLoading;
+  const isError = reviewSummaryQuery.isError || latestReviewsQuery.isError;
 
   if (isLoading) {
     return (
@@ -52,7 +56,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
     );
   }
 
-  if (isError || !reviewSummaryQuery.data || !ownReviewsQuery.data)
+  if (isError || !reviewSummaryQuery.data || !latestReviewsQuery.data)
     return (
       <View className="mx-6 flex flex-col">
         <ThemeableText className="mx-auto italic text-red-800">
@@ -62,7 +66,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
     );
 
   const { averageRating, reviewCount, ratingCounts } = reviewSummaryQuery.data;
-  const ownReviews = ownReviewsQuery.data;
+  const latestReviews = latestReviewsQuery.data;
 
   return (
     <View className="mx-4 mb-10 flex flex-col">
@@ -89,10 +93,12 @@ export function DetailReviewSection(props: Props): React.ReactElement {
         buttonStyle="w-1/2 bg-transparent mx-auto"
         textStyle="text-primary font-bold animate-ping"
       />
-      {ownReviews.length > 0 && (
+      {latestReviews.length > 0 && (
         <>
-          <ThemeableText className="mb-1 font-bold">My reviews</ThemeableText>
-          {ownReviews.map((review) => (
+          <ThemeableText className="mb-1 font-bold">
+            Latest reviews
+          </ThemeableText>
+          {latestReviews.map((review) => (
             <ReviewSummary
               review={review}
               restaurantId={restaurantId || ""}
