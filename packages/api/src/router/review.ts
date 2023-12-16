@@ -128,6 +128,37 @@ export const reviewRouter = createTRPCRouter({
 
       return await selectReviewById(prisma, id);
     }),
+  latestReviewsForRestaurant: protectedProcedure
+    .input(z.object({ restaurantId: z.string(), take: z.number().default(3) }))
+    .query(async ({ ctx, input }) => {
+      const { prisma } = ctx;
+      const { restaurantId, take } = input;
+
+      const reviews = await prisma.review.findMany({
+        where: { restaurantId },
+        orderBy: { createdAt: "desc" },
+        take,
+        select: {
+          id: true,
+          rating: true,
+          date: true,
+          content: true,
+          restaurant: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      });
+
+      return reviews;
+    }),
 
   ownReviewsForRestaurant: protectedProcedure
     .input(z.object({ restaurantId: z.string() }))
