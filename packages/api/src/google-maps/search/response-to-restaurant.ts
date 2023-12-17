@@ -2,17 +2,25 @@ import { type Restaurant } from "./fetch-nearby-restaurants";
 import { type NearbyResponse } from "./nearby-response";
 
 export function responseToRestaurant(
-  r: NearbyResponse["results"][0],
+  r: NearbyResponse["places"][0],
 ): Restaurant {
   return {
-    googleId: r.place_id,
-    name: r.name,
-    address: r.formatted_address,
-    lat: r.geometry.location.lat,
-    lng: r.geometry.location.lng,
-    googlePhotoReference: r.photos[0]?.photo_reference || null,
+    googleId: r.id,
+    name: r.displayName.text,
+    address: r.formattedAddress,
+    lat: r.location.latitude,
+    lng: r.location.longitude,
+    googlePhotoReference:
+      r.photos.find(
+        (photo) =>
+          photo.widthPx ===
+          r.photos
+            .map((p) => p.widthPx)
+            .sort()
+            .at(0),
+      )?.name ?? null,
     s3ImageKey: null,
-    websiteUrl: null,
-    googleUrl: null,
+    websiteUrl: r.websiteUri ?? null,
+    googleUrl: r.googleMapsUri ?? null,
   };
 }
