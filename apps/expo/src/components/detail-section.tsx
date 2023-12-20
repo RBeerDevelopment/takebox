@@ -10,7 +10,7 @@ interface Props {
     address: string | null;
     googleUrl: string | null;
     websiteUrl: string | null;
-  };
+  } | null;
 }
 
 export function DetailSection(props: Props): React.ReactElement {

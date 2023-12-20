@@ -6,36 +6,33 @@ const businessStatus = z.enum([
   "CLOSED_PERMANENTLY",
 ]);
 
-const nearbyResponse = z.object({
-  next_page_token: z.string(),
-  results: z.array(
+const NearbyResponse = z.object({
+  places: z.array(
     z.object({
-      business_status: businessStatus,
-      formatted_address: z.string(),
-      name: z.string(),
-      opening_hours: z.object({
-        open_now: z.boolean(),
-      }),
-      photos: z
-        .array(
-          z.object({
-            height: z.number(),
-            width: z.number(),
-            html_attributions: z.array(z.string()),
-            photo_reference: z.string(),
-          }),
-        )
-        .length(1),
-      geometry: z.object({
-        location: z.object({
-          lat: z.number(),
-          lng: z.number(),
+      id: z.string(),
+      types: z.array(z.string()),
+      formattedAddress: z.string(),
+      location: z.object({ latitude: z.number(), longitude: z.number() }),
+      googleMapsUri: z.string().url(),
+      websiteUri: z.string().url().optional(),
+      businessStatus: businessStatus,
+      displayName: z.object({ text: z.string(), languageCode: z.string() }),
+      photos: z.array(
+        z.object({
+          name: z.string(),
+          widthPx: z.number(),
+          heightPx: z.number(),
+          authorAttributions: z.array(
+            z.object({
+              displayName: z.string(),
+              uri: z.string(),
+              photoUri: z.string(),
+            }),
+          ),
         }),
-      }),
-      place_id: z.string(),
-      price_level: z.number().min(0).max(4).optional(),
+      ),
     }),
   ),
 });
 
-export type NearbyResponse = z.infer<typeof nearbyResponse>;
+export type NearbyResponse = z.infer<typeof NearbyResponse>;

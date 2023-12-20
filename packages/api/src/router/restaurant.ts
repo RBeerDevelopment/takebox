@@ -1,13 +1,11 @@
 import { z } from "zod";
 
-import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
 import { fetchNearbyRestaurants } from "../google-maps/search";
 import { calculateDistanceFromCoordinates } from "../helper/calculate-distance-from-coordinates";
 import { createPresignedUrl } from "../s3/create-presigned-url";
 import { uploadImageBlob } from "../s3/upload-image-blob";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { shortenUrlForDb } from "../utils/shorten-url-for-db";
 
 export const restaurantRouter = createTRPCRouter({
   nearbyRestaurantsByQuery: protectedProcedure
@@ -37,6 +35,15 @@ export const restaurantRouter = createTRPCRouter({
         skipDuplicates: true,
         data: [...restaurantsFromGoogle],
       });
+
+      // TODO: this is a hack to always have updatedgoogle photo reference in the db,
+      // however this should be done in a more elegant way
+      for (const restaurant of restaurantsFromGoogle) {
+        await ctx.prisma.restaurant.update({
+          where: { googleId: restaurant.googleId },
+          data: { googlePhotoReference: restaurant.googlePhotoReference },
+        });
+      }
 
       const restaurants = await ctx.prisma.restaurant.findMany({
         select: {
@@ -85,30 +92,7 @@ export const restaurantRouter = createTRPCRouter({
         where: { id: placeId },
       });
 
-      if (
-        restaurantInDb &&
-        (restaurantInDb.websiteUrl || restaurantInDb.googleUrl)
-      )
-        return restaurantInDb;
-
-      if (!restaurantInDb?.googleId) return;
-
-      const fetchedDetails = await fetchRestaurantDetails(
-        restaurantInDb?.googleId,
-      );
-      if (!fetchedDetails) return;
-
-      const restaurantDetails = await prisma.restaurant.update({
-        where: { id: placeId },
-        data: {
-          websiteUrl: fetchedDetails.website
-            ? shortenUrlForDb(fetchedDetails.website)
-            : undefined,
-          googleUrl: fetchedDetails.url,
-        },
-      });
-
-      return restaurantDetails;
+      return restaurantInDb;
     }),
 
   getImageUrl: protectedProcedure
@@ -130,13 +114,14 @@ export const restaurantRouter = createTRPCRouter({
       if (s3ImageKey) return createPresignedUrl("getObject", s3ImageKey);
 
       if (restaurantInDb?.googlePhotoReference) {
+        console.log("fetching image from google");
         const image = await fetchGooglePhotoBlob(
           restaurantInDb.googlePhotoReference,
         );
 
         s3ImageKey = await uploadImageBlob(image, placeId);
 
-        await ctx.prisma.restaurant.update({
+        void ctx.prisma.restaurant.update({
           where: { id: placeId },
           data: { s3ImageKey },
         });
