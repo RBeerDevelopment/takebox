@@ -1,3 +1,4 @@
+import { GooglePlacesApi, trackGooglePlacesUsage } from "../../redis";
 import { buildPhotoUrl } from "./build-photo-url";
 
 export async function fetchGooglePhotoBlob(
@@ -6,7 +7,7 @@ export async function fetchGooglePhotoBlob(
 ): Promise<Blob> {
   const url = buildPhotoUrl(reference, maxWidth);
 
-  // void trackGooglePlacesUsage(GooglePlacesApi.Photo);
+  void trackGooglePlacesUsage(GooglePlacesApi.Photo);
 
   const resp = await fetch(url);
   const image = await resp.blob();
