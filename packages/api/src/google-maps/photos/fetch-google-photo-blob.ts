@@ -1,4 +1,3 @@
-import { GooglePlacesApi, trackGooglePlacesUsage } from "../../redis";
 import { buildPhotoUrl } from "./build-photo-url";
 
 export async function fetchGooglePhotoBlob(
