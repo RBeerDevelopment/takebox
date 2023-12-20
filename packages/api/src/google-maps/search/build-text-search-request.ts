@@ -17,6 +17,7 @@ const textSearchFieldMasks = [
   // "places.currentOpeningHours",
   "places.nationalPhoneNumber",
   "places.businessStatus",
+  "places.types",
 ];
 
 export function buildTextSearchRequest(

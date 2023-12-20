@@ -7,7 +7,7 @@ export async function fetchGooglePhotoBlob(
 ): Promise<Blob> {
   const url = buildPhotoUrl(reference, maxWidth);
 
-  void trackGooglePlacesUsage(GooglePlacesApi.Photo);
+  // void trackGooglePlacesUsage(GooglePlacesApi.Photo);
 
   const resp = await fetch(url);
   const image = await resp.blob();
