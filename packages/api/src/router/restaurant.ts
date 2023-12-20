@@ -1,13 +1,11 @@
 import { z } from "zod";
 
-import { fetchRestaurantDetails } from "../google-maps/details/fetch-restaurant-details";
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
 import { fetchNearbyRestaurants } from "../google-maps/search";
 import { calculateDistanceFromCoordinates } from "../helper/calculate-distance-from-coordinates";
 import { createPresignedUrl } from "../s3/create-presigned-url";
 import { uploadImageBlob } from "../s3/upload-image-blob";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { shortenUrlForDb } from "../utils/shorten-url-for-db";
 
 export const restaurantRouter = createTRPCRouter({
   nearbyRestaurantsByQuery: protectedProcedure
