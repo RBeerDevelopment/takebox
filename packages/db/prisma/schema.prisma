@@ -18,7 +18,7 @@ model Restaurant {
   updatedAt            DateTime            @updatedAt
   googleId             String              @unique
   s3ImageKey           String?
-  googlePhotoReference String?
+  googlePhotoReference String? @db.Text
   name                 String
   address              String
   websiteUrl           String?
