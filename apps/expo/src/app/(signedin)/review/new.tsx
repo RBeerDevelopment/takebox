@@ -94,7 +94,7 @@ export default function ReviewScreen(): React.ReactElement {
       className="h-full w-full"
       onPress={Keyboard.dismiss}
     >
-      <ScrollView className="flex h-full w-full flex-col overflow-y-scroll bg-white p-6 dark:bg-slate-950">
+      <ScrollView className="flex h-full w-full flex-col overflow-y-scroll bg-slate-950">
         <ImagePicker
           imageUri={reviewInput.imageUri}
           onChangeImageUri={(imageUri) => dispatchReviewInput({ imageUri })}
