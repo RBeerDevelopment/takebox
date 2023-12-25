@@ -2,6 +2,7 @@ import React from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { Link } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
 
 import { type ReviewListItem } from "@flavoury/api/src/db/review/review-list-item";
 
@@ -19,6 +20,8 @@ interface Props {
 
 export function ReviewSummary(props: Props): React.ReactElement {
   const { review, restaurantId } = props;
+
+  const user = useUser();
 
   const deleteReview = useDeleteReview(restaurantId || "", review.id);
 
@@ -55,7 +58,13 @@ export function ReviewSummary(props: Props): React.ReactElement {
 
   return (
     <TouchableOpacity>
-      <Swipeable renderRightActions={renderRightActions}>
+      <Swipeable
+        renderRightActions={
+          review.user.username === user.user?.username
+            ? renderRightActions
+            : undefined
+        }
+      >
         <Link href={`/review/detail/${review.id}`}>
           <ThemeableView className="flex flex-col justify-start gap-1 px-2 py-3 dark:bg-slate-950">
             <ThemeableText className="-ml-0.5 text-lg font-semibold dark:text-white">

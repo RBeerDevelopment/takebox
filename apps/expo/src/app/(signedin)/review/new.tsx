@@ -91,7 +91,7 @@ export default function ReviewScreen(): React.ReactElement {
 
   return (
     <KeyboardAwareScrollView
-      className="flex h-full w-full flex-col overflow-y-scroll bg-slate-950"
+      className="flex h-full w-full flex-col overflow-y-scroll bg-slate-950 px-2"
       keyboardShouldPersistTaps="handled"
     >
       <ImagePicker
