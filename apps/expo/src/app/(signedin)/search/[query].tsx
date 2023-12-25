@@ -38,6 +38,14 @@ export default function SearchScreen() {
     );
   }
 
+  if (restaurants?.length === 0) {
+    return (
+      <ScreenWrapper>
+        <ErrorMessage text="No results found. You can try again with another query." />
+      </ScreenWrapper>
+    );
+  }
+
   return (
     <ScreenWrapper className="h-full w-full">
       <Stack.Screen options={{ title: "Search" }} />

@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { fetchGooglePhotoBlob } from "../google-maps/photos/fetch-google-photo-blob";
 import { fetchNearbyRestaurants } from "../google-maps/search";
+import { type Restaurant } from "../google-maps/search/fetch-nearby-restaurants";
 import { calculateDistanceFromCoordinates } from "../helper/calculate-distance-from-coordinates";
 import { createPresignedUrl } from "../s3/create-presigned-url";
 import { uploadImageBlob } from "../s3/upload-image-blob";
@@ -22,11 +23,12 @@ export const restaurantRouter = createTRPCRouter({
 
       // const dbQuery = buildRestaurantSearchQuery(query, lat, lng);
       // const restaurantsFromDb = await ctx.prisma.restaurant.findMany(dbQuery);
-      const restaurantsFromGoogle = await fetchNearbyRestaurants(
-        query,
-        lat,
-        lng,
-      );
+      let restaurantsFromGoogle: Restaurant[] = [];
+      try {
+        restaurantsFromGoogle = await fetchNearbyRestaurants(query, lat, lng);
+      } catch (e) {
+        console.error(e);
+      }
 
       if (!restaurantsFromGoogle || restaurantsFromGoogle.length === 0)
         return [];
