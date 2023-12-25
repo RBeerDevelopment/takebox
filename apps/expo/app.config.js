@@ -17,11 +17,6 @@ const defineConfig = () => ({
     resizeMode: "contain",
     backgroundColor: "#020617",
   },
-  expo: {
-    ios: {
-      associatedDomains: ["applinks:flavoury.app"],
-    },
-  },
   updates: {
     fallbackToCacheTimeout: 0,
   },
@@ -30,6 +25,7 @@ const defineConfig = () => ({
     supportsTablet: false,
     bundleIdentifier: "beer.robin.takebox",
     buildNumber: "23",
+    associatedDomains: ["applinks:flavoury.app"],
   },
   android: {
     adaptiveIcon: {
