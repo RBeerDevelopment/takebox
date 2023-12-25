@@ -113,7 +113,9 @@ export default function ReviewScreen(): React.ReactElement {
           title="Tags"
           tags={reviewInput.tags}
           onChange={(newTags) => {
-            dispatchReviewInput({ tags: newTags });
+            dispatchReviewInput({
+              tags: newTags.map((tag) => tag.trim().toLowerCase()),
+            });
           }}
         />
         <DatePicker

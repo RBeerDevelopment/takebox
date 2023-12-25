@@ -1,7 +1,6 @@
 import React from "react";
 import { View } from "react-native";
 
-import { useDarkMode } from "~/hooks/use-dark-mode";
 import { usePrimaryColor } from "~/hooks/use-primary-color";
 import { IconOnlyButton } from "../icon-button";
 import { ThemeableText } from "../themeable/themable-text";
@@ -15,7 +14,6 @@ export function TagList(props: Props): React.ReactElement {
   const { tags, onDelete } = props;
 
   const primaryColor = usePrimaryColor();
-  const isDarkMode = useDarkMode();
 
   return (
     <View className="flex w-full flex-row flex-wrap overflow-x-hidden">
@@ -31,7 +29,7 @@ export function TagList(props: Props): React.ReactElement {
               iconName="clear"
               iconFont="material"
               style="pl-1"
-              iconColor={isDarkMode ? "white" : "black"}
+              iconColor="black"
               onPress={() => onDelete(index)}
             />
           ) : null}

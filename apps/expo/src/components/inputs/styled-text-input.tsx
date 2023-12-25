@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput } from "react-native";
+import { TextInput, type TextInputProps } from "react-native";
 
 import { useDarkMode } from "~/hooks/use-dark-mode";
 import { cn } from "~/utils";
@@ -16,6 +16,7 @@ interface Props {
   autoCorrect?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
+  autoCapitalize?: TextInputProps["autoCapitalize"];
 }
 
 export function StyledTextInput(props: Props): React.ReactElement {
@@ -28,6 +29,7 @@ export function StyledTextInput(props: Props): React.ReactElement {
     className = "",
     onEnterPress,
     autoCorrect = true,
+    autoCapitalize = "sentences",
     onFocus = () => {
       return;
     },
@@ -51,6 +53,7 @@ export function StyledTextInput(props: Props): React.ReactElement {
           onEnterPress();
         }}
         autoCorrect={autoCorrect}
+        autoCapitalize={autoCapitalize}
         placeholder={placeholder}
         multiline={multiline}
         placeholderTextColor={isDarkMode ? "#b1b1b1" : "#212121"}

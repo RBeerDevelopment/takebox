@@ -30,11 +30,12 @@ export function TagInput(props: Props): React.ReactElement {
         onEnterPress={() => handleAddTag(newTag)}
         value={newTag}
         label={title}
-        onChangeText={setNewTag}
+        onChangeText={(newValue) => setNewTag(newValue.toLowerCase())}
         multiline={false}
         autoCorrect={false}
         onFocus={() => setHasFocus(true)}
         onBlur={() => setHasFocus(false)}
+        autoCapitalize="none"
       />
       <SuggestedTags
         show={hasFocus}
