@@ -1,5 +1,5 @@
 import React from "react";
-import { Keyboard, ScrollView, TouchableOpacity, View } from "react-native";
+import { Keyboard, TouchableOpacity, View } from "react-native";
 import fuzzysort from "fuzzysort";
 
 import { api } from "~/utils/api";
@@ -25,27 +25,23 @@ export function SuggestedTags(props: Props): React.ReactElement {
     suggestedTags = availableTags;
   }
 
-  suggestedTags = suggestedTags.slice(0, 5);
-
   if (!show || !suggestedTags || suggestedTags.length === 0) return <></>;
 
   return (
-    <ScrollView className="absolute bottom-40 z-50 max-h-40 w-full transform overflow-scroll rounded-2xl bg-white shadow-lg dark:bg-gray-800 dark:shadow-sm dark:shadow-gray-800">
-      {suggestedTags.map((tag, index) => (
+    <View className="w-full transform rounded-2xl bg-gray-800 shadow-sm shadow-gray-800">
+      {suggestedTags.slice(0, 5).map((tag, index) => (
         <TouchableOpacity
           key={index}
-          className="flex flex-col px-2"
+          className="w-full px-2 py-1"
           onPress={() => {
+            console.log(tag);
             onAdd(tag);
             Keyboard.dismiss();
           }}
         >
           <ThemeableText className="px-2 py-4">{tag}</ThemeableText>
-          {index !== suggestedTags.length - 1 && (
-            <View className="mx-auto h-px w-full bg-gray-300 dark:bg-black" />
-          )}
         </TouchableOpacity>
       ))}
-    </ScrollView>
+    </View>
   );
 }
