@@ -17,6 +17,11 @@ const defineConfig = () => ({
     resizeMode: "contain",
     backgroundColor: "#020617",
   },
+  expo: {
+    ios: {
+      associatedDomains: ["applinks:flavoury.app"],
+    },
+  },
   updates: {
     fallbackToCacheTimeout: 0,
   },

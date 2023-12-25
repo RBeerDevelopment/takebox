@@ -11,6 +11,9 @@ import { cn } from "~/utils/shadcn";
 export const metadata: Metadata = {
   title: "Flavoury App",
   description: "Flavoury App Landing Page",
+  itunes: {
+    appId: "6451152785",
+  },
 };
 
 export default function RootLayout({

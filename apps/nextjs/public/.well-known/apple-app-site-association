@@ -1,0 +1,27 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "9YL76PS92G.beer.robin.takebox"
+        ],
+        "components": [
+          {
+            "/": "/restaurant/*",
+            "comment": "Link to a restaurant including a restaurant ID"
+          }
+        ]
+      }
+    ]
+  },
+  "activitycontinuation": {
+    "apps": [
+      "9YL76PS92G.beer.robin.takebox"
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "9YL76PS92G.beer.robin.takebox"
+    ]
+  }
+}
