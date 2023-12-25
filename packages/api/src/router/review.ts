@@ -112,12 +112,7 @@ export const reviewRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
 
-      return await selectLastestReviews(
-        prisma,
-        input.lat,
-        input.lng,
-        input.take,
-      );
+      return selectLastestReviews(prisma, input.lat, input.lng, input.take);
     }),
 
   reviewById: protectedProcedure

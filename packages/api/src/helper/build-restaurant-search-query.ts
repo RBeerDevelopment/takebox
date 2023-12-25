@@ -42,7 +42,5 @@ export function buildRestaurantSearchQuery(
     },
   };
 
-  console.log(JSON.stringify(searchQuery, null, 2));
-
   return searchQuery;
 }

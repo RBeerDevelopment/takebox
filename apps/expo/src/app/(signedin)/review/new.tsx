@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
+import { View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { ScrollView } from "react-native-gesture-handler";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
@@ -90,52 +90,52 @@ export default function ReviewScreen(): React.ReactElement {
   }
 
   return (
-    <TouchableWithoutFeedback
-      className="h-full w-full"
-      onPress={Keyboard.dismiss}
+    <KeyboardAwareScrollView
+      className="flex h-full w-full flex-col overflow-y-scroll bg-slate-950"
+      keyboardShouldPersistTaps="handled"
     >
-      <ScrollView className="flex h-full w-full flex-col overflow-y-scroll bg-slate-950">
-        <ImagePicker
-          imageUri={reviewInput.imageUri}
-          onChangeImageUri={(imageUri) => dispatchReviewInput({ imageUri })}
+      <ImagePicker
+        imageUri={reviewInput.imageUri}
+        onChangeImageUri={(imageUri) => dispatchReviewInput({ imageUri })}
+      />
+      <StarRating
+        onChangeRating={(rating) => dispatchReviewInput({ rating })}
+      />
+      <StyledTextInput
+        label="Review"
+        value={reviewInput.content}
+        multiline
+        placeholder="Write a review..."
+        onChangeText={(content) => dispatchReviewInput({ content })}
+      />
+      <TagInput
+        title="Tags"
+        tags={reviewInput.tags}
+        onChange={(newTags) => {
+          dispatchReviewInput({
+            tags: newTags.map((tag) => tag.trim().toLowerCase()),
+          });
+        }}
+      />
+      <DatePicker
+        date={reviewInput.date}
+        handleChangeDate={(newDate) => dispatchReviewInput({ date: newDate })}
+        maxDate={today}
+      />
+      <View className="mb-4 flex flex-row items-center">
+        <BouncyCheckbox
+          onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
+          fillColor={primaryColor}
         />
-        <StarRating
-          onChangeRating={(rating) => dispatchReviewInput({ rating })}
-        />
-        <StyledTextInput
-          label="Review"
-          value={reviewInput.content}
-          multiline
-          placeholder="Write a review..."
-          onChangeText={(content) => dispatchReviewInput({ content })}
-        />
-        <TagInput
-          title="Tags"
-          tags={reviewInput.tags}
-          onChange={(newTags) => {
-            dispatchReviewInput({ tags: newTags });
-          }}
-        />
-        <DatePicker
-          date={reviewInput.date}
-          handleChangeDate={(newDate) => dispatchReviewInput({ date: newDate })}
-          maxDate={today}
-        />
-        <View className="mb-4 flex flex-row items-center">
-          <BouncyCheckbox
-            onPress={(isTakeout) => dispatchReviewInput({ isTakeout })}
-            fillColor={primaryColor}
-          />
-          <ThemeableText className="-ml-2 text-lg">Takeout</ThemeableText>
-        </View>
+        <ThemeableText className="-ml-2 text-lg">Takeout</ThemeableText>
+      </View>
 
-        <StyledButton
-          colorful
-          text="Save"
-          onPress={handleCreateReview}
-          buttonStyle="mb-20"
-        />
-      </ScrollView>
-    </TouchableWithoutFeedback>
+      <StyledButton
+        colorful
+        text="Save"
+        onPress={handleCreateReview}
+        buttonStyle="mb-20"
+      />
+    </KeyboardAwareScrollView>
   );
 }

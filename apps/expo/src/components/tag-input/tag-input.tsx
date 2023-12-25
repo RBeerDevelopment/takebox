@@ -25,16 +25,17 @@ export function TagInput(props: Props): React.ReactElement {
   }
 
   return (
-    <View className="mb-4 mt-1 flex flex-col">
+    <View className="relative mb-4 mt-1 flex flex-col">
       <StyledTextInput
         onEnterPress={() => handleAddTag(newTag)}
         value={newTag}
         label={title}
-        onChangeText={setNewTag}
+        onChangeText={(newValue) => setNewTag(newValue.toLowerCase())}
         multiline={false}
         autoCorrect={false}
         onFocus={() => setHasFocus(true)}
         onBlur={() => setHasFocus(false)}
+        autoCapitalize="none"
       />
       <SuggestedTags
         show={hasFocus}
