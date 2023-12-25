@@ -67,9 +67,6 @@ export function StarRating(props: Props): React.ReactElement {
               <Pressable
                 key={option}
                 className="mx-1"
-                onLayout={(event) => {
-                  console.log(event.nativeEvent.layout);
-                }}
                 onPress={() => {
                   let newRating = option + 2;
                   if (option === rating - 2) {

@@ -114,7 +114,6 @@ export const restaurantRouter = createTRPCRouter({
       if (s3ImageKey) return createPresignedUrl("getObject", s3ImageKey);
 
       if (restaurantInDb?.googlePhotoReference) {
-        console.log("fetching image from google");
         const image = await fetchGooglePhotoBlob(
           restaurantInDb.googlePhotoReference,
         );
