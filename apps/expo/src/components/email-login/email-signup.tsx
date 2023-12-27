@@ -2,7 +2,6 @@ import { useState } from "react";
 import { View } from "react-native";
 import { useRouter } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
-import { set } from "zod";
 
 import { isClerkError } from "~/utils/validation/isClerkError";
 import { StyledButton } from "../button";
