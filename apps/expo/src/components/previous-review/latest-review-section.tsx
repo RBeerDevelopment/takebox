@@ -23,8 +23,6 @@ export function LatestReviewSection(): React.ReactElement {
     { enabled: Boolean(coords) },
   );
 
-  useRefreshOnFocus(refetch);
-
   if (isLoading) return <SearchResultsSkeleton />;
 
   if (isError || reviews.length === 0)

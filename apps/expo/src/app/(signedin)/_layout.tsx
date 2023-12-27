@@ -12,13 +12,14 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: { backgroundColor: "#020617" },
+        unmountOnBlur: false,
       }}
     >
       <Tabs.Screen
         name="(main)"
         options={{
           // This tab will no longer show up in the tab bar.
-          href: "/",
+
           title: "Home",
           tabBarLabel: ({ focused }) => (
             <Text
@@ -42,7 +43,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          href: "/profile",
           title: "Profile",
           tabBarLabel: ({ focused }) => (
             <Text
