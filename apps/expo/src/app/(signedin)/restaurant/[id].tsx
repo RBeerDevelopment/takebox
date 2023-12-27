@@ -5,9 +5,11 @@ import { Stack, useGlobalSearchParams } from "expo-router";
 
 import { api } from "~/utils/api";
 import { blurhash } from "~/utils/blur-hash";
+import { shareRestaurant } from "~/utils/share-restaurant";
 import { DetailReviewSection } from "~/components/detail-review-section";
 import { DetailSection } from "~/components/detail-section";
 import { ErrorMessage } from "~/components/error-message";
+import { IconOnlyButton } from "~/components/icon-button";
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { ThemeableView } from "~/components/themeable/themable-view";
 import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
@@ -44,7 +46,20 @@ export default function DetailScreen() {
 
   return (
     <ScrollView className="flex h-full w-full flex-col bg-slate-950">
-      <Stack.Screen options={{ title: restaurant?.name }} />
+      <Stack.Screen
+        options={{
+          title: restaurant?.name,
+          headerRight: () => (
+            <IconOnlyButton
+              onPress={() => void shareRestaurant(id as string)}
+              iconName="ios-share"
+              style="p-2"
+              iconFont="material"
+              iconColor="white"
+            />
+          ),
+        }}
+      />
 
       <View className="my-4 flex h-44 w-full items-center rounded-xl">
         <Image
