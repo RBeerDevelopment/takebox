@@ -9,6 +9,7 @@ interface Props {
   colorful?: boolean;
   buttonStyle?: string;
   textStyle?: string;
+  disabled?: boolean;
 }
 
 export function StyledButton(props: Props): React.ReactElement {
@@ -18,16 +19,18 @@ export function StyledButton(props: Props): React.ReactElement {
     buttonStyle = "",
     textStyle = "",
     colorful = false,
+    disabled = false,
   } = props;
 
   return (
     <TouchableOpacity
       className={cn(
         `my-2 flex w-full items-center justify-center rounded-lg ${
-          colorful ? "bg-primary" : "bg-transparent"
+          disabled ? "bg-gray-500" : colorful ? "bg-primary" : "bg-transparent"
         } py-2`,
         buttonStyle,
       )}
+      disabled={disabled}
       onPress={onPress}
     >
       <Text
