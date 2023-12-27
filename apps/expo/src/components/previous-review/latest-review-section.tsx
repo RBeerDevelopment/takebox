@@ -36,9 +36,7 @@ export function LatestReviewSection(): React.ReactElement {
 
   return (
     <ThemeableView className="flex h-[78vh] w-full flex-col p-4">
-      <ThemeableText className="pb-2 font-bold dark:text-white">
-        Latest Reviews
-      </ThemeableText>
+      <ThemeableText className="pb-2 font-bold">Latest Reviews</ThemeableText>
       <FlashList
         data={reviews}
         renderItem={({ item }) => <ReviewSummary review={item} />}

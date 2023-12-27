@@ -13,6 +13,8 @@ export default function EmailSignUp(props: EmailLoginProps) {
   const { loginInputState, dispatchLoginInput } = props;
   const { isLoaded, signUp, setActive } = useSignUp();
 
+  const [isProcessingSignUp, setIsProcessingSignUp] = useState(false);
+
   const { emailAddress, username, password } = loginInputState;
 
   const [pendingVerification, setPendingVerification] = useState(false);
@@ -35,6 +37,8 @@ export default function EmailSignUp(props: EmailLoginProps) {
       return;
     }
 
+    setIsProcessingSignUp(true);
+
     dispatchLoginInput({
       error: undefined,
     });
@@ -56,6 +60,8 @@ export default function EmailSignUp(props: EmailLoginProps) {
       if (isClerkError(err)) {
         dispatchLoginInput({ error: err.errors[0]?.message || "Input error" });
       }
+    } finally {
+      setIsProcessingSignUp(false);
     }
   }
 
@@ -64,6 +70,8 @@ export default function EmailSignUp(props: EmailLoginProps) {
     if (!isLoaded) {
       return;
     }
+
+    setIsProcessingSignUp(true);
 
     try {
       const completeSignUp = await signUp.attemptEmailAddressVerification({
@@ -74,6 +82,8 @@ export default function EmailSignUp(props: EmailLoginProps) {
       router.replace("/home");
     } catch (err: unknown) {
       console.error(JSON.stringify(err, null, 2));
+    } finally {
+      setIsProcessingSignUp(false);
     }
   };
 
@@ -115,7 +125,8 @@ export default function EmailSignUp(props: EmailLoginProps) {
             colorful
             buttonStyle="w-full"
             onPress={() => void onSignUpPress()}
-            text="Create Account"
+            disabled={isProcessingSignUp}
+            text={isProcessingSignUp ? "Loading..." : "Create Account"}
           />
         </View>
       ) : (
@@ -130,7 +141,8 @@ export default function EmailSignUp(props: EmailLoginProps) {
             buttonStyle="w-full"
             colorful
             onPress={() => void onPressVerify()}
-            text="Verify Email"
+            disabled={isProcessingSignUp}
+            text={isProcessingSignUp ? "Loading..." : "Verify Email"}
           />
 
           <StyledButton

@@ -7,7 +7,7 @@ process.env.EXPO_ROUTER_APP_ROOT = __dirname + "/src/app";
 const defineConfig = () => ({
   name: "Flavoury",
   slug: "TakeBox",
-  version: "0.12.0",
+  version: "0.12.1",
   scheme: "beer.robin.takebox",
   orientation: "portrait",
   icon: "./assets/icon.png",
@@ -26,6 +26,9 @@ const defineConfig = () => ({
     bundleIdentifier: "beer.robin.takebox",
     buildNumber: "24",
     associatedDomains: ["applinks:flavoury.app"],
+    config: {
+      usesNonExemptEncryption: false,
+    },
   },
   android: {
     adaptiveIcon: {

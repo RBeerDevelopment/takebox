@@ -8,11 +8,6 @@ interface Props {
 export function Skeleton(props: Props) {
   const { mods = "" } = props;
   return (
-    <View
-      className={cn(
-        "w-full animate-pulse rounded-md bg-[#dadada] dark:bg-[#333]",
-        mods,
-      )}
-    />
+    <View className={cn("w-full animate-pulse rounded-md bg-[#333]", mods)} />
   );
 }

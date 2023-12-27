@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { View } from "react-native";
 import { useRouter } from "expo-router";
 import { useSignIn } from "@clerk/clerk-expo";
@@ -11,6 +12,8 @@ import { emailLoginSchema } from "./validation";
 export default function EmailSignIn(props: EmailLoginProps) {
   const { loginInputState, dispatchLoginInput } = props;
   const { isLoaded, signIn, setActive } = useSignIn();
+
+  const [isProcessingSignIn, setIsProcessingSignIn] = useState(false);
 
   const router = useRouter();
 
@@ -30,6 +33,8 @@ export default function EmailSignIn(props: EmailLoginProps) {
       return;
     }
 
+    setIsProcessingSignIn(true);
+
     dispatchLoginInput({ error: undefined });
 
     try {
@@ -46,6 +51,8 @@ export default function EmailSignIn(props: EmailLoginProps) {
       if (isClerkError(err)) {
         dispatchLoginInput({ error: err.errors[0]?.message || "Input error" });
       }
+    } finally {
+      setIsProcessingSignIn(false);
     }
   }
 
@@ -77,7 +84,7 @@ export default function EmailSignIn(props: EmailLoginProps) {
         buttonStyle="w-full"
         colorful
         onPress={() => void onSignInPress()}
-        text="Login"
+        text={isProcessingSignIn ? "Loading..." : "Login"}
       />
     </View>
   );
