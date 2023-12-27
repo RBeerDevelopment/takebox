@@ -1,29 +1,15 @@
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useDarkMode } from "~/hooks/use-dark-mode";
-
 interface Props {
   children: React.ReactNode;
-  isColorfulBackground?: boolean;
 }
-export function CustomSafeAreaProvider({
-  children,
-  isColorfulBackground,
-}: Props) {
+export function CustomSafeAreaProvider({ children }: Props) {
   const insets = useSafeAreaInsets();
-
-  const isDarkMode = useDarkMode();
 
   return (
     <View
-      className={
-        isColorfulBackground
-          ? "bg-primary"
-          : isDarkMode
-          ? "bg-slate-950"
-          : "bg-white"
-      }
+      className="bg-slate-950"
       style={{
         paddingTop: insets.top,
         paddingBottom: insets.bottom,

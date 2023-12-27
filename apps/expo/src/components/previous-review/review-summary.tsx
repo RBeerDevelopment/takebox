@@ -66,8 +66,8 @@ export function ReviewSummary(props: Props): React.ReactElement {
         }
       >
         <Link href={`/review/detail/${review.id}`}>
-          <ThemeableView className="flex flex-col justify-start gap-1 px-2 py-3 dark:bg-slate-950">
-            <ThemeableText className="-ml-0.5 text-lg font-semibold dark:text-white">
+          <ThemeableView className="flex flex-col justify-start gap-1 bg-slate-950 px-2 py-3">
+            <ThemeableText className="-ml-0.5 text-lg font-semibold">
               {review.restaurant.name}
             </ThemeableText>
             <ThemeableText>{review.user.username}</ThemeableText>

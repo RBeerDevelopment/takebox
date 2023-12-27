@@ -21,12 +21,8 @@ export function RestaurantSearchItem(props: Props): React.ReactElement {
       className="flex w-full flex-col px-4 py-2"
       onPress={() => router.push(`/restaurant/${id}`)}
     >
-      <ThemeableText className="text-lg font-bold dark:text-white">
-        {name}
-      </ThemeableText>
-      <ThemeableText className="text-md dark:text-white">
-        {address}
-      </ThemeableText>
+      <ThemeableText className="text-lg font-bold">{name}</ThemeableText>
+      <ThemeableText className="text-md">{address}</ThemeableText>
       <ThemeableText className="text-sm italic text-gray-500">
         {distance}m
       </ThemeableText>

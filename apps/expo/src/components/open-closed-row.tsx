@@ -10,11 +10,9 @@ export function OpenClosedRow(props: Props): React.ReactElement {
   const { isOpen } = props;
 
   const text = isOpen ? (
-    <Text className="font-semibold text-green-700 dark:text-green-500">
-      Open
-    </Text>
+    <Text className="font-semibold text-green-500">Open</Text>
   ) : (
-    <Text className="font-semibold text-red-800 dark:text-red-500">Closed</Text>
+    <Text className="font-semibold text-red-500">Closed</Text>
   );
 
   const iconName = isOpen ? "check-circle" : "cancel";

@@ -4,7 +4,6 @@ import Toast from "react-native-toast-message";
 import * as Clipboard from "expo-clipboard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { useDarkMode } from "~/hooks/use-dark-mode";
 import { ThemeableText } from "./themeable/themable-text";
 
 interface Props {
@@ -16,8 +15,6 @@ interface Props {
 
 export function DetailRow(props: Props): React.ReactElement {
   const { allowCopy, iconName, text, onPress } = props;
-
-  const isDarkMode = useDarkMode();
 
   return (
     <TouchableOpacity
@@ -52,7 +49,7 @@ export function DetailRow(props: Props): React.ReactElement {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
           name={iconName as any}
           size={28}
-          color={isDarkMode ? "white" : "black"}
+          color="white"
         />
         <ThemeableText className="text-base">{text}</ThemeableText>
       </View>

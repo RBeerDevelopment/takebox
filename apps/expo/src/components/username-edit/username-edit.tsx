@@ -3,7 +3,6 @@ import { TextInput, View } from "react-native";
 import { useUser } from "@clerk/clerk-expo";
 
 import { api } from "~/utils/api";
-import { useDarkMode } from "~/hooks/use-dark-mode";
 import { IconOnlyButton } from "../icon-button";
 import { ThemeableText } from "../themeable/themable-text";
 
@@ -22,8 +21,6 @@ export function UsernameEdit(props: Props): React.ReactElement {
   const [error, setError] = React.useState<string>();
 
   const { mutate: upsertUser } = api.user.upsert.useMutation();
-
-  const isDarkMode = useDarkMode();
 
   async function onSaveUsername() {
     try {
@@ -55,7 +52,7 @@ export function UsernameEdit(props: Props): React.ReactElement {
       <IconOnlyButton
         iconFont="material"
         iconName="edit"
-        iconColor={isDarkMode ? "white" : "black"}
+        iconColor="white"
         onPress={() => setUsernameEditMode(true)}
       />
     </>
@@ -65,7 +62,7 @@ export function UsernameEdit(props: Props): React.ReactElement {
     content = (
       <>
         <TextInput
-          className="px-2 py-4 text-xl font-bold text-black dark:text-white"
+          className="px-2 py-4 text-xl font-bold text-white"
           placeholder="username"
           value={username}
           onChangeText={setUsername}
@@ -77,14 +74,14 @@ export function UsernameEdit(props: Props): React.ReactElement {
           iconFont="material"
           iconName="cancel"
           style="pr-1"
-          iconColor={isDarkMode ? "white" : "black"}
+          iconColor="white"
           onPress={onCancel}
         />
         <IconOnlyButton
           iconFont="material"
           iconName="check"
           style="px-2"
-          iconColor={isDarkMode ? "white" : "black"}
+          iconColor="white"
           onPress={() => void onSaveUsername()}
         />
       </>

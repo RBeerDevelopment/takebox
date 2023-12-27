@@ -43,7 +43,7 @@ export default function DetailScreen() {
   const restaurant = restaurantResult.data;
 
   return (
-    <ScrollView className="flex h-full w-full flex-col bg-white dark:bg-slate-950">
+    <ScrollView className="flex h-full w-full flex-col bg-slate-950">
       <Stack.Screen options={{ title: restaurant?.name }} />
 
       <View className="my-4 flex h-44 w-full items-center rounded-xl">

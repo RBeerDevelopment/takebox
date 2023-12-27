@@ -8,12 +8,9 @@ import { StyledButton } from "~/components/button";
 import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
 import { IconOnlyButton } from "~/components/icon-button";
 import { UsernameHandler } from "~/components/username-handler";
-import { useDarkMode } from "~/hooks/use-dark-mode";
 
 export default function SignedinLayout(): React.ReactElement {
   const router = useRouter();
-
-  const isDarkMode = useDarkMode();
 
   const auth = useAuth();
   if (!auth.isSignedIn) {
@@ -31,16 +28,16 @@ export default function SignedinLayout(): React.ReactElement {
 
   return (
     <ActionSheetProvider>
-      <CustomSafeAreaProvider isColorfulBackground={false}>
+      <CustomSafeAreaProvider>
         <Stack
           screenOptions={{
             title: "Flavoury",
-            headerTintColor: isDarkMode ? "white" : "#020617",
+            headerTintColor: "#fff",
             headerTitleStyle: {
               fontWeight: "bold",
             },
             headerStyle: {
-              backgroundColor: isDarkMode ? "#020617" : "white",
+              backgroundColor: "#020617",
             },
             headerRight: () => (
               <IconOnlyButton

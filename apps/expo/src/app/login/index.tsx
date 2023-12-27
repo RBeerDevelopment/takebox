@@ -46,7 +46,7 @@ const SignInWithOAuth = () => {
   }
 
   return (
-    <CustomSafeAreaProvider isColorfulBackground={false}>
+    <CustomSafeAreaProvider>
       <TouchableWithoutFeedback
         className="h-full w-full"
         onPress={() => Keyboard.dismiss()}
