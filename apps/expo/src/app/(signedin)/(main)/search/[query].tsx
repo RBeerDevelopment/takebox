@@ -4,10 +4,10 @@ import { FlashList } from "@shopify/flash-list";
 
 import { RestaurantSearchItem } from "~/components/restaurant-search-item";
 import { ScreenWrapper } from "~/components/screen-wrapper";
-import { ErrorMessage } from "../../../components/error-message";
-import { SearchResultsSkeleton } from "../../../components/skeleton";
-import { useSearch } from "../../../hooks/queries/use-search";
-import { useLocationStore } from "../../../state";
+import { ErrorMessage } from "../../../../components/error-message";
+import { SearchResultsSkeleton } from "../../../../components/skeleton";
+import { useSearch } from "../../../../hooks/queries/use-search";
+import { useLocationStore } from "../../../../state";
 
 export default function SearchScreen() {
   const location = useLocationStore((state) => state.location);
