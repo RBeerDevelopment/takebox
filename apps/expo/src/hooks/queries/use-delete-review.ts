@@ -22,6 +22,7 @@ export function useDeleteReview(restaurantId: string, reviewId: string) {
     },
     onSuccess: () => {
       void utils.review.invalidate();
+      void utils.review.ownReviews.invalidate();
     },
     onError: (_, __, context) => {
       Toast.show({

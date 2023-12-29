@@ -11,6 +11,7 @@ export function useCreateReview(restaurantId?: string) {
       void utils.review.ownReviewsForRestaurant.invalidate({
         restaurantId,
       });
+      void utils.review.ownReviews.invalidate();
     },
     onError: () => {
       Toast.show({
