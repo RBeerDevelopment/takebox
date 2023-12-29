@@ -1,12 +1,14 @@
 import React from "react";
-import { Redirect, Stack } from "expo-router";
+import { Redirect, Stack, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 
 import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
 import { IconOnlyButton } from "~/components/icon-button";
+import { ModalCloseButton } from "~/components/modal-close-button";
 
 export default function ProfileLayout(): React.ReactElement {
   const auth = useAuth();
+  const router = useRouter();
   if (!auth.isSignedIn) {
     return <Redirect href="login" />;
   }
@@ -29,7 +31,7 @@ export default function ProfileLayout(): React.ReactElement {
               iconFont="material"
               iconColor="white"
               onPress={() => {
-                return;
+                router.push("profile/settings/modal");
               }}
             />
           ),
@@ -47,6 +49,15 @@ export default function ProfileLayout(): React.ReactElement {
             presentation: "modal",
             title: "Username",
             headerLeft: undefined,
+            headerRight: undefined,
+          }}
+        />
+        <Stack.Screen
+          name="settings/modal"
+          options={{
+            presentation: "modal",
+            title: "Settings",
+            headerLeft: () => <ModalCloseButton />,
             headerRight: undefined,
           }}
         />

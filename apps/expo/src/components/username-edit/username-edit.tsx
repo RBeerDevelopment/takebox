@@ -23,6 +23,10 @@ export function UsernameEdit(props: Props): React.ReactElement {
   const { mutate: upsertUser } = api.user.upsert.useMutation();
 
   async function onSaveUsername() {
+    if (username.length <= 3) {
+      setError("Username must be longer than 3 characters.");
+      return;
+    }
     try {
       await user?.update({ username });
       setUsernameEditMode(false);
@@ -63,6 +67,7 @@ export function UsernameEdit(props: Props): React.ReactElement {
       <>
         <TextInput
           className="px-2 py-4 text-xl font-bold text-white"
+          placeholderTextColor="#b1b1b1"
           placeholder="username"
           value={username}
           onChangeText={setUsername}
@@ -73,7 +78,7 @@ export function UsernameEdit(props: Props): React.ReactElement {
         <IconOnlyButton
           iconFont="material"
           iconName="cancel"
-          style="pr-1"
+          style="px-1"
           iconColor="white"
           onPress={onCancel}
         />

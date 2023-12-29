@@ -6,6 +6,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 import { StyledButton } from "~/components/button";
 import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
+import { ModalCloseButton } from "~/components/modal-close-button";
 import { UsernameHandler } from "~/components/username-handler";
 
 export default function MainLayout(): React.ReactElement {
@@ -15,15 +16,6 @@ export default function MainLayout(): React.ReactElement {
   if (!auth.isSignedIn) {
     return <Redirect href={"login"} />;
   }
-
-  const modalCloseButton = (
-    <StyledButton
-      onPress={router.back}
-      text="Close"
-      buttonStyle="w-fit pl-1 -translate-y-2"
-      textStyle="text-primary"
-    />
-  );
 
   return (
     <ActionSheetProvider>
@@ -46,7 +38,7 @@ export default function MainLayout(): React.ReactElement {
               presentation: "modal",
               title: "Review",
               headerTitleAlign: "center",
-              headerLeft: () => modalCloseButton,
+              headerLeft: () => <ModalCloseButton />,
 
               headerRight: undefined,
             }}
@@ -57,7 +49,7 @@ export default function MainLayout(): React.ReactElement {
               presentation: "modal",
               title: "Review",
               headerTitleAlign: "center",
-              headerLeft: () => modalCloseButton,
+              headerLeft: () => <ModalCloseButton />,
               headerRight: undefined,
             }}
           />
