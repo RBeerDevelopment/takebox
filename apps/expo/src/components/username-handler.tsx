@@ -16,7 +16,7 @@ export function UsernameHandler(): React.ReactElement {
   React.useEffect(() => {
     if (!user) return;
     if (!user.username || user.username === "") {
-      router.replace("/username-setup/modal");
+      router.replace("/profile/username-setup/modal");
       return;
     }
 

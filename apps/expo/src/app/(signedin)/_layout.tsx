@@ -1,5 +1,6 @@
 import React from "react";
 import { Text } from "react-native";
+import { useNavigation } from "expo-router";
 import { Tabs } from "expo-router/tabs";
 
 import { colors } from "~/utils/colors";
@@ -7,6 +8,7 @@ import { IconComponent } from "~/components/icon-button/icon-component";
 import { cn } from "~/utils";
 
 export default function TabLayout() {
+  const router = useNavigation();
   return (
     <Tabs
       screenOptions={{
@@ -61,22 +63,6 @@ export default function TabLayout() {
               iconColor={focused ? colors.primary : "white"}
             />
           ),
-        }}
-      />
-      <Tabs.Screen
-        // Name of the route to hide.
-        name="settings/modal"
-        options={{
-          // This tab will no longer show up in the tab bar.
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        // Name of the route to hide.
-        name="username-setup/modal"
-        options={{
-          // This tab will no longer show up in the tab bar.
-          href: null,
         }}
       />
     </Tabs>

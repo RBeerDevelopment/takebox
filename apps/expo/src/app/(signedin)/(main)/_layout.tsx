@@ -6,10 +6,9 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 import { StyledButton } from "~/components/button";
 import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
-import { IconOnlyButton } from "~/components/icon-button";
 import { UsernameHandler } from "~/components/username-handler";
 
-export default function SignedinLayout(): React.ReactElement {
+export default function MainLayout(): React.ReactElement {
   const router = useRouter();
 
   const auth = useAuth();
@@ -63,7 +62,6 @@ export default function SignedinLayout(): React.ReactElement {
             }}
           />
         </Stack>
-        <StatusBar />
         <UsernameHandler />
       </CustomSafeAreaProvider>
     </ActionSheetProvider>
