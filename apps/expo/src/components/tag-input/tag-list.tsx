@@ -21,9 +21,9 @@ export function TagList(props: Props): React.ReactElement {
         <View
           key={index}
           style={{ backgroundColor: primaryColor }}
-          className="mx-2 my-2 flex w-fit flex-row items-center justify-center rounded-full px-2 py-1"
+          className="m-2 flex w-fit flex-row items-center justify-center rounded-full px-3 py-1.5"
         >
-          <ThemeableText className="text-black">{tag}</ThemeableText>
+          <ThemeableText className="text-base text-black">{tag}</ThemeableText>
           {onDelete !== undefined ? (
             <IconOnlyButton
               iconName="clear"

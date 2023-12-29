@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { selectLastestReviews } from "../db/review/select-latest-reviews";
-import { selectOwnReviewsByRestaurantId } from "../db/review/select-own-reviews-by-restaurant-id";
+import { selectOwnReviews } from "../db/review/select-own-reviews";
 import { selectReviewById } from "../db/review/select-review-by-id";
 import {
   buildCreateReviewQuery,
@@ -161,14 +161,18 @@ export const reviewRouter = createTRPCRouter({
       const { prisma, auth } = ctx;
       const { restaurantId } = input;
 
-      const reviews = selectOwnReviewsByRestaurantId(
-        prisma,
-        restaurantId,
-        auth.userId,
-      );
+      const reviews = selectOwnReviews(prisma, auth.userId, restaurantId);
 
       return reviews;
     }),
+
+  ownReviews: protectedProcedure.query(async ({ ctx }) => {
+    const { prisma, auth } = ctx;
+
+    const reviews = selectOwnReviews(prisma, auth.userId);
+
+    return reviews;
+  }),
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {

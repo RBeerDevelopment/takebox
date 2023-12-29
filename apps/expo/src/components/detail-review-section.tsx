@@ -4,8 +4,8 @@ import { useRouter } from "expo-router";
 
 import { api } from "~/utils/api";
 import { StyledButton } from "./button";
-import { ReviewSummary } from "./previous-review/review-summary";
 import { ReviewGraph } from "./review-graph";
+import { ReviewSummary } from "./review-summary/review-summary";
 import { Skeleton } from "./skeleton/skeleton";
 import { ThemeableText } from "./themeable/themable-text";
 

@@ -34,7 +34,6 @@ export function SuggestedTags(props: Props): React.ReactElement {
           key={index}
           className="w-full px-2 py-1"
           onPress={() => {
-            console.log(tag);
             onAdd(tag);
             Keyboard.dismiss();
           }}

@@ -2,10 +2,10 @@ import type { PrismaClient } from "@flavoury/db";
 
 import type { ReviewListItem } from "./review-list-item";
 
-export async function selectOwnReviewsByRestaurantId(
+export async function selectOwnReviews(
   prisma: PrismaClient,
-  restaurantId: string,
   userId: string,
+  restaurantId?: string,
 ): Promise<ReviewListItem[]> {
   const reviews = await prisma.review.findMany({
     select: {
@@ -27,9 +27,13 @@ export async function selectOwnReviewsByRestaurantId(
     },
     where: {
       AND: {
-        restaurant: {
-          id: restaurantId,
-        },
+        ...(restaurantId
+          ? {
+              restaurant: {
+                id: restaurantId,
+              },
+            }
+          : {}),
         userId: userId,
       },
     },
