@@ -3,6 +3,7 @@ import { Redirect, Stack } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 
 import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
+import { IconOnlyButton } from "~/components/icon-button";
 
 export default function ProfileLayout(): React.ReactElement {
   const auth = useAuth();
@@ -22,6 +23,16 @@ export default function ProfileLayout(): React.ReactElement {
           headerStyle: {
             backgroundColor: "#020617",
           },
+          headerRight: () => (
+            <IconOnlyButton
+              iconName="settings"
+              iconFont="material"
+              iconColor="white"
+              onPress={() => {
+                return;
+              }}
+            />
+          ),
         }}
       >
         <Stack.Screen
