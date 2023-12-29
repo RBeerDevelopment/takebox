@@ -1,17 +1,13 @@
 import React from "react";
-import { StatusBar } from "react-native";
-import { Redirect, Stack, useRouter } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
-import { StyledButton } from "~/components/button";
 import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
 import { ModalCloseButton } from "~/components/modal-close-button";
 import { UsernameHandler } from "~/components/username-handler";
 
 export default function MainLayout(): React.ReactElement {
-  const router = useRouter();
-
   const auth = useAuth();
   if (!auth.isSignedIn) {
     return <Redirect href={"login"} />;

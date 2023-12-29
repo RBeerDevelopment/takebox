@@ -1,10 +1,7 @@
 import { z } from "zod";
 
 import { selectLastestReviews } from "../db/review/select-latest-reviews";
-import {
-  selectOwnReviews,
-  selectOwnReviewsByRestaurantId,
-} from "../db/review/select-own-reviews";
+import { selectOwnReviews } from "../db/review/select-own-reviews";
 import { selectReviewById } from "../db/review/select-review-by-id";
 import {
   buildCreateReviewQuery,
