@@ -4,12 +4,14 @@ import { FlashList } from "@shopify/flash-list";
 
 import { type ReviewListItem } from "@flavoury/api/src/db/review/review-list-item";
 
+import { cn } from "~/utils";
 import { SearchResultsSkeleton } from "../skeleton";
 import { ThemeableText } from "../themeable/themable-text";
 import { ThemeableView } from "../themeable/themable-view";
 import { ReviewSummary } from "./review-summary";
 
 type Props = {
+  className?: string;
   reviews: ReviewListItem[] | undefined;
   isLoading: boolean;
   isRefetching: boolean;
@@ -17,16 +19,19 @@ type Props = {
   refetch: () => void;
   title?: string;
   showUsername?: boolean;
+  allowDelete?: boolean;
 };
 
 export function ReviewSection(props: Props): React.ReactElement {
   const {
+    className,
     reviews,
     isLoading,
     isRefetching,
     isError,
     refetch,
     title,
+    allowDelete = false,
     showUsername,
   } = props;
 
@@ -34,27 +39,33 @@ export function ReviewSection(props: Props): React.ReactElement {
 
   if (isError || !reviews || reviews.length === 0)
     return (
-      <View className="flex h-full w-full items-center pt-10">
+      <View className="flex h-3/5 w-full items-center pt-10">
         <ThemeableText className="italic">No nearby reviews.</ThemeableText>
       </View>
     );
 
   return (
-    <ThemeableView className="flex h-[78vh] w-full flex-col p-4">
+    <ThemeableView
+      className={cn("flex w-full flex-1 flex-col px-2 pt-4", className)}
+    >
       {title ? (
-        <ThemeableText className="pb-2 font-bold">{title}</ThemeableText>
+        <ThemeableText className="pb-3 pl-2 font-bold">{title}</ThemeableText>
       ) : null}
       <FlashList
-        data={reviews}
+        data={[...reviews, ...reviews]}
         renderItem={({ item }) => (
-          <ReviewSummary showUsername={showUsername} review={item} />
+          <ReviewSummary
+            showUsername={showUsername}
+            allowDelete={allowDelete}
+            review={item}
+          />
         )}
-        estimatedItemSize={280}
+        estimatedItemSize={12}
         refreshControl={
           <RefreshControl
             refreshing={isRefetching}
+            title=""
             onRefresh={refetch}
-            title="Pull to refresh"
             tintColor="#fff"
             titleColor="#fff"
           />

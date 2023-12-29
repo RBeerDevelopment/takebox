@@ -12,8 +12,8 @@ export default function ProfileScreen() {
   const { user } = useUser();
 
   return (
-    <ThemeableView className="flex h-full w-full flex-col items-center space-y-8">
-      <View className="flex flex-col items-center">
+    <ThemeableView className="flex h-full w-full flex-col items-center ">
+      <View className="flex flex-col items-center pb-3">
         {user?.imageUrl ? (
           <Image
             alt="Profile Image"

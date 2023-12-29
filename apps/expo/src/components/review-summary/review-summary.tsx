@@ -17,12 +17,16 @@ interface Props {
   review: ReviewListItem;
   restaurantId?: string;
   showUsername?: boolean;
+  allowDelete?: boolean;
 }
 
 export function ReviewSummary(props: Props): React.ReactElement {
-  const { review, restaurantId, showUsername = true } = props;
-
-  const user = useUser();
+  const {
+    review,
+    restaurantId,
+    showUsername = true,
+    allowDelete = false,
+  } = props;
 
   const deleteReview = useDeleteReview(restaurantId || "", review.id);
 
@@ -60,11 +64,7 @@ export function ReviewSummary(props: Props): React.ReactElement {
   return (
     <TouchableOpacity>
       <Swipeable
-        renderRightActions={
-          review.user.username === user.user?.username
-            ? renderRightActions
-            : undefined
-        }
+        renderRightActions={allowDelete ? renderRightActions : undefined}
       >
         <Link href={`/review/detail/${review.id}`}>
           <ThemeableView className="flex flex-col justify-start gap-1 bg-slate-950 px-2 py-2">
