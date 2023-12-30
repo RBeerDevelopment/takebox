@@ -6,16 +6,16 @@ import Toast from "react-native-toast-message";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
 import { uploadImage } from "~/utils/upload-image";
+import { StyledButton } from "~/components/button";
 import { DatePicker } from "~/components/date-picker";
 import { ImagePicker } from "~/components/image-picker";
+import { StyledTextInput } from "~/components/inputs/styled-text-input";
 import { LoadingIndicator } from "~/components/loading-indicator";
+import { StarRating } from "~/components/star-rating";
 import { TagInput } from "~/components/tag-input/tag-input";
 import { ThemeableText } from "~/components/themeable/themable-text";
 import { useCreateReview } from "~/hooks/queries/use-create-review";
 import { usePrimaryColor } from "~/hooks/use-primary-color";
-import { StyledButton } from "../../../../components/button";
-import { StyledTextInput } from "../../../../components/inputs/styled-text-input";
-import { StarRating } from "../../../../components/star-rating";
 
 interface ReviewInput {
   rating: number;

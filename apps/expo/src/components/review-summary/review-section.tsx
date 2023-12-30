@@ -55,6 +55,7 @@ export function ReviewSection(props: Props): React.ReactElement {
         data={[...reviews, ...reviews]}
         renderItem={({ item }) => (
           <ReviewSummary
+            key={item.id}
             showUsername={showUsername}
             allowDelete={allowDelete}
             review={item}
