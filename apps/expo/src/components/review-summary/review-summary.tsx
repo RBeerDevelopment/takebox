@@ -66,7 +66,10 @@ export function ReviewSummary(props: Props): React.ReactElement {
       <Swipeable
         renderRightActions={allowDelete ? renderRightActions : undefined}
       >
-        <Link href={`/review/detail/${review.id}`}>
+        <Link
+          href={`/review/detail/${review.id}`}
+          onPress={() => console.log(`/review/detail/${review.id}`)}
+        >
           <ThemeableView className="flex flex-col justify-start gap-1 bg-slate-950 px-2 py-2">
             <ThemeableText className="-ml-0.5 text-lg font-semibold">
               {review.restaurant.name}

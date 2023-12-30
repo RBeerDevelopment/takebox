@@ -54,7 +54,7 @@ export default function ReviewDetailModal(): React.ReactElement {
   const { imageUrl } = review;
 
   return (
-    <ThemeableView className="flex h-full flex-col justify-start gap-1 px-2 py-3">
+    <ThemeableView className="flex h-full flex-col justify-start space-y-2 px-4 py-3">
       <TouchableOpacity
         onPress={() => {
           router.push("../");
@@ -73,7 +73,7 @@ export default function ReviewDetailModal(): React.ReactElement {
       <View className="py-2">
         <StarRating presetRating={review.rating} isEditable={false} />
       </View>
-      <ThemeableText className="pr-2 text-lg">{review.content}</ThemeableText>
+      <ThemeableText className="pr-2 text-base">{review.content}</ThemeableText>
       <View className="px-1">
         <TagList tags={review.tags} />
       </View>

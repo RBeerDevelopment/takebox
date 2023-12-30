@@ -5,6 +5,7 @@ import { Stack } from "expo-router";
 import { ClerkProvider } from "@clerk/clerk-expo";
 
 import { TRPCProvider } from "~/utils/api";
+import { ModalCloseButton } from "~/components/modal-close-button";
 import { useRequestLocation } from "../hooks/use-request-location";
 import { tokenCache } from "../utils/cache";
 
@@ -20,7 +21,41 @@ export default function App() {
         tokenCache={tokenCache}
       >
         <TRPCProvider>
-          <Stack screenOptions={{ header: () => null }} />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+              headerStyle: {
+                backgroundColor: "#020617",
+              },
+            }}
+          >
+            <Stack.Screen
+              name="(modals)/review/new"
+              options={{
+                headerShown: true,
+                presentation: "modal",
+                title: "Review",
+                headerTitleAlign: "center",
+                headerLeft: () => <ModalCloseButton />,
+                headerRight: undefined,
+              }}
+            />
+            <Stack.Screen
+              name="(modals)/review/detail/[id]"
+              options={{
+                headerShown: true,
+                presentation: "modal",
+                title: "Review",
+                headerTitleAlign: "center",
+                headerLeft: () => <ModalCloseButton />,
+                headerRight: undefined,
+              }}
+            />
+          </Stack>
         </TRPCProvider>
       </ClerkProvider>
       <Toast />

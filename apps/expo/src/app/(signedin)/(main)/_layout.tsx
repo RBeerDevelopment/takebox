@@ -27,29 +27,7 @@ export default function MainLayout(): React.ReactElement {
               backgroundColor: "#020617",
             },
           }}
-        >
-          <Stack.Screen
-            name="review/new"
-            options={{
-              presentation: "modal",
-              title: "Review",
-              headerTitleAlign: "center",
-              headerLeft: () => <ModalCloseButton />,
-
-              headerRight: undefined,
-            }}
-          />
-          <Stack.Screen
-            name="review/detail/[id]"
-            options={{
-              presentation: "modal",
-              title: "Review",
-              headerTitleAlign: "center",
-              headerLeft: () => <ModalCloseButton />,
-              headerRight: undefined,
-            }}
-          />
-        </Stack>
+        ></Stack>
         <UsernameHandler />
       </CustomSafeAreaProvider>
     </ActionSheetProvider>

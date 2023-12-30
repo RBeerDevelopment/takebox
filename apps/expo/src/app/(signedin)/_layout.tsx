@@ -10,7 +10,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
+        header: () => null,
         tabBarStyle: { backgroundColor: "#020617" },
         unmountOnBlur: false,
       }}
