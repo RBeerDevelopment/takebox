@@ -18,7 +18,7 @@ model Restaurant {
   updatedAt            DateTime            @updatedAt
   googleId             String              @unique
   s3ImageKey           String?
-  googlePhotoReference String? @db.Text
+  googlePhotoReference String?             @db.Text
   name                 String
   address              String
   websiteUrl           String?
@@ -27,6 +27,7 @@ model Restaurant {
   lng                  Float
   cusines              Restaurant_Cusine[]
   reviews              Review[]
+  PersonalNote         PersonalNote[]
 
   @@fulltext([name])
   @@fulltext([address])
@@ -43,12 +44,13 @@ model Restaurant_Cusine {
 }
 
 model User {
-  id         String   @id
-  username   String?
-  reviews    Review[]
-  followedBy User[]   @relation("UserFollows")
-  following  User[]   @relation("UserFollows")
-  tags       Tag[]
+  id           String         @id
+  username     String?
+  reviews      Review[]
+  followedBy   User[]         @relation("UserFollows")
+  following    User[]         @relation("UserFollows")
+  tags         Tag[]
+  PersonalNote PersonalNote[]
 }
 
 model Review {
@@ -122,4 +124,16 @@ model FoodName {
   reviewId String
 
   @@index([reviewId])
+}
+
+model PersonalNote {
+  id           String     @id @default(cuid())
+  content      String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+
+  @@index([id])
+  @@index([restaurantId, userId])
 }
