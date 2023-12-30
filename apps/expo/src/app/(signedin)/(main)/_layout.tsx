@@ -4,7 +4,6 @@ import { useAuth } from "@clerk/clerk-expo";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 import { CustomSafeAreaProvider } from "~/components/custom-safe-area-provider";
-import { ModalCloseButton } from "~/components/modal-close-button";
 import { UsernameHandler } from "~/components/username-handler";
 
 export default function MainLayout(): React.ReactElement {
