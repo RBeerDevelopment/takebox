@@ -2,9 +2,9 @@ import React, { useReducer } from "react";
 import { View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import Toast from "react-native-toast-message";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
+import { showErrorToast } from "~/utils/show-toast";
 import { uploadImage } from "~/utils/upload-image";
 import { StyledButton } from "~/components/button";
 import { DatePicker } from "~/components/date-picker";
@@ -73,12 +73,7 @@ export default function ReviewScreen(): React.ReactElement {
             .then(goBack)
             .catch((e: unknown) => {
               console.error(e);
-              Toast.show({
-                type: "error",
-                text1: "Error uploading image. Please try again.",
-                position: "bottom",
-                visibilityTime: 3000,
-              });
+              showErrorToast("Error uploading image. Please try again.");
             });
         },
       },

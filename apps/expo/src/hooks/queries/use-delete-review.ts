@@ -1,6 +1,5 @@
-import Toast from "react-native-toast-message";
-
 import { api } from "~/utils/api";
+import { showErrorToast } from "~/utils/show-toast";
 
 export function useDeleteReview(restaurantId: string, reviewId: string) {
   const utils = api.useContext();
@@ -25,12 +24,7 @@ export function useDeleteReview(restaurantId: string, reviewId: string) {
       void utils.review.ownReviews.invalidate();
     },
     onError: (_, __, context) => {
-      Toast.show({
-        type: "error",
-        text1: "Error deleting review. Try again",
-        position: "bottom",
-        visibilityTime: 3000,
-      });
+      showErrorToast("Error deleting review. Try again.");
 
       if (!context?.previousOwnReviews) return;
       utils.review.ownReviewsForRestaurant.setData(

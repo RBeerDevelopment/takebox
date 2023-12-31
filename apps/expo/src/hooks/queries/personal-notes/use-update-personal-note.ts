@@ -1,6 +1,5 @@
-import Toast from "react-native-toast-message";
-
 import { api } from "~/utils/api";
+import { showErrorToast } from "~/utils/show-toast";
 
 export function useUpdatePersonalNote(restaurantId?: string) {
   const utils = api.useContext();
@@ -21,14 +20,7 @@ export function useUpdatePersonalNote(restaurantId?: string) {
         restaurantId,
       });
     },
-    onError: () => {
-      Toast.show({
-        type: "error",
-        text1: "Error updating note. Please try again.",
-        position: "bottom",
-        visibilityTime: 3000,
-      });
-    },
+    onError: () => showErrorToast("Error updating note. Please try again."),
   });
 
   return (noteId: string, newContent: string) => {
