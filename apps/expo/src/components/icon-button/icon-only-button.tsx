@@ -12,7 +12,13 @@ interface Props {
 }
 
 export function IconOnlyButton(props: Props): React.ReactElement {
-  const { iconName, onPress, iconFont, style = "", iconColor } = props;
+  const {
+    iconName,
+    onPress,
+    iconFont,
+    style = "",
+    iconColor = "white",
+  } = props;
 
   return (
     <TouchableOpacity onPress={onPress} className={style}>

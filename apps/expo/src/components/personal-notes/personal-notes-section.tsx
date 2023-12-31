@@ -86,7 +86,6 @@ export function PersonalNotesSection(props: Props) {
           <IconOnlyButton
             onPress={removePersonalNote}
             iconName="delete"
-            iconColor="white"
             iconFont="material"
           />
         </View>

@@ -59,7 +59,6 @@ export default function DetailScreen() {
               iconName="ios-share"
               style="p-2"
               iconFont="material"
-              iconColor="white"
             />
           ),
         }}

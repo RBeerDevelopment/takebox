@@ -49,11 +49,7 @@ export function ReviewSummary(props: Props): React.ReactElement {
         className="flex h-full w-1/3 flex-col items-center justify-center bg-red-500 pr-4"
         onPress={handleOnDelete}
       >
-        <IconComponent
-          iconName="delete"
-          iconFont="material"
-          iconColor="white"
-        ></IconComponent>
+        <IconComponent iconName="delete" iconFont="material"></IconComponent>
         <Text className="pt-1 font-bold text-white">Delete</Text>
       </TouchableOpacity>
     );

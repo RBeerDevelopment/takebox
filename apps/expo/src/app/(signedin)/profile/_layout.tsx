@@ -29,7 +29,6 @@ export default function ProfileLayout(): React.ReactElement {
             <IconOnlyButton
               iconName="settings"
               iconFont="material"
-              iconColor="white"
               onPress={() => {
                 router.push("profile/settings/modal");
               }}

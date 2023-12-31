@@ -56,7 +56,6 @@ export function UsernameEdit(props: Props): React.ReactElement {
       <IconOnlyButton
         iconFont="material"
         iconName="edit"
-        iconColor="white"
         onPress={() => setUsernameEditMode(true)}
       />
     </>
@@ -79,14 +78,12 @@ export function UsernameEdit(props: Props): React.ReactElement {
           iconFont="material"
           iconName="cancel"
           style="px-1"
-          iconColor="white"
           onPress={onCancel}
         />
         <IconOnlyButton
           iconFont="material"
           iconName="check"
           style="px-2"
-          iconColor="white"
           onPress={() => void onSaveUsername()}
         />
       </>
