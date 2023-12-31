@@ -19,11 +19,14 @@ export default function DetailScreen() {
   const { id } = useGlobalSearchParams();
 
   useWarmUpBrowser();
-
   const [restaurantResult, imageResult] = api.useQueries((t) => [
     t.restaurant.getRestaurantDetails(
       { placeId: id as string },
-      { enabled: Boolean(id), staleTime: 60 * 1000, refetchOnMount: false },
+      {
+        enabled: Boolean(id),
+        staleTime: 60 * 1000,
+        refetchOnMount: false,
+      },
     ),
     t.restaurant.getImageUrl(
       { placeId: id as string },
