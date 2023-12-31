@@ -11,6 +11,7 @@ import { DetailSection } from "~/components/detail-section";
 import { ErrorMessage } from "~/components/error-message";
 import { IconOnlyButton } from "~/components/icon-button";
 import { LoadingIndicator } from "~/components/loading-indicator";
+import { PersonalNotesSection } from "~/components/personal-notes/personal-notes-section";
 import { ThemeableView } from "~/components/themeable/themable-view";
 import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
 
@@ -71,6 +72,7 @@ export default function DetailScreen() {
         />
       </View>
       <DetailReviewSection restaurantId={Array.isArray(id) ? id[0] : id} />
+      <PersonalNotesSection restaurantId={Array.isArray(id) ? id[0] : id} />
       <DetailSection restaurant={restaurant} />
     </ScrollView>
   );

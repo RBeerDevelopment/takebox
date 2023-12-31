@@ -55,7 +55,7 @@ export function DetailReviewSection(props: Props): React.ReactElement {
 
   if (isError || !reviewSummaryQuery.data || !latestReviewsQuery.data)
     return (
-      <View className="mx-6 flex flex-col">
+      <View className="mx-4 flex flex-col">
         <ThemeableText className="mx-auto italic text-red-800">
           Error loading reviews.
         </ThemeableText>
