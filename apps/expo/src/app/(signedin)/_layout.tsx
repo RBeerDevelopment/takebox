@@ -33,7 +33,6 @@ export default function TabLayout() {
           ),
           tabBarIcon: ({ focused }) => (
             <IconComponent
-              iconFont="material"
               iconName="home"
               iconColor={focused ? colors.primary : "white"}
             />
@@ -56,7 +55,6 @@ export default function TabLayout() {
           ),
           tabBarIcon: ({ focused }) => (
             <IconComponent
-              iconFont="material"
               iconName="person"
               iconColor={focused ? colors.primary : "white"}
             />

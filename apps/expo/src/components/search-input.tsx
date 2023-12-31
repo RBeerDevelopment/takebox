@@ -30,7 +30,6 @@ export function SearchInput(props: Props): React.ReactElement {
       <View className="absolute left-[28px] top-[28px] z-40">
         <IconOnlyButton
           iconName="search"
-          iconFont="material"
           onPress={() => {
             return;
           }}

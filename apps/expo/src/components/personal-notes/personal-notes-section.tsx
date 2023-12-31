@@ -83,11 +83,7 @@ export function PersonalNotesSection(props: Props) {
           <ThemeableText key={notes?.at(0)?.id}>
             {notes?.at(0)?.content}
           </ThemeableText>
-          <IconOnlyButton
-            onPress={removePersonalNote}
-            iconName="delete"
-            iconFont="material"
-          />
+          <IconOnlyButton onPress={removePersonalNote} iconName="delete" />
         </View>
       </View>
     </TouchableOpacity>

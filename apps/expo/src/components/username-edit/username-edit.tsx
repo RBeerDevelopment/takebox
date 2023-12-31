@@ -54,7 +54,6 @@ export function UsernameEdit(props: Props): React.ReactElement {
         </ThemeableText>
       )}
       <IconOnlyButton
-        iconFont="material"
         iconName="edit"
         onPress={() => setUsernameEditMode(true)}
       />
@@ -74,16 +73,10 @@ export function UsernameEdit(props: Props): React.ReactElement {
           autoFocus
           autoCorrect={false}
         />
+        <IconOnlyButton iconName="cancel" className="px-1" onPress={onCancel} />
         <IconOnlyButton
-          iconFont="material"
-          iconName="cancel"
-          style="px-1"
-          onPress={onCancel}
-        />
-        <IconOnlyButton
-          iconFont="material"
           iconName="check"
-          style="px-2"
+          className="px-2"
           onPress={() => void onSaveUsername()}
         />
       </>

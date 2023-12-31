@@ -12,12 +12,12 @@ interface Props {
 export function IconComponent(props: Props): React.ReactElement {
   const {
     iconName,
-    iconFont = "fontisto",
+    iconFont = "material",
     className = "",
     iconColor = "black",
   } = props;
 
-  const IconComponent = iconFont === "fontisto" ? Fontisto : Material;
+  const IconComponent = iconFont === "material" ? Material : Fontisto;
 
   return (
     <IconComponent

@@ -27,8 +27,7 @@ export function TagList(props: Props): React.ReactElement {
           {onDelete !== undefined ? (
             <IconOnlyButton
               iconName="clear"
-              iconFont="material"
-              style="pl-1"
+              className="pl-1"
               iconColor="black"
               onPress={() => onDelete(index)}
             />
