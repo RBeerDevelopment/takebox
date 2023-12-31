@@ -11,6 +11,7 @@ import { DetailSection } from "~/components/detail-section";
 import { ErrorMessage } from "~/components/error-message";
 import { IconOnlyButton } from "~/components/icon-button";
 import { LoadingIndicator } from "~/components/loading-indicator";
+import { PersonalNotesSection } from "~/components/personal-notes/personal-notes-section";
 import { ThemeableView } from "~/components/themeable/themable-view";
 import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
 
@@ -18,11 +19,14 @@ export default function DetailScreen() {
   const { id } = useGlobalSearchParams();
 
   useWarmUpBrowser();
-
   const [restaurantResult, imageResult] = api.useQueries((t) => [
     t.restaurant.getRestaurantDetails(
       { placeId: id as string },
-      { enabled: Boolean(id), staleTime: 60 * 1000, refetchOnMount: false },
+      {
+        enabled: Boolean(id),
+        staleTime: 60 * 1000,
+        refetchOnMount: false,
+      },
     ),
     t.restaurant.getImageUrl(
       { placeId: id as string },
@@ -71,6 +75,7 @@ export default function DetailScreen() {
         />
       </View>
       <DetailReviewSection restaurantId={Array.isArray(id) ? id[0] : id} />
+      <PersonalNotesSection restaurantId={Array.isArray(id) ? id[0] : id} />
       <DetailSection restaurant={restaurant} />
     </ScrollView>
   );

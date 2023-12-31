@@ -2,7 +2,6 @@ import React from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { Link } from "expo-router";
-import { useUser } from "@clerk/clerk-expo";
 
 import { type ReviewListItem } from "@flavoury/api/src/db/review/review-list-item";
 

@@ -131,4 +131,55 @@ export const restaurantRouter = createTRPCRouter({
       if (!s3ImageKey) throw new Error("could not retrieve image url");
       return createPresignedUrl("getObject", s3ImageKey);
     }),
+
+  addPersonalNote: protectedProcedure
+    .input(z.object({ restaurantId: z.string(), content: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const { restaurantId, content } = input;
+      const { prisma, auth } = ctx;
+
+      await prisma.personalNote.create({
+        data: { restaurantId, userId: auth.userId, content: content },
+      });
+    }),
+  deletePersonalNote: protectedProcedure
+    .input(z.object({ restaurantId: z.string(), id: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const { restaurantId, id } = input;
+      const { prisma, auth } = ctx;
+
+      await prisma.personalNote.delete({
+        where: { restaurantId, userId: auth.userId, id },
+      });
+    }),
+  updatePersonalNote: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        restaurantId: z.string(),
+        newContent: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { id, restaurantId, newContent } = input;
+      const { prisma, auth } = ctx;
+
+      await prisma.personalNote.update({
+        data: { content: newContent },
+        where: { userId: auth.userId, restaurantId, id },
+      });
+    }),
+  getPersonalNotesForRestaurantId: protectedProcedure
+    .input(z.object({ restaurantId: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const { restaurantId } = input;
+      const { prisma, auth } = ctx;
+
+      const personalNotes = await prisma.personalNote.findMany({
+        select: { id: true, content: true },
+        where: { AND: { restaurantId, userId: auth.userId } },
+      });
+
+      return personalNotes;
+    }),
 });
