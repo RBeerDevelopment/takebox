@@ -3,7 +3,10 @@ import { TouchableOpacity, View } from "react-native";
 import * as Clipboard from "expo-clipboard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { showErrorToast, showSuccessToast } from "~/utils/show-toast";
+import {
+  showErrorToast,
+  showSuccessToast,
+} from "~/utils/interactions/show-toast";
 import { ThemeableText } from "./themeable/themable-text";
 
 interface Props {

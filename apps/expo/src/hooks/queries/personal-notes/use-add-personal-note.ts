@@ -1,5 +1,5 @@
 import { api } from "~/utils/api";
-import { showErrorToast } from "~/utils/show-toast";
+import { showErrorToast } from "~/utils/interactions/show-toast";
 
 export function useAddPersonalNote(restaurantId?: string) {
   const utils = api.useContext();

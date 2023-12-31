@@ -6,6 +6,7 @@ import { Link } from "expo-router";
 import { type ReviewListItem } from "@flavoury/api/src/db/review/review-list-item";
 
 import { formatDateToReadable } from "~/utils/date-format";
+import { showAlert } from "~/utils/interactions/show-alert";
 import { useDeleteReview } from "~/hooks/queries/use-delete-review";
 import { IconComponent } from "../icon-button/icon-component";
 import { StarRating } from "../star-rating";
@@ -30,18 +31,16 @@ export function ReviewSummary(props: Props): React.ReactElement {
   const deleteReview = useDeleteReview(restaurantId || "", review.id);
 
   function handleOnDelete() {
-    Alert.alert(
-      "Delete Review",
-      "Do you really want to delete this review? This cannot be undone.",
-      [
-        { text: "Delete", onPress: deleteReview },
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-      ],
-      { cancelable: true },
-    );
+    showAlert({
+      title: "Delete Review",
+      message:
+        "Do you really want to delete this review? This cannot be undone.",
+      positiveButton: {
+        text: "Delete",
+        isDestructive: true,
+        onPress: deleteReview,
+      },
+    });
   }
 
   function renderRightActions() {

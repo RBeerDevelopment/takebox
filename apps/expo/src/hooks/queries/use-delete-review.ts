@@ -1,5 +1,5 @@
 import { api } from "~/utils/api";
-import { showErrorToast } from "~/utils/show-toast";
+import { showErrorToast } from "~/utils/interactions/show-toast";
 
 export function useDeleteReview(restaurantId: string, reviewId: string) {
   const utils = api.useContext();

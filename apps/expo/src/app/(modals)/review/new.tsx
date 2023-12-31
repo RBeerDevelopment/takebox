@@ -4,7 +4,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
-import { showErrorToast } from "~/utils/show-toast";
+import { showErrorToast } from "~/utils/interactions/show-toast";
 import { uploadImage } from "~/utils/upload-image";
 import { StyledButton } from "~/components/button";
 import { DatePicker } from "~/components/date-picker";
