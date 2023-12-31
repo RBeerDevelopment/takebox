@@ -1,15 +1,8 @@
-import { Alert, type AlertType } from "react-native";
+import { Alert } from "react-native";
 
-type AlertProps = {
-  title: string;
-  message: string;
-  callback: (content: string) => void;
-  inputType?: AlertType;
-  defaultValue?: string;
-  keyboardType?: string;
-};
+import { type PromptAlertProps } from "./alert-props";
 
-export function showAlertPrompt(props: AlertProps) {
+export function showAlertPrompt(props: PromptAlertProps) {
   Alert.prompt(
     props.title,
     props.message,

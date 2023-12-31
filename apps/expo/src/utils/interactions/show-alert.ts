@@ -1,14 +1,6 @@
 import { Alert } from "react-native";
 
-type AlertProps = {
-  title: string;
-  message: string;
-  positiveButton: {
-    text: string;
-    onPress: () => void;
-    isDestructive: boolean;
-  };
-};
+import { type AlertProps } from "./alert-props";
 
 export function showAlert(props: AlertProps) {
   Alert.alert(props.title, props.message, [
