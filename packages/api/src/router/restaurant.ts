@@ -38,15 +38,6 @@ export const restaurantRouter = createTRPCRouter({
         data: [...restaurantsFromGoogle],
       });
 
-      // TODO: this is a hack to always have updatedgoogle photo reference in the db,
-      // however this should be done in a more elegant way
-      for (const restaurant of restaurantsFromGoogle) {
-        await ctx.prisma.restaurant.update({
-          where: { googleId: restaurant.googleId },
-          data: { googlePhotoReference: restaurant.googlePhotoReference },
-        });
-      }
-
       const restaurants = await ctx.prisma.restaurant.findMany({
         select: {
           id: true,
