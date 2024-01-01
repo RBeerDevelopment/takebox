@@ -2,6 +2,8 @@ import React from "react";
 import { Alert, TouchableOpacity, View } from "react-native";
 
 import { api } from "~/utils/api";
+import { showAlert } from "~/utils/interactions/show-alert";
+import { showAlertPrompt } from "~/utils/interactions/show-alert-prompt";
 import { useAddPersonalNote } from "~/hooks/queries/personal-notes/use-add-personal-note";
 import { useDeletePersonalNote } from "~/hooks/queries/personal-notes/use-delete-personal-note";
 import { useUpdatePersonalNote } from "~/hooks/queries/personal-notes/use-update-personal-note";
@@ -26,45 +28,33 @@ export function PersonalNotesSection(props: Props) {
   const updatePersonalNote = useUpdatePersonalNote(restaurantId);
 
   function newPersonalNote() {
-    Alert.prompt(
-      "New Personal Note",
-      "What do you want to remember?",
-      addPersonalNote,
-      "plain-text",
-      "",
-      "default",
-      { userInterfaceStyle: "dark" },
-    );
+    showAlertPrompt({
+      title: "New Personal Note",
+      message: "What do you want to remember?",
+      callback: addPersonalNote,
+    });
   }
 
   function modifyPersonalNote() {
-    Alert.prompt(
-      "Update Personal Note",
-      "What do you want to remember?",
-      (content) => updatePersonalNote(notes?.at(0)?.id as string, content),
-      "plain-text",
-      notes?.at(0)?.content || "",
-      "default",
-      { userInterfaceStyle: "dark" },
-    );
+    showAlertPrompt({
+      title: "Update Personal Note",
+      message: "What do you want to remember?",
+      callback: (content) =>
+        updatePersonalNote(notes?.at(0)?.id as string, content),
+      defaultValue: notes?.at(0)?.content,
+    });
   }
 
   function removePersonalNote() {
-    Alert.alert(
-      "Delete Personal Note",
-      "Are you sure you want to delete this note?",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: () => deletePersonalNote(notes?.at(0)?.id as string),
-        },
-      ],
-    );
+    showAlert({
+      title: "Delete Personal Note",
+      message: "Are you sure you want to delete this note?",
+      positiveButton: {
+        text: "Delete",
+        isDestructive: true,
+        onPress: () => deletePersonalNote(notes?.at(0)?.id as string),
+      },
+    });
   }
 
   if (!restaurantId || notes?.length === 0)
@@ -93,12 +83,7 @@ export function PersonalNotesSection(props: Props) {
           <ThemeableText key={notes?.at(0)?.id}>
             {notes?.at(0)?.content}
           </ThemeableText>
-          <IconOnlyButton
-            onPress={removePersonalNote}
-            iconName="delete"
-            iconColor="white"
-            iconFont="material"
-          />
+          <IconOnlyButton onPress={removePersonalNote} iconName="delete" />
         </View>
       </View>
     </TouchableOpacity>

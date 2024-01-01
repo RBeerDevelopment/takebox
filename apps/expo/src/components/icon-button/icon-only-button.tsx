@@ -7,15 +7,21 @@ interface Props {
   iconFont?: "fontisto" | "material";
   onPress: () => void;
   iconName: string;
-  style?: string;
+  className?: string;
   iconColor?: string;
 }
 
 export function IconOnlyButton(props: Props): React.ReactElement {
-  const { iconName, onPress, iconFont, style = "", iconColor } = props;
+  const {
+    iconName,
+    onPress,
+    iconFont = "material",
+    className = "",
+    iconColor = "white",
+  } = props;
 
   return (
-    <TouchableOpacity onPress={onPress} className={style}>
+    <TouchableOpacity onPress={onPress} className={className}>
       <IconComponent
         iconName={iconName}
         iconFont={iconFont}

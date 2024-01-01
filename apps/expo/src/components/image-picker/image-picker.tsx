@@ -77,14 +77,12 @@ export function ImagePicker(props: Props) {
             }}
           />
           <IconOnlyButton
-            style="absolute top-6 right-14 z-50 bg-gray-100/60 rounded-full"
-            iconFont="material"
+            className="absolute right-14 top-6 z-50 rounded-full bg-gray-100/60"
             iconName="refresh"
             onPress={pickImage}
           />
           <IconOnlyButton
-            style="absolute top-6 right-5 z-50 bg-gray-100/60 rounded-full"
-            iconFont="material"
+            className="absolute right-5 top-6 z-50 rounded-full bg-gray-100/60"
             iconName="close"
             onPress={() => {
               onChangeImageUri(null);

@@ -57,9 +57,7 @@ export default function DetailScreen() {
             <IconOnlyButton
               onPress={() => void shareRestaurant(id as string)}
               iconName="ios-share"
-              style="p-2"
-              iconFont="material"
-              iconColor="white"
+              className="p-2"
             />
           ),
         }}

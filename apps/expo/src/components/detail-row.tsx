@@ -1,9 +1,12 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
-import Toast from "react-native-toast-message";
 import * as Clipboard from "expo-clipboard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+import {
+  showErrorToast,
+  showSuccessToast,
+} from "~/utils/interactions/show-toast";
 import { ThemeableText } from "./themeable/themable-text";
 
 interface Props {
@@ -22,22 +25,8 @@ export function DetailRow(props: Props): React.ReactElement {
         if (!allowCopy) return;
 
         Clipboard.setStringAsync(text || "")
-          .then(() => {
-            Toast.show({
-              type: "success",
-              text1: "Copied to clipboard!",
-              position: "bottom",
-              visibilityTime: 1000,
-            });
-          })
-          .catch(() => {
-            Toast.show({
-              type: "error",
-              text1: "Error copying to clipboard",
-              position: "bottom",
-              visibilityTime: 1000,
-            });
-          });
+          .then(() => showSuccessToast("Copied to clipboard!"))
+          .catch(() => showErrorToast("Error copying to clipboard."));
       }}
       onPress={() => {
         if (!onPress) return;

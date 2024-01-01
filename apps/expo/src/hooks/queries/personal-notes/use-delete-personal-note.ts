@@ -1,6 +1,5 @@
-import Toast from "react-native-toast-message";
-
 import { api } from "~/utils/api";
+import { showErrorToast } from "~/utils/interactions/show-toast";
 
 export function useDeletePersonalNote(restaurantId?: string) {
   const utils = api.useContext();
@@ -17,14 +16,7 @@ export function useDeletePersonalNote(restaurantId?: string) {
         restaurantId,
       });
     },
-    onError: () => {
-      Toast.show({
-        type: "error",
-        text1: "Error deleting note. Please try again.",
-        position: "bottom",
-        visibilityTime: 3000,
-      });
-    },
+    onError: () => showErrorToast("Error deleting note. Please try again."),
   });
 
   return (noteId: string) => {
