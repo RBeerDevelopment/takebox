@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { createPersonalNote } from "../functions/personal-note/create-personal-note";
 import { deletePersonalNote } from "../functions/personal-note/delete-personal-note";
+import { getPersonalNote } from "../functions/personal-note/get-personal-note";
 import { updatePersonalNote } from "../functions/personal-note/update-personal-note";
 import { getNearbyRestaurantsByQuery } from "../functions/restaurant/get-nearby-restaurants-by-query";
 import { getRestaurantDetails } from "../functions/restaurant/get-restaurant-details";
@@ -74,17 +75,25 @@ export const restaurantRouter = createTRPCRouter({
       const { id, restaurantId, newContent } = input;
       const { prisma, auth } = ctx;
 
-      await prisma.personalNote.update({
-        data: { content: newContent },
-        where: { userId: auth.userId, restaurantId, id },
-      });
+      return updatePersonalNote(
+        id,
+        restaurantId,
+        auth.userId,
+        newContent,
+        prisma,
+      );
     }),
-  getPersonalNotesForRestaurantId: protectedProcedure
+  getPersonalNoteForRestaurantId: protectedProcedure
     .input(z.object({ restaurantId: z.string() }))
     .query(async ({ input, ctx }) => {
       const { restaurantId } = input;
       const { prisma, auth } = ctx;
 
-      return await updatePersonalNote(restaurantId, auth.userId, prisma);
+      const personalNote = await getPersonalNote(
+        restaurantId,
+        auth.userId,
+        prisma,
+      );
+      return personalNote;
     }),
 });

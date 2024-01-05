@@ -1,12 +1,14 @@
 import { type PrismaClient } from "@flavoury/db";
 
 export async function updatePersonalNote(
+  noteId: string,
   restaurantId: string,
   userId: string,
+  newContent: string,
   prisma: PrismaClient,
 ) {
-  return await prisma.personalNote.findMany({
-    select: { id: true, content: true },
-    where: { restaurantId, userId },
+  return await prisma.personalNote.update({
+    data: { content: newContent },
+    where: { id: noteId, restaurantId, userId },
   });
 }

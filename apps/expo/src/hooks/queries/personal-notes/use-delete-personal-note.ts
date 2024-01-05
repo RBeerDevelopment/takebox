@@ -5,14 +5,14 @@ export function useDeletePersonalNote(restaurantId?: string) {
   const utils = api.useContext();
 
   const { mutate } = api.restaurant.deletePersonalNote.useMutation({
-    onMutate: ({ restaurantId, id }) => {
-      void utils.restaurant.getPersonalNotesForRestaurantId.setData(
+    onMutate: ({ restaurantId }) => {
+      void utils.restaurant.getPersonalNoteForRestaurantId.setData(
         { restaurantId },
-        (old) => old?.filter((note) => note.id !== id),
+        () => undefined,
       );
     },
     onSettled: () => {
-      void utils.restaurant.getPersonalNotesForRestaurantId.invalidate({
+      void utils.restaurant.getPersonalNoteForRestaurantId.invalidate({
         restaurantId,
       });
     },
