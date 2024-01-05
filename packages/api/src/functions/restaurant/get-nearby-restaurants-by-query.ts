@@ -1,15 +1,23 @@
 import { type PrismaClient } from "@flavoury/db";
 
+import { selectRestarauntsWitAvgRatingByGoogleId } from "../../db/restaurant/select-restaurants-with-avg-rating-by-google-id";
 import { fetchNearbyRestaurants } from "../../google-maps/search";
 import { type Restaurant } from "../../google-maps/search/fetch-nearby-restaurants";
 import { calculateDistanceFromCoordinates } from "../../helper/calculate-distance-from-coordinates";
+
+type RestaurantWithDistance = {
+  id: string;
+  name: string;
+  address: string;
+  distance: number;
+};
 
 export async function getNearbyRestaurantsByQuery(
   query: string,
   lat: number,
   lng: number,
   prisma: PrismaClient,
-) {
+): Promise<RestaurantWithDistance[]> {
   // const dbQuery = buildRestaurantSearchQuery(query, lat, lng);
   // const restaurantsFromDb = await prisma.restaurant.findMany(dbQuery);
   let restaurantsFromGoogle: Restaurant[] = [];
@@ -26,18 +34,10 @@ export async function getNearbyRestaurantsByQuery(
     data: [...restaurantsFromGoogle],
   });
 
-  const restaurants = await prisma.restaurant.findMany({
-    select: {
-      id: true,
-      name: true,
-      address: true,
-      lat: true,
-      lng: true,
-    },
-    where: {
-      googleId: { in: restaurantsFromGoogle.map((r) => r.googleId) },
-    },
-  });
+  const restaurants = await selectRestarauntsWitAvgRatingByGoogleId(
+    restaurantsFromGoogle.map((r) => r.googleId),
+    prisma,
+  );
 
   const restaurantsWithDistance = restaurants.map((restaurant) => ({
     id: restaurant.id,
