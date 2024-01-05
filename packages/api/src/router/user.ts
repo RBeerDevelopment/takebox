@@ -20,7 +20,7 @@ export const userRouter = createTRPCRouter({
 
     const tags = await prisma.tag.findMany({
       where: { userId: auth.userId },
-      take: 20,
+      take: 12,
     });
 
     return tags;
