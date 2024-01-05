@@ -5,18 +5,17 @@ export function useUpdatePersonalNote(restaurantId?: string) {
   const utils = api.useContext();
 
   const { mutate } = api.restaurant.updatePersonalNote.useMutation({
-    onMutate: ({ restaurantId, id, newContent }) => {
-      void utils.restaurant.getPersonalNotesForRestaurantId.setData(
+    onMutate: ({ restaurantId, newContent }) => {
+      void utils.restaurant.getPersonalNoteForRestaurantId.setData(
         { restaurantId },
-        (old) =>
-          old?.map((note) => {
-            if (note.id === id) return { ...note, content: newContent };
-            return note;
-          }),
+        (oldNote) => {
+          if (!oldNote) return;
+          return { ...oldNote, content: newContent };
+        },
       );
     },
     onSettled: () => {
-      void utils.restaurant.getPersonalNotesForRestaurantId.invalidate({
+      void utils.restaurant.getPersonalNoteForRestaurantId.invalidate({
         restaurantId,
       });
     },

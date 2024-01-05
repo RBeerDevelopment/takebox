@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { generateReviewImageKey } from "../s3/generate-review-image-key";
 
-export const createReviewInput = z.object({
+export const CreateReviewInput = z.object({
   placeId: z.string(),
   rating: z.number().min(1).max(10).step(1),
   content: z.string(),
@@ -13,7 +13,7 @@ export const createReviewInput = z.object({
   hasImage: z.boolean(),
 });
 
-type CreateReviewInput = z.infer<typeof createReviewInput>;
+export type CreateReviewInput = z.infer<typeof CreateReviewInput>;
 
 export function buildCreateReviewQuery(
   input: CreateReviewInput,

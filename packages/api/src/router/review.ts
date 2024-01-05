@@ -3,73 +3,21 @@ import { z } from "zod";
 import { selectLastestReviews } from "../db/review/select-latest-reviews";
 import { selectOwnReviews } from "../db/review/select-own-reviews";
 import { selectReviewById } from "../db/review/select-review-by-id";
-import {
-  buildCreateReviewQuery,
-  createReviewInput,
-} from "../query-builder/build-create-review-query";
-import { createPresignedUrl } from "../s3/create-presigned-url";
-import { generateReviewImageKey } from "../s3/generate-review-image-key";
+import { createReview } from "../functions/review/create-review";
+import { deleteReview } from "../functions/review/delete-review";
+import { getLatestReviewsForRestaurant } from "../functions/review/get-latest-reviews-for-restaurant";
+import { getReviewSummary } from "../functions/review/get-review-summary";
+import { CreateReviewInput } from "../query-builder/build-create-review-query";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import {
-  emptyRatingCountMap,
-  possibleRatings,
-  type PossibleRating,
-  type RatingCountMap,
-} from "../utils/rating-count-map";
 
 export const reviewRouter = createTRPCRouter({
   reviewSummary: protectedProcedure
     .input(z.object({ placeId: z.string() }))
     .query(async ({ input, ctx }) => {
-      const restaurant = await ctx.prisma.restaurant.findUnique({
-        where: { id: input.placeId },
-        select: { id: true },
-      });
-
-      if (!restaurant) throw new Error("Restaurant not found");
-
-      // TODO check if it's just calculate the summary from the ratingCounts here
-      const [summary, ratingCounts] = await Promise.all([
-        ctx.prisma.review.aggregate({
-          _avg: {
-            rating: true,
-          },
-          _count: {
-            rating: true,
-          },
-          where: {
-            restaurantId: restaurant.id,
-          },
-        }),
-        ctx.prisma.review.groupBy({
-          by: ["rating"],
-          where: {
-            restaurantId: restaurant.id,
-          },
-          _count: {
-            rating: true,
-          },
-        }),
-      ]);
-
-      const ratingCountMap: RatingCountMap = { ...emptyRatingCountMap };
-
-      ratingCounts.forEach((ratingCount) => {
-        if (possibleRatings.includes(ratingCount.rating as PossibleRating))
-          ratingCountMap[ratingCount.rating as PossibleRating] =
-            ratingCount._count.rating;
-      });
-
-      const response = {
-        averageRating: summary?._avg?.rating ? summary._avg.rating / 2 : null,
-        reviewCount: summary?._count?.rating || null,
-        ratingCounts: ratingCountMap,
-      };
-
-      return response;
+      return getReviewSummary(input.placeId, ctx.prisma);
     }),
   postReview: protectedProcedure
-    .input(createReviewInput)
+    .input(CreateReviewInput)
     .output(
       z.object({
         reviewId: z.string(),
@@ -77,28 +25,7 @@ export const reviewRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const { userId } = ctx.auth;
-      const { placeId, hasImage } = input;
-
-      const query = buildCreateReviewQuery(input, userId);
-
-      const imageKey = hasImage
-        ? generateReviewImageKey(placeId, userId)
-        : null;
-
-      const review = await ctx.prisma.review.create(query);
-
-      if (!imageKey) {
-        return {
-          reviewId: review.id,
-        };
-      }
-
-      const s3UploadUrl = await createPresignedUrl("putObject", imageKey);
-      return {
-        reviewId: review.id,
-        s3UploadUrl,
-      };
+      return createReview(input, ctx.auth.userId, ctx.prisma);
     }),
 
   latestReviews: protectedProcedure
@@ -124,35 +51,12 @@ export const reviewRouter = createTRPCRouter({
       return await selectReviewById(prisma, id);
     }),
   latestReviewsForRestaurant: protectedProcedure
-    .input(z.object({ restaurantId: z.string(), take: z.number().default(3) }))
+    .input(z.object({ restaurantId: z.string(), take: z.number().default(5) }))
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
       const { restaurantId, take } = input;
 
-      const reviews = await prisma.review.findMany({
-        where: { restaurantId },
-        orderBy: { createdAt: "desc" },
-        take,
-        select: {
-          id: true,
-          rating: true,
-          date: true,
-          content: true,
-          restaurant: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-          user: {
-            select: {
-              username: true,
-            },
-          },
-        },
-      });
-
-      return reviews;
+      return getLatestReviewsForRestaurant(restaurantId, take, prisma);
     }),
 
   ownReviewsForRestaurant: protectedProcedure
@@ -173,19 +77,12 @@ export const reviewRouter = createTRPCRouter({
 
     return reviews;
   }),
-  delete: protectedProcedure
+  deleteReview: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const { prisma, auth } = ctx;
       const { id } = input;
 
-      const review = await prisma.review.findUnique({ where: { id } });
-
-      if (!review) throw new Error("Review not found");
-      if (review.userId !== auth.userId) throw new Error("Unauthorized");
-
-      await prisma.review.delete({ where: { id } });
-
-      return;
+      await deleteReview(id, auth.userId, prisma);
     }),
 });

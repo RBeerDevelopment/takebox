@@ -6,13 +6,16 @@ export function useAddPersonalNote(restaurantId?: string) {
 
   const { mutate } = api.restaurant.addPersonalNote.useMutation({
     onMutate: ({ restaurantId, content }) => {
-      void utils.restaurant.getPersonalNotesForRestaurantId.setData(
+      void utils.restaurant.getPersonalNoteForRestaurantId.setData(
         { restaurantId },
-        (old) => old?.concat({ id: "temp", content }),
+        (old) => ({
+          id: "temp",
+          content,
+        }),
       );
     },
     onSettled: () => {
-      void utils.restaurant.getPersonalNotesForRestaurantId.invalidate({
+      void utils.restaurant.getPersonalNoteForRestaurantId.invalidate({
         restaurantId,
       });
     },
