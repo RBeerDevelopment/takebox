@@ -1,10 +1,10 @@
 import { type LocationObject } from "expo-location";
 import { create } from "zustand";
 
-interface LocationState {
+type LocationState = {
   location?: LocationObject;
   setLocation: (newLocation: LocationObject) => void;
-}
+};
 
 export const useLocationStore = create<LocationState>()((set) => ({
   location: undefined,

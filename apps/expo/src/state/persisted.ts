@@ -2,12 +2,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface PersistedState {
+type PersistedState = {
   isFirstUsage: boolean;
   setIsFirstUsage: (newValue: boolean) => void;
   isDeveloperMode: boolean;
   setIsDeveloperMode: (newValue: boolean) => void;
-}
+};
 
 export const usePersistedStore = create<PersistedState>()(
   persist(
