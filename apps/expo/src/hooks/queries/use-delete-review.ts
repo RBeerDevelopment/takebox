@@ -4,7 +4,7 @@ import { showErrorToast } from "~/utils/interactions/show-toast";
 export function useDeleteReview(restaurantId: string, reviewId: string) {
   const utils = api.useContext();
 
-  const deleteReview = api.review.delete.useMutation({
+  const deleteReview = api.review.deleteReview.useMutation({
     onMutate: async () => {
       await utils.review.ownReviewsForRestaurant.cancel();
 
