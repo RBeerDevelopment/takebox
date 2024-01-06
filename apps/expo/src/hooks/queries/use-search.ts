@@ -25,6 +25,7 @@ export function useSearch(query?: string, lat?: number, lng?: number) {
         Boolean(lat) &&
         Boolean(lng),
       staleTime: Infinity,
+      retry: false,
     },
   );
 
