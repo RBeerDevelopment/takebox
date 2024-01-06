@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createList } from "../functions/list/create-list";
 import { getListDetailsById } from "../functions/list/get-list-details-by-id";
 import { getOwnLists } from "../functions/list/get-own-lists";
+import { toggleRestaurantInList } from "../functions/list/toggle-restaurant-in-list";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const listRouter = createTRPCRouter({
@@ -31,5 +32,29 @@ export const listRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
       return getListDetailsById(input.id, ctx.prisma);
+    }),
+  addRestaurant: protectedProcedure
+    .input(z.object({ listId: z.string(), restaurantId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const { auth, prisma } = ctx;
+      return await toggleRestaurantInList(
+        "add",
+        input.listId,
+        input.restaurantId,
+        auth.userId,
+        prisma,
+      );
+    }),
+  removeRestaurant: protectedProcedure
+    .input(z.object({ listId: z.string(), restaurantId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const { auth, prisma } = ctx;
+      return await toggleRestaurantInList(
+        "remove",
+        input.listId,
+        input.restaurantId,
+        auth.userId,
+        prisma,
+      );
     }),
 });
