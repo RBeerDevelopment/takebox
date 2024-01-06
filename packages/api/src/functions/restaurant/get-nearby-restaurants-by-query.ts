@@ -5,11 +5,12 @@ import { fetchNearbyRestaurants } from "../../google-maps/search";
 import { type Restaurant } from "../../google-maps/search/fetch-nearby-restaurants";
 import { calculateDistanceFromCoordinates } from "../../helper/calculate-distance-from-coordinates";
 
-type RestaurantWithDistance = {
+export type RestaurantWithDistance = {
   id: string;
   name: string;
   address: string;
   distance: number;
+  rating: number | null;
 };
 
 export async function getNearbyRestaurantsByQuery(
@@ -43,6 +44,7 @@ export async function getNearbyRestaurantsByQuery(
     id: restaurant.id,
     name: restaurant.name,
     address: restaurant.address,
+    rating: restaurant.average_rating,
     distance: calculateDistanceFromCoordinates(
       { lat, lng },
       { lat: restaurant.lat, lng: restaurant.lng },

@@ -5,6 +5,7 @@ import Material from "@expo/vector-icons/MaterialIcons";
 interface Props {
   iconFont?: "fontisto" | "material";
   iconName: string;
+  iconSize?: number;
   className?: string;
   iconColor?: string;
 }
@@ -15,6 +16,7 @@ export function IconComponent(props: Props): React.ReactElement {
     iconFont = "material",
     className = "",
     iconColor = "black",
+    iconSize = 24,
   } = props;
 
   const IconComponent = iconFont === "material" ? Material : Fontisto;
@@ -22,7 +24,7 @@ export function IconComponent(props: Props): React.ReactElement {
   return (
     <IconComponent
       className={className}
-      size={24}
+      size={iconSize}
       color={iconColor}
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
       name={iconName as any}
