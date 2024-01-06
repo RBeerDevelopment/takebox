@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 import { createList } from "../functions/list/create-list";
+import { getListDetailsById } from "../functions/list/get-list-details-by-id";
+import { getOwnLists } from "../functions/list/get-own-lists";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const listRouter = createTRPCRouter({
@@ -20,5 +22,14 @@ export const listRouter = createTRPCRouter({
       );
 
       return newList.id;
+    }),
+  getOwn: protectedProcedure.query(async ({ ctx }) => {
+    const { auth, prisma } = ctx;
+    return getOwnLists(auth.userId, prisma);
+  }),
+  getById: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      return getListDetailsById(input.id, ctx.prisma);
     }),
 });

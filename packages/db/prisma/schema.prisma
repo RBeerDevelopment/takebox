@@ -146,8 +146,7 @@ model List {
   name        String
   description String?
   restaurants Restaurant[]
-  user        User[]
+  users       User[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-
 }
