@@ -10,7 +10,7 @@ export async function createList(
     data: {
       name,
       description,
-      user: {
+      users: {
         connect: {
           id: userId,
         },
