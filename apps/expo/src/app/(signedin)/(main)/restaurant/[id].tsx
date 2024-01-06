@@ -54,11 +54,18 @@ export default function DetailScreen() {
         options={{
           title: restaurant?.name,
           headerRight: () => (
-            <IconOnlyButton
-              onPress={() => void shareRestaurant(id as string)}
-              iconName="ios-share"
-              className="p-2"
-            />
+            <View className="flex flex-row">
+              <IconOnlyButton
+                onPress={() => void shareRestaurant(id as string)}
+                iconName="playlist-add"
+                className="p-2"
+              />
+              <IconOnlyButton
+                onPress={() => void shareRestaurant(id as string)}
+                iconName="ios-share"
+                className="p-2"
+              />
+            </View>
           ),
         }}
       />
