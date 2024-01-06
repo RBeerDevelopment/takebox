@@ -28,6 +28,7 @@ model Restaurant {
   cusines              Restaurant_Cusine[]
   reviews              Review[]
   PersonalNote         PersonalNote[]
+  lists                List[]
 
   @@fulltext([name])
   @@fulltext([address])
@@ -51,6 +52,7 @@ model User {
   following    User[]         @relation("UserFollows")
   tags         Tag[]
   PersonalNote PersonalNote[]
+  List         List[]
 }
 
 model Review {
@@ -136,4 +138,16 @@ model PersonalNote {
 
   @@index([id])
   @@index([restaurantId, userId])
+  @@index([userId])
+}
+
+model List {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  restaurants Restaurant[]
+  user        User[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
 }
