@@ -5,7 +5,7 @@ import { fetchNearbyRestaurants } from "../../google-maps/search";
 import { type Restaurant } from "../../google-maps/search/fetch-nearby-restaurants";
 import { calculateDistanceFromCoordinates } from "../../helper/calculate-distance-from-coordinates";
 
-export type RestaurantWithDistance = {
+export type RestaurantSearchResult = {
   id: string;
   name: string;
   address: string;
@@ -18,7 +18,7 @@ export async function getNearbyRestaurantsByQuery(
   lat: number,
   lng: number,
   prisma: PrismaClient,
-): Promise<RestaurantWithDistance[]> {
+): Promise<RestaurantSearchResult[]> {
   // const dbQuery = buildRestaurantSearchQuery(query, lat, lng);
   // const restaurantsFromDb = await prisma.restaurant.findMany(dbQuery);
   let restaurantsFromGoogle: Restaurant[] = [];

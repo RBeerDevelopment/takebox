@@ -3,14 +3,14 @@ import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useRouter } from "expo-router";
 
-import { type RestaurantWithDistance } from "@flavoury/api/src/functions/restaurant/get-nearby-restaurants-by-query";
+import { type RestaurantSearchResult } from "@flavoury/api/src/functions/restaurant/get-nearby-restaurants-by-query";
 
 import { colors } from "~/utils/colors";
 import { IconComponent } from "./icon-button/icon-component";
 import { ThemeableText } from "./themeable/themable-text";
 
 export function RestaurantSearchItem(
-  props: RestaurantWithDistance,
+  props: RestaurantSearchResult,
 ): React.ReactElement {
   const { id, name, address, distance, rating } = props;
 
