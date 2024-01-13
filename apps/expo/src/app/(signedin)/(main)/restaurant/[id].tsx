@@ -18,10 +18,12 @@ import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
 export default function DetailScreen() {
   const { id } = useGlobalSearchParams();
 
+  const restraurantId = Array.isArray(id) ? id[0] : id;
+
   useWarmUpBrowser();
   const [restaurantResult, imageResult] = api.useQueries((t) => [
     t.restaurant.getRestaurantDetails(
-      { placeId: id as string },
+      { placeId: restraurantId ?? "" },
       {
         enabled: Boolean(id),
         staleTime: 60 * 1000,
@@ -46,6 +48,7 @@ export default function DetailScreen() {
     );
   }
 
+  console.log(restaurantResult.data);
   const restaurant = restaurantResult.data;
 
   return (
@@ -54,16 +57,20 @@ export default function DetailScreen() {
         options={{
           title: restaurant?.name,
           headerRight: () => (
-            <View className="flex flex-row">
-              <IconOnlyButton
-                onPress={() => void shareRestaurant(id as string)}
-                iconName="playlist-add"
-                className="p-2"
-              />
+            <View className="flex h-full w-16 flex-row items-center justify-between ">
+              <View className="translate-y-1">
+                <IconOnlyButton
+                  onPress={() => {
+                    return;
+                  }}
+                  iconName="playlist-add"
+                  className=" p-2"
+                />
+              </View>
               <IconOnlyButton
                 onPress={() => void shareRestaurant(id as string)}
                 iconName="ios-share"
-                className="p-2"
+                className="bg-green-500 p-2"
               />
             </View>
           ),
@@ -79,8 +86,8 @@ export default function DetailScreen() {
           contentFit="cover"
         />
       </View>
-      <DetailReviewSection restaurantId={Array.isArray(id) ? id[0] : id} />
-      <PersonalNotesSection restaurantId={Array.isArray(id) ? id[0] : id} />
+      <DetailReviewSection restaurantId={restraurantId} />
+      <PersonalNotesSection restaurantId={restraurantId} />
       <DetailSection restaurant={restaurant} />
     </ScrollView>
   );
