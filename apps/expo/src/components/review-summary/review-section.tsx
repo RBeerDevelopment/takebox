@@ -17,6 +17,7 @@ type Props = {
   isRefetching: boolean;
   isError: boolean;
   refetch: () => void;
+  header?: React.ReactElement;
   title?: string;
   showUsername?: boolean;
   allowDelete?: boolean;
@@ -33,6 +34,7 @@ export function ReviewSection(props: Props): React.ReactElement {
     title,
     allowDelete = false,
     showUsername,
+    header,
   } = props;
 
   if (isLoading) return <SearchResultsSkeleton />;
@@ -46,13 +48,15 @@ export function ReviewSection(props: Props): React.ReactElement {
 
   return (
     <ThemeableView
-      className={cn("flex w-full flex-1 flex-col px-2 pt-4", className)}
+      className={cn("flex w-full flex-1 flex-col px-2", className)}
     >
       {title ? (
         <ThemeableText className="pb-3 pl-2 font-bold">{title}</ThemeableText>
       ) : null}
       <FlashList
         data={[...reviews, ...reviews]}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={header ? header : null}
         renderItem={({ item }) => (
           <ReviewSummary
             key={item.id}
