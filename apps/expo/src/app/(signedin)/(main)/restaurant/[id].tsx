@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { Image } from "expo-image";
-import { Stack, useGlobalSearchParams } from "expo-router";
+import { Stack, useGlobalSearchParams, useRouter } from "expo-router";
 
 import { api } from "~/utils/api";
 import { blurhash } from "~/utils/blur-hash";
@@ -19,6 +19,8 @@ export default function DetailScreen() {
   const { id } = useGlobalSearchParams();
 
   const restraurantId = Array.isArray(id) ? id[0] : id;
+
+  const router = useRouter();
 
   useWarmUpBrowser();
   const [restaurantResult, imageResult] = api.useQueries((t) => [
@@ -48,7 +50,6 @@ export default function DetailScreen() {
     );
   }
 
-  console.log(restaurantResult.data);
   const restaurant = restaurantResult.data;
 
   return (
@@ -61,7 +62,10 @@ export default function DetailScreen() {
               <View className="translate-y-1">
                 <IconOnlyButton
                   onPress={() => {
-                    return;
+                    router.push({
+                      pathname: "/restaurant/list-modal",
+                      params: { id: restraurantId },
+                    });
                   }}
                   iconName="playlist-add"
                   className=" p-2"
