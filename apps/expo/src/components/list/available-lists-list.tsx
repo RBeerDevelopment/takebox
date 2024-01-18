@@ -23,6 +23,11 @@ export function AvailableListsList(props: Props): React.ReactElement {
     cacheTime: secInMs(60),
   });
 
+  const { data: ids } = api.list.getIdsForRestaurant.useQuery(
+    { restaurantId },
+    { cacheTime: secInMs(60), staleTime: secInMs(60) },
+  );
+
   const filteredLists = ownLists?.filter((list) =>
     list.name.toLowerCase().includes(query),
   );
@@ -40,12 +45,19 @@ export function AvailableListsList(props: Props): React.ReactElement {
         renderItem={({ item }) => (
           <TouchableOpacity
             className="py-4"
-            onPress={() =>
-              addRestaurantToList({ restaurantId, listId: item.id })
-            }
+            onPress={() => {
+              if (ids?.includes(item.id)) return;
+              addRestaurantToList({ restaurantId, listId: item.id });
+            }}
           >
             <View className="flex flex-row justify-between">
-              <ThemeableText className="text-base">{item.name}</ThemeableText>
+              <ThemeableText
+                className={`text-base ${
+                  ids?.includes(item.id) ? "text-gray-500" : ""
+                }`}
+              >
+                {item.name}
+              </ThemeableText>
               <ThemeableText className="text-base">
                 {item.nrOfRestaurants}
               </ThemeableText>
