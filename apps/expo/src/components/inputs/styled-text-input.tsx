@@ -55,7 +55,7 @@ export function StyledTextInput(props: Props): React.ReactElement {
         multiline={multiline}
         placeholderTextColor="#b1b1b1"
         className={cn(
-          " my-4 w-full rounded-lg bg-gray-900 text-white",
+          " my-4 w-full rounded-lg bg-gray-900 px-3 text-white",
           multiline ? "h-16" : "h-12",
           className,
         )}

@@ -9,6 +9,22 @@ export async function getOwnLists(userId: string, prisma: PrismaClient) {
         },
       },
     },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      _count: {
+        select: { restaurants: true },
+      },
+    },
   });
-  return lists;
+
+  return lists
+    .map((list) => ({
+      id: list.id,
+      name: list.name,
+      description: list.description,
+      nrOfRestaurants: list._count.restaurants,
+    }))
+    .sort((a, b) => a.nrOfRestaurants - b.nrOfRestaurants);
 }

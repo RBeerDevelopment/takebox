@@ -54,7 +54,7 @@ export function ReviewSection(props: Props): React.ReactElement {
         <ThemeableText className="pb-3 pl-2 font-bold">{title}</ThemeableText>
       ) : null}
       <FlashList
-        data={[...reviews, ...reviews]}
+        data={reviews}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={header ? header : null}
         renderItem={({ item }) => (

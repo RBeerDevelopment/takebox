@@ -52,7 +52,9 @@ export const listRouter = createTRPCRouter({
     }),
   getOwn: protectedProcedure.query(async ({ ctx }) => {
     const { auth, prisma } = ctx;
-    return getOwnLists(auth.userId, prisma);
+    const lists = getOwnLists(auth.userId, prisma);
+    console.log(lists);
+    return lists;
   }),
   getById: protectedProcedure
     .input(z.object({ id: z.string() }))
