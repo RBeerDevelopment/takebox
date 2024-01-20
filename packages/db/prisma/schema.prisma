@@ -59,7 +59,7 @@ model Review {
   id           String     @id @default(cuid())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  rating       Int
+  rating       Int?
   foodName     FoodName[]
   content      String
   date         DateTime   @db.Date
