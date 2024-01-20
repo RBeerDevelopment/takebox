@@ -55,6 +55,18 @@ export default function App() {
                 headerRight: undefined,
               }}
             />
+
+            <Stack.Screen
+              name="(modals)/restaurant/list-modal"
+              options={{
+                headerShown: true,
+                presentation: "modal",
+                title: "Add to list",
+                headerTitleAlign: "center",
+                headerLeft: () => <ModalCloseButton />,
+                headerRight: undefined,
+              }}
+            />
           </Stack>
         </TRPCProvider>
       </ClerkProvider>

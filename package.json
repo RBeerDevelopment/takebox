@@ -10,6 +10,7 @@
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean",
     "db:update": "turbo db:push db:generate",
+    "db:format": "prisma format --schema=./packages/db/prisma/schema.prisma",
     "db:generate": "turbo db:generate",
     "db:push": "turbo db:push",
     "db:studio": "pnpm -F db dev",
