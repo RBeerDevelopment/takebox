@@ -26,6 +26,7 @@ export async function selectReviewById(
         },
       },
       tags: true,
+      isTakeout: true,
       content: true,
     },
     where: {

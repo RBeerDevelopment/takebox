@@ -15,6 +15,7 @@ import { StarRating } from "~/components/star-rating";
 import { TagInput } from "~/components/tag-input/tag-input";
 import { ThemeableText } from "~/components/themeable/themable-text";
 import { useCreateReview } from "~/hooks/queries/use-create-review";
+import { useEditReview } from "~/hooks/queries/use-edit-review";
 import { usePrimaryColor } from "~/hooks/use-primary-color";
 
 interface ReviewInput {
@@ -26,17 +27,35 @@ interface ReviewInput {
   imageUri: string | null;
 }
 
-export default function ReviewScreen(): React.ReactElement {
-  const params = useLocalSearchParams();
-  const { goBack } = useNavigation();
+const EMPTY_REVIEW = {
+  rating: 5,
+  content: "",
+  tags: [],
+  isTakeout: false,
+  date: new Date(),
+  imageUri: null,
+};
 
-  const today = new Date();
+export default function NewReviewModal(): React.ReactElement {
+  const params = useLocalSearchParams();
+
+  const existingReview: (ReviewInput & { id: string }) | undefined =
+    params?.existingReview
+      ? JSON.parse(params?.existingReview as string)
+      : null;
+
+  console.log(existingReview);
+
+  const isEditMode = Boolean(existingReview);
+
+  const { goBack } = useNavigation();
 
   const primaryColor = usePrimaryColor();
 
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
   const createReview = useCreateReview(id);
+  const editReview = useEditReview(id);
 
   const [reviewInput, dispatchReviewInput] = useReducer(
     (prevState: ReviewInput, newState: Partial<ReviewInput>) => {
@@ -45,14 +64,9 @@ export default function ReviewScreen(): React.ReactElement {
       }
       return { ...prevState, ...newState };
     },
-    {
-      rating: 5,
-      content: "",
-      tags: [],
-      isTakeout: false,
-      date: today,
-      imageUri: null,
-    },
+    existingReview
+      ? { ...existingReview, date: new Date(existingReview.date) }
+      : EMPTY_REVIEW,
   );
 
   function handleCreateReview() {
@@ -80,7 +94,53 @@ export default function ReviewScreen(): React.ReactElement {
     );
   }
 
-  if (createReview.isLoading) {
+  function handleEditReview() {
+    console.log({ id, existingReview });
+    if (!id || !existingReview?.id) return;
+
+    console.log({
+      reviewId: existingReview?.id,
+      removeImage: Boolean(reviewInput.imageUri),
+      updatedReview: {
+        placeId: id,
+        ...reviewInput,
+        hasImage:
+          Boolean(reviewInput.imageUri) &&
+          reviewInput.imageUri !== existingReview.imageUri,
+      },
+    });
+
+    editReview.mutate(
+      {
+        reviewId: existingReview?.id,
+        removeImage: Boolean(reviewInput.imageUri),
+        updatedReview: {
+          placeId: id,
+          ...reviewInput,
+          hasImage:
+            Boolean(reviewInput.imageUri) &&
+            reviewInput.imageUri !== existingReview.imageUri,
+        },
+      },
+      {
+        onSettled: () => console.log("SATTLED"),
+        onSuccess: ({ s3UploadUrl }) => {
+          if (!s3UploadUrl || reviewInput.imageUri === null) {
+            goBack();
+            return;
+          }
+          uploadImage(reviewInput.imageUri, s3UploadUrl)
+            .then(goBack)
+            .catch((e: unknown) => {
+              console.error(e);
+              showErrorToast("Error uploading image. Please try again.");
+            });
+        },
+      },
+    );
+  }
+
+  if (createReview.isLoading || editReview.isLoading) {
     return <LoadingIndicator />;
   }
 
@@ -89,11 +149,22 @@ export default function ReviewScreen(): React.ReactElement {
       className="flex h-full w-full flex-col overflow-y-scroll bg-slate-950 px-2"
       keyboardShouldPersistTaps="handled"
     >
+      {isEditMode && !reviewInput.imageUri && existingReview?.imageUri && (
+        <View className="mx-20">
+          <StyledButton
+            colorful
+            text="Remove existing image"
+            onPress={() => dispatchReviewInput({ imageUri: null })}
+          />
+        </View>
+      )}
       <ImagePicker
         imageUri={reviewInput.imageUri}
         onChangeImageUri={(imageUri) => dispatchReviewInput({ imageUri })}
       />
+
       <StarRating
+        presetRating={reviewInput.rating}
         onChangeRating={(rating) => dispatchReviewInput({ rating })}
       />
       <StyledTextInput
@@ -115,7 +186,7 @@ export default function ReviewScreen(): React.ReactElement {
       <DatePicker
         date={reviewInput.date}
         handleChangeDate={(newDate) => dispatchReviewInput({ date: newDate })}
-        maxDate={today}
+        maxDate={new Date()}
       />
       <View className="mb-4 flex flex-row items-center">
         <BouncyCheckbox
@@ -128,7 +199,7 @@ export default function ReviewScreen(): React.ReactElement {
       <StyledButton
         colorful
         text="Save"
-        onPress={handleCreateReview}
+        onPress={handleEditReview}
         buttonStyle="mb-20"
       />
     </KeyboardAwareScrollView>

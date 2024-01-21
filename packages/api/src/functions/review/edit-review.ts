@@ -1,59 +1,57 @@
-import { z } from "zod";
-
 import { type PrismaClient } from "@flavoury/db";
 
-// ignoring images for now
-export const EditReviewInput = z.object({
-  reviewId: z.string(),
-  rating: z.number().min(1).max(10).step(1).optional(),
-  content: z.string().optional().nullable(),
-  date: z.date().optional(),
-  tags: z.array(z.string()).optional(),
-  isTakeout: z.boolean().optional(),
-});
-
-export type EditReviewInput = z.infer<typeof EditReviewInput>;
+import { type CreateReviewInput } from "../../query-builder/build-create-review-query";
+import { generateReviewImageKey } from "../../s3/generate-review-image-key";
 
 export async function editReview(
-  input: EditReviewInput,
+  reviewId: string,
+  input: CreateReviewInput,
+  removeImage: boolean,
   userId: string,
   prisma: PrismaClient,
-) {
-  const { reviewId, rating, content, isTakeout, date, tags } = input;
+): Promise<{ reviewId: string; s3UploadUrl: string | null }> {
+  const { rating, content, isTakeout, tags, date, hasImage, placeId } = input;
+
+  const imageKey =
+    hasImage && !removeImage ? generateReviewImageKey(placeId, userId) : null;
+
+  // reset tags/foodNames before updating
+  await prisma.review.update({
+    where: { id: reviewId },
+    data: { tags: { set: [] }, foodName: { set: [] } },
+  });
 
   const query = {
     data: {
-      ...(rating !== undefined ? { rating } : {}),
-      content: content ?? "",
+      rating,
+      content,
       isTakeout,
-      ...(date ? { date } : {}),
-      ...(tags !== undefined
-        ? {
-            tags: {
-              connectOrCreate: tags.map((t) => ({
-                where: {
-                  name_userId: {
-                    name: t,
-                    userId,
-                  },
-                },
-                create: {
-                  name: t,
-                  userId,
-                },
-              })),
+      date,
+      ...(removeImage ? { s3ImageKey: null } : { s3ImageKey: imageKey }),
+      tags: {
+        connectOrCreate: tags?.map((t) => ({
+          where: {
+            name_userId: {
+              name: t,
+              userId: userId,
             },
-          }
-        : {}),
+          },
+          create: {
+            name: t,
+            userId: userId,
+          },
+        })),
+      },
     },
     where: {
       id: reviewId,
     },
   } as const;
 
-  const review = await prisma.review.update(query);
+  const { id } = await prisma.review.update(query);
 
   return {
-    reviewId: review.id,
+    reviewId: id,
+    s3UploadUrl: imageKey,
   };
 }

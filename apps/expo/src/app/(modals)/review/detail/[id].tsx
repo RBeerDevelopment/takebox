@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Image } from "expo-image";
-import { useGlobalSearchParams, useRouter } from "expo-router";
+import { useGlobalSearchParams, useNavigation, useRouter } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
 
 import { api } from "~/utils/api";
 import { blurhash } from "~/utils/blur-hash";
 import { formatDateToReadable } from "~/utils/date-format";
 import { secInMs } from "~/utils/time-formatting/sec-in-ms";
 import { CentralItem } from "~/components/central-item";
+import { IconOnlyButton } from "~/components/icon-button";
 import { LoadingIndicator } from "~/components/loading-indicator";
 import { StarRating } from "~/components/star-rating";
 import { TagList } from "~/components/tag-input/tag-list";
@@ -20,6 +22,10 @@ export default function ReviewDetailModal(): React.ReactElement {
 
   const router = useRouter();
 
+  const { user } = useUser();
+
+  const navigation = useNavigation();
+
   const {
     data: review,
     isLoading,
@@ -28,6 +34,23 @@ export default function ReviewDetailModal(): React.ReactElement {
     { id: id as string },
     { enabled: Boolean(id), staleTime: secInMs(30), refetchOnMount: false },
   );
+
+  function handleEditReview() {
+    if (!review) return;
+    router.push({
+      pathname: `/review/new`,
+      params: { id: id, existingReview: JSON.stringify(review) },
+    });
+  }
+
+  useLayoutEffect(() => {
+    if (user?.id !== review?.user.id) return;
+    navigation.setOptions({
+      headerRight: () => (
+        <IconOnlyButton iconName="edit" onPress={handleEditReview} />
+      ),
+    });
+  }, [navigation, user?.id, review?.user.id]);
 
   if (!id) {
     return (

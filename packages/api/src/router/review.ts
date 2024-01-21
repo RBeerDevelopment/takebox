@@ -5,7 +5,7 @@ import { selectOwnReviews } from "../db/review/select-own-reviews";
 import { selectReviewById } from "../db/review/select-review-by-id";
 import { createReview } from "../functions/review/create-review";
 import { deleteReview } from "../functions/review/delete-review";
-import { editReview, EditReviewInput } from "../functions/review/edit-review";
+import { editReview } from "../functions/review/edit-review";
 import { getLatestReviewsForRestaurant } from "../functions/review/get-latest-reviews-for-restaurant";
 import { getReviewSummary } from "../functions/review/get-review-summary";
 import { CreateReviewInput } from "../query-builder/build-create-review-query";
@@ -88,10 +88,29 @@ export const reviewRouter = createTRPCRouter({
     }),
 
   editReview: protectedProcedure
-    .input(EditReviewInput)
+    .input(
+      z.object({
+        reviewId: z.string(),
+        updatedReview: CreateReviewInput,
+        removeImage: z.boolean(),
+      }),
+    )
+    .output(
+      z.object({
+        reviewId: z.string(),
+        s3UploadUrl: z.string().nullable(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
+      const { reviewId, updatedReview, removeImage } = input;
       const { prisma, auth } = ctx;
 
-      await editReview(input, auth.userId, prisma);
+      return await editReview(
+        reviewId,
+        updatedReview,
+        removeImage,
+        auth.userId,
+        prisma,
+      );
     }),
 });
