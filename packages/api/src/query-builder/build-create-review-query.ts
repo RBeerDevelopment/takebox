@@ -41,20 +41,18 @@ export function buildCreateReviewQuery(
         ],
       },
       tags: {
-        connectOrCreate: [
-          ...tags?.map((t) => ({
-            where: {
-              name_userId: {
-                name: t,
-                userId: userId,
-              },
-            },
-            create: {
+        connectOrCreate: tags?.map((t) => ({
+          where: {
+            name_userId: {
               name: t,
               userId: userId,
             },
-          })),
-        ],
+          },
+          create: {
+            name: t,
+            userId: userId,
+          },
+        })),
       },
       user: {
         connectOrCreate: {
