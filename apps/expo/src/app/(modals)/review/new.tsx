@@ -44,8 +44,6 @@ export default function NewReviewModal(): React.ReactElement {
       ? JSON.parse(params?.existingReview as string)
       : null;
 
-  console.log(existingReview);
-
   const isEditMode = Boolean(existingReview);
 
   const { goBack } = useNavigation();
@@ -95,20 +93,7 @@ export default function NewReviewModal(): React.ReactElement {
   }
 
   function handleEditReview() {
-    console.log({ id, existingReview });
     if (!id || !existingReview?.id) return;
-
-    console.log({
-      reviewId: existingReview?.id,
-      removeImage: Boolean(reviewInput.imageUri),
-      updatedReview: {
-        placeId: id,
-        ...reviewInput,
-        hasImage:
-          Boolean(reviewInput.imageUri) &&
-          reviewInput.imageUri !== existingReview.imageUri,
-      },
-    });
 
     editReview.mutate(
       {
@@ -123,7 +108,6 @@ export default function NewReviewModal(): React.ReactElement {
         },
       },
       {
-        onSettled: () => console.log("SATTLED"),
         onSuccess: ({ s3UploadUrl }) => {
           if (!s3UploadUrl || reviewInput.imageUri === null) {
             goBack();
@@ -199,7 +183,7 @@ export default function NewReviewModal(): React.ReactElement {
       <StyledButton
         colorful
         text="Save"
-        onPress={handleEditReview}
+        onPress={isEditMode ? handleEditReview : handleCreateReview}
         buttonStyle="mb-20"
       />
     </KeyboardAwareScrollView>

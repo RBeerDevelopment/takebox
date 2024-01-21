@@ -54,7 +54,6 @@ export const listRouter = createTRPCRouter({
   getOwn: protectedProcedure.query(async ({ ctx }) => {
     const { auth, prisma } = ctx;
     const lists = getOwnLists(auth.userId, prisma);
-    console.log(lists);
     return lists;
   }),
   getIdsForRestaurant: protectedProcedure
