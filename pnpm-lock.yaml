@@ -51,8 +51,8 @@ importers:
         specifier: 1.18.2
         version: 1.18.2(react-native@0.72.5)
       '@react-native-community/datetimepicker':
-        specifier: 7.2.0
-        version: 7.2.0
+        specifier: 7.6.0
+        version: 7.6.0
       '@react-native-community/netinfo':
         specifier: 9.3.10
         version: 9.3.10(react-native@0.72.5)
@@ -4627,8 +4627,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@react-native-community/datetimepicker@7.2.0:
-    resolution: {integrity: sha512-dO1sQy83M/EvnHE2egto05iwXZX7EYn5f/VDMp6afZFRFXRiRo7CzB3VFg4B55gJRJMNBv06NYMLPM3SlpnEGQ==}
+  /@react-native-community/datetimepicker@7.6.0:
+    resolution: {integrity: sha512-JRQb4bccIWXRV3UWr6ShxtZLhMVHBaV8Fq6fJk0AAysZ35F1U0MdSkRd7eyJWd3JUebsi32j1GK3mdKHoabtrw==}
     dependencies:
       invariant: 2.2.4
     dev: false

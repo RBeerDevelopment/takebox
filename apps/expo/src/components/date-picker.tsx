@@ -37,6 +37,7 @@ export function DatePicker(props: Props) {
       {showDatePicker || !isAndroid ? (
         <View className="-translate-x-4">
           <DateTimePicker
+            themeVariant="dark"
             mode="date"
             onChange={(_: DateTimePickerEvent, newDate: Date | undefined) => {
               handleChangeDate(newDate);
